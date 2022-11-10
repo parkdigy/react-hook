@@ -29,6 +29,12 @@
   "author": "YOUNG CHUL PARK",
   "license": "MIT",
   "readmeFilename": "README.md",
+  "keywords": [
+    "react",
+    "hook",
+    "typescript",
+    "javascript"
+  ],
   "peerDependencies": {
     "@types/react": "^17.0.0 || ^18.0.0",
     "react": "^17.0.0 || ^18.0.0",
