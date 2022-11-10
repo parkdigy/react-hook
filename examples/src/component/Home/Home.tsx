@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useAutoUpdateState } from 'react-hook';
+import { useAutoUpdateState } from '@pdg/react-hook';
 
 const Home = () => {
   // State -----------------------------------------------------------------------------------------------------------
