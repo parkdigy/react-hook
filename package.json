@@ -23,6 +23,7 @@
     "dev": "cd examples && npm run dev",
     "dev-prd-lib": "cd examples && npm run dev-prd-lib",
     "build": "rollup -c",
+    "publish": "npm publish --access=public",
     "lint": "eslint './src/**/*.{ts,tsx}'"
   },
   "author": "YOUNG CHUL PARK",
