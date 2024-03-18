@@ -103,4 +103,4 @@
         }
     }, []);
     return [_state.current, setState];
-}exports.useAutoUpdateLayoutState=useAutoUpdateLayoutState;exports.useAutoUpdateState=useAutoUpdateState;exports.useFirstSkipEffect=useFirstSkipEffect;exports.useFirstSkipLayoutEffect=useFirstSkipLayoutEffect;//# sourceMappingURL=index.js.map
+}exports.useAutoUpdateLayoutState=useAutoUpdateLayoutState;exports.useAutoUpdateState=useAutoUpdateState;exports.useFirstSkipEffect=useFirstSkipEffect;exports.useFirstSkipLayoutEffect=useFirstSkipLayoutEffect;

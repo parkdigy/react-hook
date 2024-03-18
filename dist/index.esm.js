@@ -103,4 +103,4 @@ import {useRef,useEffect,useState,useCallback,useLayoutEffect}from'react';functi
         }
     }, []);
     return [_state.current, setState];
-}export{useAutoUpdateLayoutState,useAutoUpdateState,useFirstSkipEffect,useFirstSkipLayoutEffect};//# sourceMappingURL=index.esm.js.map
+}export{useAutoUpdateLayoutState,useAutoUpdateState,useFirstSkipEffect,useFirstSkipLayoutEffect};
