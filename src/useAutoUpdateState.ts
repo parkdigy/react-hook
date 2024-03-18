@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useCallback, useRef, useState } from 'react';
 import useFirstSkipEffect from './useFirstSkipEffect';
-import { isSame } from './util';
+import { equal } from '@pdg/util';
 
 export default function useAutoUpdateState<T>(
   state: T,
@@ -25,7 +25,7 @@ export default function useAutoUpdateState<T>(p1: any, p2?: any): [T, Dispatch<S
 
   useFirstSkipEffect(() => {
     const newState = finalStateCallback ? finalStateCallback(state) : state;
-    if (!isSame(newState, _state.current)) {
+    if (!equal(newState, _state.current)) {
       _state.current = newState;
       forceUpdate();
     }
@@ -33,7 +33,7 @@ export default function useAutoUpdateState<T>(p1: any, p2?: any): [T, Dispatch<S
 
   useFirstSkipEffect(() => {
     const newState = finalStateCallback ? finalStateCallback(_state.current) : _state.current;
-    if (!isSame(newState, _state.current)) {
+    if (!equal(newState, _state.current)) {
       _state.current = newState;
       forceUpdate();
     }
@@ -41,7 +41,7 @@ export default function useAutoUpdateState<T>(p1: any, p2?: any): [T, Dispatch<S
 
   const setState = useCallback<Dispatch<SetStateAction<T>>>((newState) => {
     const finalNewState = typeof newState === 'function' ? (newState as (prev: T) => T)(_state.current) : newState;
-    if (!isSame(_state.current, finalNewState)) {
+    if (!equal(_state.current, finalNewState)) {
       _state.current = finalNewState;
       forceUpdate();
     }

@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useCallback, useRef, useState } from 'react';
 import useFirstSkipLayoutEffect from './useFirstSkipLayoutEffect';
-import { isSame } from './util';
+import { equal } from '@pdg/util';
 
 export function AA<T>(a: T): T;
 export function AA<T>(a: any): T {
@@ -32,7 +32,7 @@ export default function useAutoUpdateLayoutState<T>(p1: any, p2?: any): [T, Disp
 
   useFirstSkipLayoutEffect(() => {
     const newState = finalStateCallback ? finalStateCallback(state) : state;
-    if (!isSame(newState, _state.current)) {
+    if (!equal(newState, _state.current)) {
       _state.current = newState;
       forceUpdate();
     }
@@ -40,7 +40,7 @@ export default function useAutoUpdateLayoutState<T>(p1: any, p2?: any): [T, Disp
 
   useFirstSkipLayoutEffect(() => {
     const newState = finalStateCallback ? finalStateCallback(_state.current) : _state.current;
-    if (!isSame(newState, _state.current)) {
+    if (!equal(newState, _state.current)) {
       _state.current = newState;
       forceUpdate();
     }
@@ -48,7 +48,7 @@ export default function useAutoUpdateLayoutState<T>(p1: any, p2?: any): [T, Disp
 
   const setState = useCallback<Dispatch<SetStateAction<T>>>((newState) => {
     const finalNewState = typeof newState === 'function' ? (newState as (prev: T) => T)(_state.current) : newState;
-    if (!isSame(_state.current, finalNewState)) {
+    if (!equal(_state.current, finalNewState)) {
       _state.current = finalNewState;
       forceUpdate();
     }
