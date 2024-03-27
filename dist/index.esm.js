@@ -1,4 +1,4 @@
-import {useRef,useEffect,useState,useCallback,useLayoutEffect}from'react';import {equal}from'@pdg/util';function useFirstSkipEffect(effect, deps) {
+import {useRef,useEffect,useState,useCallback,useLayoutEffect}from'react';function useFirstSkipEffect(effect, deps) {
     var firstRef = useRef(true);
     useEffect(function () {
         if (firstRef.current) {
@@ -10,37 +10,15 @@ import {useRef,useEffect,useState,useCallback,useLayoutEffect}from'react';import
     }, deps);
 }function useAutoUpdateState(p1, p2) {
     var state = typeof p1 === 'function' ? undefined : p1;
-    var finalStateCallback = typeof p1 === 'function' ? p1 : p2;
-    var _a = useState(0), setUpdateKey = _a[1];
-    var _initState = useState(function () {
-        return finalStateCallback ? finalStateCallback(state) : state;
-    })[0];
-    var _state = useRef(_initState);
-    var forceUpdate = useCallback(function () {
-        setUpdateKey(function (updateKey) { return updateKey + 1; });
-    }, []);
+    var callback = typeof p1 === 'function' ? p1 : p2;
+    var _a = useState(function () { return (callback ? callback(state) : state); }), _value = _a[0], _setValue = _a[1];
     useFirstSkipEffect(function () {
-        var newState = finalStateCallback ? finalStateCallback(state) : state;
-        if (!equal(newState, _state.current)) {
-            _state.current = newState;
-            forceUpdate();
-        }
-    }, [state]);
-    useFirstSkipEffect(function () {
-        var newState = finalStateCallback ? finalStateCallback(_state.current) : _state.current;
-        if (!equal(newState, _state.current)) {
-            _state.current = newState;
-            forceUpdate();
-        }
-    }, [finalStateCallback]);
-    var setState = useCallback(function (newState) {
-        var finalNewState = typeof newState === 'function' ? newState(_state.current) : newState;
-        if (!equal(_state.current, finalNewState)) {
-            _state.current = finalNewState;
-            forceUpdate();
-        }
-    }, []);
-    return [_state.current, setState];
+        _setValue(callback ? callback(state) : state);
+    }, [state, callback]);
+    var setValue = useCallback(function (newValue) {
+        _setValue(callback ? callback(newValue) : newValue);
+    }, [callback]);
+    return [_value, setValue];
 }function useFirstSkipLayoutEffect(effect, deps) {
     var firstRef = useRef(true);
     useLayoutEffect(function () {
@@ -53,35 +31,13 @@ import {useRef,useEffect,useState,useCallback,useLayoutEffect}from'react';import
     }, deps);
 }function useAutoUpdateLayoutState(p1, p2) {
     var state = typeof p1 === 'function' ? undefined : p1;
-    var finalStateCallback = typeof p1 === 'function' ? p1 : p2;
-    var _a = useState(0), setUpdateKey = _a[1];
-    var _initState = useState(function () {
-        return finalStateCallback ? finalStateCallback(state, 0) : state;
-    })[0];
-    var _state = useRef(_initState);
-    var forceUpdate = useCallback(function () {
-        setUpdateKey(function (updateKey) { return updateKey + 1; });
-    }, []);
+    var callback = typeof p1 === 'function' ? p1 : p2;
+    var _a = useState(function () { return (callback ? callback(state) : state); }), _value = _a[0], _setValue = _a[1];
     useFirstSkipLayoutEffect(function () {
-        var newState = finalStateCallback ? finalStateCallback(state) : state;
-        if (!equal(newState, _state.current)) {
-            _state.current = newState;
-            forceUpdate();
-        }
-    }, [state]);
-    useFirstSkipLayoutEffect(function () {
-        var newState = finalStateCallback ? finalStateCallback(_state.current) : _state.current;
-        if (!equal(newState, _state.current)) {
-            _state.current = newState;
-            forceUpdate();
-        }
-    }, [finalStateCallback]);
-    var setState = useCallback(function (newState) {
-        var finalNewState = typeof newState === 'function' ? newState(_state.current) : newState;
-        if (!equal(_state.current, finalNewState)) {
-            _state.current = finalNewState;
-            forceUpdate();
-        }
-    }, []);
-    return [_state.current, setState];
+        _setValue(callback ? callback(state) : state);
+    }, [state, callback]);
+    var setValue = useCallback(function (newValue) {
+        _setValue(callback ? callback(newValue) : newValue);
+    }, [callback]);
+    return [_value, setValue];
 }export{useAutoUpdateLayoutState,useAutoUpdateState,useFirstSkipEffect,useFirstSkipLayoutEffect};

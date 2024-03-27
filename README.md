@@ -4,5 +4,5 @@ Admin Layout for React
 
 ## 설치
 ```
-npm install -D @pdg/react-hook @pdg/util
+npm install -D @pdg/react-hook
 ```

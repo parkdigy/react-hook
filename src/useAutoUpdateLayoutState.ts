@@ -1,58 +1,28 @@
-import { Dispatch, SetStateAction, useCallback, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import useFirstSkipLayoutEffect from './useFirstSkipLayoutEffect';
-import { equal } from '@pdg/util';
 
-export function AA<T>(a: T): T;
-export function AA<T>(a: any): T {
-  return a;
-}
-
+export default function useAutoUpdateLayoutState<T>(state: T): [T, Dispatch<SetStateAction<T>>];
 export default function useAutoUpdateLayoutState<T>(
   state: T,
-  finalStateCallback?: (state: T) => T
+  callback: (state: T) => T
 ): [T, Dispatch<SetStateAction<T>>];
-export default function useAutoUpdateLayoutState<T>(
-  finalStateCallback: (State: T) => T
-): [T, Dispatch<SetStateAction<T>>];
-export default function useAutoUpdateLayoutState<T>(p1: any, p2?: any): [T, Dispatch<SetStateAction<T>>] {
+export default function useAutoUpdateLayoutState<T>(callback: () => T): [T, Dispatch<SetStateAction<T>>];
+export default function useAutoUpdateLayoutState(p1: any, p2?: any) {
   const state = typeof p1 === 'function' ? undefined : p1;
-  const finalStateCallback = typeof p1 === 'function' ? p1 : p2;
+  const callback = typeof p1 === 'function' ? p1 : p2;
 
-  const [, setUpdateKey] = useState(0);
-
-  const [_initState] = useState<T>(() => {
-    return finalStateCallback ? finalStateCallback(state, 0) : state;
-  });
-
-  const _state = useRef<T>(_initState);
-
-  const forceUpdate = useCallback(() => {
-    setUpdateKey((updateKey) => updateKey + 1);
-  }, []);
+  const [_value, _setValue] = useState(() => (callback ? callback(state) : state));
 
   useFirstSkipLayoutEffect(() => {
-    const newState = finalStateCallback ? finalStateCallback(state) : state;
-    if (!equal(newState, _state.current)) {
-      _state.current = newState;
-      forceUpdate();
-    }
-  }, [state]);
+    _setValue(callback ? callback(state) : state);
+  }, [state, callback]);
 
-  useFirstSkipLayoutEffect(() => {
-    const newState = finalStateCallback ? finalStateCallback(_state.current) : _state.current;
-    if (!equal(newState, _state.current)) {
-      _state.current = newState;
-      forceUpdate();
-    }
-  }, [finalStateCallback]);
+  const setValue = useCallback(
+    (newValue: any) => {
+      _setValue(callback ? callback(newValue) : newValue);
+    },
+    [callback]
+  );
 
-  const setState = useCallback<Dispatch<SetStateAction<T>>>((newState) => {
-    const finalNewState = typeof newState === 'function' ? (newState as (prev: T) => T)(_state.current) : newState;
-    if (!equal(_state.current, finalNewState)) {
-      _state.current = finalNewState;
-      forceUpdate();
-    }
-  }, []);
-
-  return [_state.current, setState];
+  return [_value, setValue];
 }
