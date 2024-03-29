@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useAutoUpdateState } from '@pdg/react-hook';
 import useAutoUpdateRefState from '../../../../src/useAutoUpdateRefState';
 
@@ -7,11 +7,11 @@ const Home = () => {
 
   const [value1, setValue1] = useState(0);
   const [value2] = useAutoUpdateState<number>(
-    useCallback(() => {
+    useMemo(() => {
       return value1 * 2;
     }, [value1])
   );
-  const [value3Ref, value3] = useAutoUpdateRefState<number>(useCallback(() => value1 * 3, [value1]));
+  const [value3Ref, value3] = useAutoUpdateRefState<number>(useMemo(() => value1 * 3, [value1]));
 
   // Effect ----------------------------------------------------------------------------------------------------------
 

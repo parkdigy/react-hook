@@ -15,7 +15,19 @@ function useAutoUpdateState(state, callback) {
         _setValue(callback ? callback(state) : state);
     }, [state, callback]);
     var setValue = react.useCallback(function (newValue) {
-        _setValue(callback ? callback(newValue) : newValue);
+        var finalNewValue = newValue;
+        if (typeof finalNewValue === 'function') {
+            _setValue(function (prev) {
+                finalNewValue = finalNewValue(prev);
+                finalNewValue = callback ? callback(finalNewValue) : finalNewValue;
+                return finalNewValue;
+            });
+        }
+        else {
+            finalNewValue = callback ? callback(finalNewValue) : finalNewValue;
+            _setValue(finalNewValue);
+        }
+        return finalNewValue;
     }, [callback]);
     return [_value, setValue];
 }function useFirstSkipLayoutEffect(effect, deps) {
@@ -35,7 +47,19 @@ function useAutoUpdateLayoutState(state, callback) {
         _setValue(callback ? callback(state) : state);
     }, [state, callback]);
     var setValue = react.useCallback(function (newValue) {
-        _setValue(callback ? callback(newValue) : newValue);
+        var finalNewValue = newValue;
+        if (typeof finalNewValue === 'function') {
+            _setValue(function (prev) {
+                finalNewValue = finalNewValue(prev);
+                finalNewValue = callback ? callback(finalNewValue) : finalNewValue;
+                return finalNewValue;
+            });
+        }
+        else {
+            finalNewValue = callback ? callback(finalNewValue) : finalNewValue;
+            _setValue(finalNewValue);
+        }
+        return finalNewValue;
     }, [callback]);
     return [_value, setValue];
 }// 구현부
@@ -50,9 +74,20 @@ function useAutoUpdateRefState(state, callback) {
         }
     }, [state, callback]);
     var setValue = react.useCallback(function (newValue) {
-        var finalNewValue = callback ? callback(newValue) : newValue;
+        var finalNewValue = newValue;
+        if (typeof finalNewValue === 'function') {
+            _setValue(function (prev) {
+                finalNewValue = finalNewValue(prev);
+                finalNewValue = callback ? callback(finalNewValue) : finalNewValue;
+                return finalNewValue;
+            });
+        }
+        else {
+            finalNewValue = callback ? callback(finalNewValue) : finalNewValue;
+            _setValue(finalNewValue);
+        }
         valueRef.current = finalNewValue;
-        _setValue(finalNewValue);
+        return finalNewValue;
     }, [callback]);
     return [valueRef, _value, setValue];
 }// 구현부
@@ -67,9 +102,20 @@ function useAutoUpdateLayoutRefState(state, callback) {
         }
     }, [state, callback]);
     var setValue = react.useCallback(function (newValue) {
-        var finalNewValue = callback ? callback(newValue) : newValue;
+        var finalNewValue = newValue;
+        if (typeof finalNewValue === 'function') {
+            _setValue(function (prev) {
+                finalNewValue = finalNewValue(prev);
+                finalNewValue = callback ? callback(finalNewValue) : finalNewValue;
+                return finalNewValue;
+            });
+        }
+        else {
+            finalNewValue = callback ? callback(finalNewValue) : finalNewValue;
+            _setValue(finalNewValue);
+        }
         valueRef.current = finalNewValue;
-        _setValue(finalNewValue);
+        return finalNewValue;
     }, [callback]);
     return [valueRef, _value, setValue];
 }exports.useAutoUpdateLayoutRefState=useAutoUpdateLayoutRefState;exports.useAutoUpdateLayoutState=useAutoUpdateLayoutState;exports.useAutoUpdateRefState=useAutoUpdateRefState;exports.useAutoUpdateState=useAutoUpdateState;exports.useFirstSkipEffect=useFirstSkipEffect;exports.useFirstSkipLayoutEffect=useFirstSkipLayoutEffect;
