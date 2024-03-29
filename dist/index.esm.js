@@ -8,9 +8,8 @@ import {useRef,useEffect,useState,useCallback,useLayoutEffect}from'react';import
             effect();
         }
     }, deps);
-}function useAutoUpdateState(p1, p2) {
-    var state = typeof p1 === 'function' ? undefined : p1;
-    var callback = typeof p1 === 'function' ? p1 : p2;
+}// 구현부
+function useAutoUpdateState(state, callback) {
     var _a = useState(function () { return (callback ? callback(state) : state); }), _value = _a[0], _setValue = _a[1];
     useFirstSkipEffect(function () {
         _setValue(callback ? callback(state) : state);
@@ -29,9 +28,8 @@ import {useRef,useEffect,useState,useCallback,useLayoutEffect}from'react';import
             effect();
         }
     }, deps);
-}function useAutoUpdateLayoutState(p1, p2) {
-    var state = typeof p1 === 'function' ? undefined : p1;
-    var callback = typeof p1 === 'function' ? p1 : p2;
+}// 구현부
+function useAutoUpdateLayoutState(state, callback) {
     var _a = useState(function () { return (callback ? callback(state) : state); }), _value = _a[0], _setValue = _a[1];
     useFirstSkipLayoutEffect(function () {
         _setValue(callback ? callback(state) : state);
@@ -40,9 +38,8 @@ import {useRef,useEffect,useState,useCallback,useLayoutEffect}from'react';import
         _setValue(callback ? callback(newValue) : newValue);
     }, [callback]);
     return [_value, setValue];
-}function useAutoUpdateRefState(p1, p2) {
-    var state = typeof p1 === 'function' ? undefined : p1;
-    var callback = typeof p1 === 'function' ? p1 : p2;
+}// 구현부
+function useAutoUpdateRefState(state, callback) {
     var valueRef = useRef(callback ? callback(state) : state);
     var _a = useState(function () { return (callback ? callback(state) : state); }), _value = _a[0], _setValue = _a[1];
     useFirstSkipEffect(function () {
@@ -58,9 +55,8 @@ import {useRef,useEffect,useState,useCallback,useLayoutEffect}from'react';import
         _setValue(finalNewValue);
     }, [callback]);
     return [valueRef, _value, setValue];
-}function useAutoUpdateLayoutRefState(p1, p2) {
-    var state = typeof p1 === 'function' ? undefined : p1;
-    var callback = typeof p1 === 'function' ? p1 : p2;
+}// 구현부
+function useAutoUpdateLayoutRefState(state, callback) {
     var valueRef = useRef(callback ? callback(state) : state);
     var _a = useState(function () { return (callback ? callback(state) : state); }), _value = _a[0], _setValue = _a[1];
     useFirstSkipLayoutEffect(function () {

@@ -1,16 +1,17 @@
 import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import useFirstSkipLayoutEffect from './useFirstSkipLayoutEffect';
 
-export default function useAutoUpdateLayoutState<T>(state: T): [T, Dispatch<SetStateAction<T>>];
+// state 값만 받는 경우 (state 에 function 지정 불가)
 export default function useAutoUpdateLayoutState<T>(
-  state: T,
-  callback: (state: T) => T
+  state: Exclude<T, (...args: any[]) => any>
 ): [T, Dispatch<SetStateAction<T>>];
-export default function useAutoUpdateLayoutState<T>(callback: () => T): [T, Dispatch<SetStateAction<T>>];
-export default function useAutoUpdateLayoutState(p1: any, p2?: any) {
-  const state = typeof p1 === 'function' ? undefined : p1;
-  const callback = typeof p1 === 'function' ? p1 : p2;
-
+// state 와 callback 함수를 받는 경우 (state 에 function 지정 불가)
+export default function useAutoUpdateLayoutState<T = never, StateT = never>(
+  state: Exclude<StateT, (...args: any[]) => any>,
+  callback: (state: T | StateT) => T extends never ? StateT : T
+): [T extends never ? StateT : T, Dispatch<SetStateAction<T extends never ? StateT : T>>];
+// 구현부
+export default function useAutoUpdateLayoutState(state: any, callback?: any) {
   const [_value, _setValue] = useState(() => (callback ? callback(state) : state));
 
   useFirstSkipLayoutEffect(() => {
