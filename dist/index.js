@@ -14,17 +14,17 @@ function useAutoUpdateState(state, callback) {
     useFirstSkipEffect(function () {
         _setValue(callback ? callback(state) : state);
     }, [state, callback]);
-    var setValue = react.useCallback(function (newValue) {
+    var setValue = react.useCallback(function (newValue, skipCallback) {
         var finalNewValue = newValue;
         if (typeof finalNewValue === 'function') {
             _setValue(function (prev) {
                 finalNewValue = finalNewValue(prev);
-                finalNewValue = callback ? callback(finalNewValue) : finalNewValue;
+                finalNewValue = !skipCallback && callback ? callback(finalNewValue) : finalNewValue;
                 return finalNewValue;
             });
         }
         else {
-            finalNewValue = callback ? callback(finalNewValue) : finalNewValue;
+            finalNewValue = !skipCallback && callback ? callback(finalNewValue) : finalNewValue;
             _setValue(finalNewValue);
         }
         return finalNewValue;
@@ -46,17 +46,17 @@ function useAutoUpdateLayoutState(state, callback) {
     useFirstSkipLayoutEffect(function () {
         _setValue(callback ? callback(state) : state);
     }, [state, callback]);
-    var setValue = react.useCallback(function (newValue) {
+    var setValue = react.useCallback(function (newValue, skipCallback) {
         var finalNewValue = newValue;
         if (typeof finalNewValue === 'function') {
             _setValue(function (prev) {
                 finalNewValue = finalNewValue(prev);
-                finalNewValue = callback ? callback(finalNewValue) : finalNewValue;
+                finalNewValue = !skipCallback && callback ? callback(finalNewValue) : finalNewValue;
                 return finalNewValue;
             });
         }
         else {
-            finalNewValue = callback ? callback(finalNewValue) : finalNewValue;
+            finalNewValue = !skipCallback && callback ? callback(finalNewValue) : finalNewValue;
             _setValue(finalNewValue);
         }
         return finalNewValue;
@@ -73,17 +73,17 @@ function useAutoUpdateRefState(state, callback) {
             _setValue(newValue);
         }
     }, [state, callback]);
-    var setValue = react.useCallback(function (newValue) {
+    var setValue = react.useCallback(function (newValue, skipCallback) {
         var finalNewValue = newValue;
         if (typeof finalNewValue === 'function') {
             _setValue(function (prev) {
                 finalNewValue = finalNewValue(prev);
-                finalNewValue = callback ? callback(finalNewValue) : finalNewValue;
+                finalNewValue = !skipCallback && callback ? callback(finalNewValue) : finalNewValue;
                 return finalNewValue;
             });
         }
         else {
-            finalNewValue = callback ? callback(finalNewValue) : finalNewValue;
+            finalNewValue = !skipCallback && callback ? callback(finalNewValue) : finalNewValue;
             _setValue(finalNewValue);
         }
         valueRef.current = finalNewValue;
@@ -101,17 +101,17 @@ function useAutoUpdateLayoutRefState(state, callback) {
             _setValue(newValue);
         }
     }, [state, callback]);
-    var setValue = react.useCallback(function (newValue) {
+    var setValue = react.useCallback(function (newValue, skipCallback) {
         var finalNewValue = newValue;
         if (typeof finalNewValue === 'function') {
             _setValue(function (prev) {
                 finalNewValue = finalNewValue(prev);
-                finalNewValue = callback ? callback(finalNewValue) : finalNewValue;
+                finalNewValue = !skipCallback && callback ? callback(finalNewValue) : finalNewValue;
                 return finalNewValue;
             });
         }
         else {
-            finalNewValue = callback ? callback(finalNewValue) : finalNewValue;
+            finalNewValue = !skipCallback && callback ? callback(finalNewValue) : finalNewValue;
             _setValue(finalNewValue);
         }
         valueRef.current = finalNewValue;

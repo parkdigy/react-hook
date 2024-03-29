@@ -10,7 +10,7 @@ export default function useAutoUpdateLayoutRefState<T>(
 export default function useAutoUpdateLayoutRefState<T>(
   state: Exclude<T, (...args: any[]) => any>,
   callback: (state: T) => T
-): [MutableRefObject<T>, T, (value: SetStateAction<T>) => T];
+): [MutableRefObject<T>, T, (value: SetStateAction<T>, skipCallback?: boolean) => T];
 // state 와 callback 함수를 받는 경우 (state 에 function 지정 불가)
 export default function useAutoUpdateLayoutRefState<T = never, StateT = never>(
   state: Exclude<StateT, (...args: any[]) => any>,
@@ -18,7 +18,7 @@ export default function useAutoUpdateLayoutRefState<T = never, StateT = never>(
 ): [
   MutableRefObject<T extends never ? StateT : T>,
   T extends never ? StateT : T,
-  (value: SetStateAction<T | StateT>) => T extends never ? StateT : T,
+  (value: SetStateAction<T | StateT>, skipCallback?: boolean) => T extends never ? StateT : T,
 ];
 // 구현부
 export default function useAutoUpdateLayoutRefState(state: any, callback?: any) {
@@ -34,16 +34,16 @@ export default function useAutoUpdateLayoutRefState(state: any, callback?: any) 
   }, [state, callback]);
 
   const setValue = useCallback(
-    (newValue: any) => {
+    (newValue: any, skipCallback?: boolean) => {
       let finalNewValue = newValue;
       if (typeof finalNewValue === 'function') {
         _setValue((prev: any) => {
           finalNewValue = finalNewValue(prev);
-          finalNewValue = callback ? callback(finalNewValue) : finalNewValue;
+          finalNewValue = !skipCallback && callback ? callback(finalNewValue) : finalNewValue;
           return finalNewValue;
         });
       } else {
-        finalNewValue = callback ? callback(finalNewValue) : finalNewValue;
+        finalNewValue = !skipCallback && callback ? callback(finalNewValue) : finalNewValue;
         _setValue(finalNewValue);
       }
       valueRef.current = finalNewValue;

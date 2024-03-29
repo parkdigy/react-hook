@@ -31,7 +31,7 @@ const Home = () => {
       <div>value1 : {value1}</div>
       <div>value2 : {value2}</div>
       <div>
-        value2 : {value3Ref.current} {value3}
+        value3 : {value3Ref.current} {value3}
       </div>
     </div>
   );
