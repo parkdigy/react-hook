@@ -6,6 +6,11 @@ import useFirstSkipLayoutEffect from './useFirstSkipLayoutEffect';
 export default function useAutoUpdateLayoutRefState<T>(
   state: Exclude<T, (...args: any[]) => any>
 ): [MutableRefObject<T>, T, Dispatch<SetStateAction<T>>];
+// state 와 callback 함수를 받는 경우 (T를 지정한경우) (state 에 function 지정 불가)
+export default function useAutoUpdateLayoutRefState<T>(
+  state: Exclude<T, (...args: any[]) => any>,
+  callback: (state: T) => T
+): [MutableRefObject<T>, T, Dispatch<SetStateAction<T>>];
 // state 와 callback 함수를 받는 경우 (state 에 function 지정 불가)
 export default function useAutoUpdateLayoutRefState<T = never, StateT = never>(
   state: Exclude<StateT, (...args: any[]) => any>,
