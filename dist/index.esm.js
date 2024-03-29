@@ -1,4 +1,4 @@
-import {useRef,useEffect,useState,useCallback,useLayoutEffect}from'react';function useFirstSkipEffect(effect, deps) {
+import {useRef,useEffect,useState,useCallback,useLayoutEffect}from'react';import {equal}from'@pdg/util';function useFirstSkipEffect(effect, deps) {
     var firstRef = useRef(true);
     useEffect(function () {
         if (firstRef.current) {
@@ -40,4 +40,40 @@ import {useRef,useEffect,useState,useCallback,useLayoutEffect}from'react';functi
         _setValue(callback ? callback(newValue) : newValue);
     }, [callback]);
     return [_value, setValue];
-}export{useAutoUpdateLayoutState,useAutoUpdateState,useFirstSkipEffect,useFirstSkipLayoutEffect};
+}function useAutoUpdateRefState(p1, p2) {
+    var state = typeof p1 === 'function' ? undefined : p1;
+    var callback = typeof p1 === 'function' ? p1 : p2;
+    var valueRef = useRef(callback ? callback(state) : state);
+    var _a = useState(function () { return (callback ? callback(state) : state); }), _value = _a[0], _setValue = _a[1];
+    useFirstSkipEffect(function () {
+        var newValue = callback ? callback(state) : state;
+        if (!equal(valueRef.current, newValue)) {
+            valueRef.current = newValue;
+            _setValue(newValue);
+        }
+    }, [state, callback]);
+    var setValue = useCallback(function (newValue) {
+        var finalNewValue = callback ? callback(newValue) : newValue;
+        valueRef.current = finalNewValue;
+        _setValue(finalNewValue);
+    }, [callback]);
+    return [valueRef, _value, setValue];
+}function useAutoUpdateLayoutRefState(p1, p2) {
+    var state = typeof p1 === 'function' ? undefined : p1;
+    var callback = typeof p1 === 'function' ? p1 : p2;
+    var valueRef = useRef(callback ? callback(state) : state);
+    var _a = useState(function () { return (callback ? callback(state) : state); }), _value = _a[0], _setValue = _a[1];
+    useFirstSkipLayoutEffect(function () {
+        var newValue = callback ? callback(state) : state;
+        if (!equal(valueRef.current, newValue)) {
+            valueRef.current = newValue;
+            _setValue(newValue);
+        }
+    }, [state, callback]);
+    var setValue = useCallback(function (newValue) {
+        var finalNewValue = callback ? callback(newValue) : newValue;
+        valueRef.current = finalNewValue;
+        _setValue(finalNewValue);
+    }, [callback]);
+    return [valueRef, _value, setValue];
+}export{useAutoUpdateLayoutRefState,useAutoUpdateLayoutState,useAutoUpdateRefState,useAutoUpdateState,useFirstSkipEffect,useFirstSkipLayoutEffect};

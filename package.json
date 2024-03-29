@@ -1,7 +1,7 @@
 {
   "name": "@pdg/react-hook",
   "title": "React Hook",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "React Hook",
   "type": "module",
   "types": "dist/index.d.ts",
@@ -24,7 +24,7 @@
     "dev": "cd examples && npm run dev",
     "dev-prd-lib": "cd examples && npm run dev-prd-lib",
     "build": "rollup -c --bundleConfigAsCjs",
-    "publish": "npm publish --access=public",
+    "pub": "npm i && npm run build && npm publish --access=public && rm ./.git/hooks/pre-commit",
     "lint": "eslint './src/**/*.{ts,tsx}'",
     "reinstall-module": "rm -rf node_modules && rm -f package-lock.json && npm i"
   },
@@ -38,6 +38,7 @@
     "javascript"
   ],
   "peerDependencies": {
+    "@pdg/util": "^1.0.19",
     "@types/react": "^17.0.0 || ^18.0.0",
     "react": "^17.0.0 || ^18.0.0",
     "react-dom": "^17.0.0 || ^18.0.0"

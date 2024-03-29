@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAutoUpdateState } from '@pdg/react-hook';
+import useAutoUpdateRefState from '../../../../src/useAutoUpdateRefState';
 
 const Home = () => {
   // State -----------------------------------------------------------------------------------------------------------
@@ -10,6 +11,7 @@ const Home = () => {
       return value1 * 2;
     }, [value1])
   );
+  const [value3Ref, value3] = useAutoUpdateRefState<number>(useCallback(() => value1 * 3, [value1]));
 
   // Effect ----------------------------------------------------------------------------------------------------------
 
@@ -29,6 +31,9 @@ const Home = () => {
     <div>
       <div>value1 : {value1}</div>
       <div>value2 : {value2}</div>
+      <div>
+        value2 : {value3Ref.current} {value3}
+      </div>
     </div>
   );
 };
