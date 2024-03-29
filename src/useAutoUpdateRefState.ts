@@ -18,7 +18,7 @@ export default function useAutoUpdateRefState<T = never, StateT = never>(
 ): [
   MutableRefObject<T extends never ? StateT : T>,
   T extends never ? StateT : T,
-  (value: SetStateAction<T extends never ? StateT : T>) => T extends never ? StateT : T,
+  (value: SetStateAction<T | StateT>) => T extends never ? StateT : T,
 ];
 // 구현부
 export default function useAutoUpdateRefState(state: any, callback?: any) {

@@ -14,10 +14,7 @@ export default function useAutoUpdateLayoutState<T>(
 export default function useAutoUpdateLayoutState<T = never, StateT = never>(
   state: Exclude<StateT, (...args: any[]) => any>,
   callback: (state: T | StateT) => T extends never ? StateT : T
-): [
-  T extends never ? StateT : T,
-  (value: SetStateAction<T extends never ? StateT : T>) => T extends never ? StateT : T,
-];
+): [T extends never ? StateT : T, (value: SetStateAction<T | StateT>) => T extends never ? StateT : T];
 // 구현부
 export default function useAutoUpdateLayoutState(state: any, callback?: any) {
   const [_value, _setValue] = useState(() => (callback ? callback(state) : state));

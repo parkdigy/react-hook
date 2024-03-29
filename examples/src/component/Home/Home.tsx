@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useAutoUpdateState } from '@pdg/react-hook';
-import useAutoUpdateRefState from '../../../../src/useAutoUpdateRefState';
+import { useAutoUpdateRefState, useAutoUpdateState } from '../../../../src';
 
 const Home = () => {
   // State -----------------------------------------------------------------------------------------------------------
