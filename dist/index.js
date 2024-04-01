@@ -13,7 +13,7 @@ function useAutoUpdateState(state, callback) {
     var _a = react.useState(function () { return (callback ? callback(state) : state); }), _value = _a[0], _setValue = _a[1];
     useFirstSkipEffect(function () {
         _setValue(callback ? callback(state) : state);
-    }, [state, callback]);
+    }, [state]);
     var setValue = react.useCallback(function (newValue, skipCallback) {
         var finalNewValue = newValue;
         if (typeof finalNewValue === 'function') {
@@ -45,7 +45,7 @@ function useAutoUpdateLayoutState(state, callback) {
     var _a = react.useState(function () { return (callback ? callback(state) : state); }), _value = _a[0], _setValue = _a[1];
     useFirstSkipLayoutEffect(function () {
         _setValue(callback ? callback(state) : state);
-    }, [state, callback]);
+    }, [state]);
     var setValue = react.useCallback(function (newValue, skipCallback) {
         var finalNewValue = newValue;
         if (typeof finalNewValue === 'function') {
@@ -72,7 +72,7 @@ function useAutoUpdateRefState(state, callback) {
             valueRef.current = newValue;
             _setValue(newValue);
         }
-    }, [state, callback]);
+    }, [state]);
     var setValue = react.useCallback(function (newValue, skipCallback) {
         var finalNewValue = newValue;
         if (typeof finalNewValue === 'function') {
@@ -100,7 +100,7 @@ function useAutoUpdateLayoutRefState(state, callback) {
             valueRef.current = newValue;
             _setValue(newValue);
         }
-    }, [state, callback]);
+    }, [state]);
     var setValue = react.useCallback(function (newValue, skipCallback) {
         var finalNewValue = newValue;
         if (typeof finalNewValue === 'function') {

@@ -31,7 +31,7 @@ export default function useAutoUpdateLayoutRefState(state: any, callback?: any) 
       valueRef.current = newValue;
       _setValue(newValue);
     }
-  }, [state, callback]);
+  }, [state]);
 
   const setValue = useCallback(
     (newValue: any, skipCallback?: boolean) => {

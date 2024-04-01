@@ -24,7 +24,7 @@ export default function useAutoUpdateLayoutState(state: any, callback?: any) {
 
   useFirstSkipLayoutEffect(() => {
     _setValue(callback ? callback(state) : state);
-  }, [state, callback]);
+  }, [state]);
 
   const setValue = useCallback(
     (newValue: any, skipCallback?: boolean) => {
