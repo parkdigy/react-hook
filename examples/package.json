@@ -12,7 +12,7 @@
     "@mui/material": "^5.15.17",
     "@pdg/react-admin-layout": "^1.0.33",
     "@pdg/react-hook": "file:..",
-    "@pdg/util": "^1.0.21",
+    "@pdg/util": "^1.0.22",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.13",
     "@soda/friendly-errors-webpack-plugin": "^1.8.1",
     "@types/jest": "^29.5.12",
