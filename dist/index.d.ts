@@ -5,3 +5,5 @@ export { default as useFirstSkipLayoutEffect } from './useFirstSkipLayoutEffect'
 export { default as useAutoUpdateRefState } from './useAutoUpdateRefState';
 export { default as useAutoUpdateLayoutRefState } from './useAutoUpdateLayoutRefState';
 export { default as useForwardRef } from './useForwardRef';
+export { default as useAutoUpdateRef } from './useAutoUpdateRef';
+export { default as useAutoUpdateLayoutRef } from './useAutoUpdateLayoutRef';

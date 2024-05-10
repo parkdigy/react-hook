@@ -139,4 +139,16 @@ function useAutoUpdateLayoutRefState(state, callback) {
             }
         };
     }, [ref, value]);
-}exports.useAutoUpdateLayoutRefState=useAutoUpdateLayoutRefState;exports.useAutoUpdateLayoutState=useAutoUpdateLayoutState;exports.useAutoUpdateRefState=useAutoUpdateRefState;exports.useAutoUpdateState=useAutoUpdateState;exports.useFirstSkipEffect=useFirstSkipEffect;exports.useFirstSkipLayoutEffect=useFirstSkipLayoutEffect;exports.useForwardRef=useForwardRef;
+}function useAutoUpdateRef(value) {
+    var valueRef = react.useRef(value);
+    useFirstSkipEffect(function () {
+        valueRef.current = value;
+    }, [value]);
+    return valueRef;
+}function useAutoUpdateLayoutRef(value) {
+    var valueRef = react.useRef(value);
+    useFirstSkipLayoutEffect(function () {
+        valueRef.current = value;
+    }, [value]);
+    return valueRef;
+}exports.useAutoUpdateLayoutRef=useAutoUpdateLayoutRef;exports.useAutoUpdateLayoutRefState=useAutoUpdateLayoutRefState;exports.useAutoUpdateLayoutState=useAutoUpdateLayoutState;exports.useAutoUpdateRef=useAutoUpdateRef;exports.useAutoUpdateRefState=useAutoUpdateRefState;exports.useAutoUpdateState=useAutoUpdateState;exports.useFirstSkipEffect=useFirstSkipEffect;exports.useFirstSkipLayoutEffect=useFirstSkipLayoutEffect;exports.useForwardRef=useForwardRef;

@@ -139,4 +139,16 @@ function useAutoUpdateLayoutRefState(state, callback) {
             }
         };
     }, [ref, value]);
-}export{useAutoUpdateLayoutRefState,useAutoUpdateLayoutState,useAutoUpdateRefState,useAutoUpdateState,useFirstSkipEffect,useFirstSkipLayoutEffect,useForwardRef};
+}function useAutoUpdateRef(value) {
+    var valueRef = useRef(value);
+    useFirstSkipEffect(function () {
+        valueRef.current = value;
+    }, [value]);
+    return valueRef;
+}function useAutoUpdateLayoutRef(value) {
+    var valueRef = useRef(value);
+    useFirstSkipLayoutEffect(function () {
+        valueRef.current = value;
+    }, [value]);
+    return valueRef;
+}export{useAutoUpdateLayoutRef,useAutoUpdateLayoutRefState,useAutoUpdateLayoutState,useAutoUpdateRef,useAutoUpdateRefState,useAutoUpdateState,useFirstSkipEffect,useFirstSkipLayoutEffect,useForwardRef};
