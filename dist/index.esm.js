@@ -151,4 +151,32 @@ function useAutoUpdateLayoutRefState(state, callback) {
         valueRef.current = value;
     }, [value]);
     return valueRef;
-}export{useAutoUpdateLayoutRef,useAutoUpdateLayoutRefState,useAutoUpdateLayoutState,useAutoUpdateRef,useAutoUpdateRefState,useAutoUpdateState,useFirstSkipEffect,useFirstSkipLayoutEffect,useForwardRef};
+}function usePerformance(name) {
+    var beginTime = performance.now();
+    useEffect(function () {
+        console.log('Performance', '-', name, performance.now() - beginTime);
+    });
+}function useLayoutPerformance(name) {
+    var beginTime = performance.now();
+    useLayoutEffect(function () {
+        console.log('Layout Performance', '-', name, performance.now() - beginTime);
+    });
+}function useAutoForceUpdate(name, interval) {
+    var _a = useState(0), setTick = _a[1];
+    useEffect(function () {
+        var tm = setInterval(function () {
+            setTick(function (old) {
+                console.log('Auto Force Update', '-', name, old + 1);
+                return old + 1;
+            });
+        }, interval);
+        return function () {
+            clearInterval(tm);
+        };
+    }, [interval]);
+}function useForceUpdate() {
+    var _a = useState(0), setValue = _a[1];
+    return useCallback(function () {
+        setValue(function (old) { return old + 1; });
+    }, []);
+}export{useAutoForceUpdate,useAutoUpdateLayoutRef,useAutoUpdateLayoutRefState,useAutoUpdateLayoutState,useAutoUpdateRef,useAutoUpdateRefState,useAutoUpdateState,useFirstSkipEffect,useFirstSkipLayoutEffect,useForceUpdate,useForwardRef,useLayoutPerformance,usePerformance};

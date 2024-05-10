@@ -7,3 +7,7 @@ export { default as useAutoUpdateLayoutRefState } from './useAutoUpdateLayoutRef
 export { default as useForwardRef } from './useForwardRef';
 export { default as useAutoUpdateRef } from './useAutoUpdateRef';
 export { default as useAutoUpdateLayoutRef } from './useAutoUpdateLayoutRef';
+export { default as usePerformance } from './usePerformance';
+export { default as useLayoutPerformance } from './useLayoutPerformance';
+export { default as useAutoForceUpdate } from './useAutoForceUpdate';
+export { default as useForceUpdate } from './useForceUpdate';
