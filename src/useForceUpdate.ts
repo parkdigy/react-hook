@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import useTimeoutRef from './useTimeoutRef';
 
-export default function useForceUpdate(delay?: number) {
+export function useForceUpdate(delay?: number) {
   const [, setDelayTimeout] = useTimeoutRef();
   const [, setValue] = useState(0);
 
@@ -15,3 +15,5 @@ export default function useForceUpdate(delay?: number) {
     }
   }, []);
 }
+
+export default useForceUpdate;

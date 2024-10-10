@@ -194,6 +194,19 @@ function useAutoUpdateLayoutRefState(state, callback) {
         }, ms);
     }, []);
     return [ref, setTimeoutFunc];
+}function useForceUpdate(delay) {
+    var _a = useTimeoutRef(), setDelayTimeout = _a[1];
+    var _b = react.useState(0), setValue = _b[1];
+    return react.useCallback(function () {
+        if (delay) {
+            setDelayTimeout(function () {
+                setValue(function (old) { return old + 1; });
+            }, delay);
+        }
+        else {
+            setValue(function (old) { return old + 1; });
+        }
+    }, []);
 }function clearIntervalRef(ref) {
     if (ref.current) {
         clearInterval(ref.current);
@@ -213,4 +226,4 @@ function useAutoUpdateLayoutRefState(state, callback) {
         }, ms);
     }, []);
     return [ref, setIntervalFunc];
-}exports.clearIntervalRef=clearIntervalRef;exports.clearTimeoutRef=clearTimeoutRef;exports.useAutoForceUpdate=useAutoForceUpdate;exports.useAutoUpdateLayoutRef=useAutoUpdateLayoutRef;exports.useAutoUpdateLayoutRefState=useAutoUpdateLayoutRefState;exports.useAutoUpdateLayoutState=useAutoUpdateLayoutState;exports.useAutoUpdateRef=useAutoUpdateRef;exports.useAutoUpdateRefState=useAutoUpdateRefState;exports.useAutoUpdateState=useAutoUpdateState;exports.useFirstSkipEffect=useFirstSkipEffect;exports.useFirstSkipLayoutEffect=useFirstSkipLayoutEffect;exports.useForwardRef=useForwardRef;exports.useIntervalRef=useIntervalRef;exports.useLayoutPerformance=useLayoutPerformance;exports.usePerformance=usePerformance;exports.useTimeoutRef=useTimeoutRef;
+}exports.clearIntervalRef=clearIntervalRef;exports.clearTimeoutRef=clearTimeoutRef;exports.useAutoForceUpdate=useAutoForceUpdate;exports.useAutoUpdateLayoutRef=useAutoUpdateLayoutRef;exports.useAutoUpdateLayoutRefState=useAutoUpdateLayoutRefState;exports.useAutoUpdateLayoutState=useAutoUpdateLayoutState;exports.useAutoUpdateRef=useAutoUpdateRef;exports.useAutoUpdateRefState=useAutoUpdateRefState;exports.useAutoUpdateState=useAutoUpdateState;exports.useFirstSkipEffect=useFirstSkipEffect;exports.useFirstSkipLayoutEffect=useFirstSkipLayoutEffect;exports.useForceUpdate=useForceUpdate;exports.useForwardRef=useForwardRef;exports.useIntervalRef=useIntervalRef;exports.useLayoutPerformance=useLayoutPerformance;exports.usePerformance=usePerformance;exports.useTimeoutRef=useTimeoutRef;

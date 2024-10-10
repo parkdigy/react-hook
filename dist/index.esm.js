@@ -194,6 +194,19 @@ function useAutoUpdateLayoutRefState(state, callback) {
         }, ms);
     }, []);
     return [ref, setTimeoutFunc];
+}function useForceUpdate(delay) {
+    var _a = useTimeoutRef(), setDelayTimeout = _a[1];
+    var _b = useState(0), setValue = _b[1];
+    return useCallback(function () {
+        if (delay) {
+            setDelayTimeout(function () {
+                setValue(function (old) { return old + 1; });
+            }, delay);
+        }
+        else {
+            setValue(function (old) { return old + 1; });
+        }
+    }, []);
 }function clearIntervalRef(ref) {
     if (ref.current) {
         clearInterval(ref.current);
@@ -213,4 +226,4 @@ function useAutoUpdateLayoutRefState(state, callback) {
         }, ms);
     }, []);
     return [ref, setIntervalFunc];
-}export{clearIntervalRef,clearTimeoutRef,useAutoForceUpdate,useAutoUpdateLayoutRef,useAutoUpdateLayoutRefState,useAutoUpdateLayoutState,useAutoUpdateRef,useAutoUpdateRefState,useAutoUpdateState,useFirstSkipEffect,useFirstSkipLayoutEffect,useForwardRef,useIntervalRef,useLayoutPerformance,usePerformance,useTimeoutRef};
+}export{clearIntervalRef,clearTimeoutRef,useAutoForceUpdate,useAutoUpdateLayoutRef,useAutoUpdateLayoutRefState,useAutoUpdateLayoutState,useAutoUpdateRef,useAutoUpdateRefState,useAutoUpdateState,useFirstSkipEffect,useFirstSkipLayoutEffect,useForceUpdate,useForwardRef,useIntervalRef,useLayoutPerformance,usePerformance,useTimeoutRef};
