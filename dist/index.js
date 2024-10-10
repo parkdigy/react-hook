@@ -194,14 +194,14 @@ function useAutoUpdateLayoutRefState(state, callback) {
         }, ms);
     }, []);
     return [ref, setTimeoutFunc];
-}function useForceUpdate(delay) {
+}function useForceUpdate(delayMilliseconds) {
     var _a = useTimeoutRef(), setDelayTimeout = _a[1];
     var _b = react.useState(0), setValue = _b[1];
-    return react.useCallback(function () {
-        if (delay) {
+    return react.useCallback(function (delay) {
+        if (util.ifUndefined(delay, delayMilliseconds) !== undefined) {
             setDelayTimeout(function () {
                 setValue(function (old) { return old + 1; });
-            }, delay);
+            }, util.ifUndefined(delay, delayMilliseconds));
         }
         else {
             setValue(function (old) { return old + 1; });

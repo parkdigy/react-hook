@@ -1,4 +1,4 @@
-import {useRef,useEffect,useState,useCallback,useLayoutEffect}from'react';import {equal}from'@pdg/util';function useFirstSkipEffect(effect, deps) {
+import {useRef,useEffect,useState,useCallback,useLayoutEffect}from'react';import {equal,ifUndefined}from'@pdg/util';function useFirstSkipEffect(effect, deps) {
     var firstRef = useRef(true);
     useEffect(function () {
         if (firstRef.current) {
@@ -194,14 +194,14 @@ function useAutoUpdateLayoutRefState(state, callback) {
         }, ms);
     }, []);
     return [ref, setTimeoutFunc];
-}function useForceUpdate(delay) {
+}function useForceUpdate(delayMilliseconds) {
     var _a = useTimeoutRef(), setDelayTimeout = _a[1];
     var _b = useState(0), setValue = _b[1];
-    return useCallback(function () {
-        if (delay) {
+    return useCallback(function (delay) {
+        if (ifUndefined(delay, delayMilliseconds) !== undefined) {
             setDelayTimeout(function () {
                 setValue(function (old) { return old + 1; });
-            }, delay);
+            }, ifUndefined(delay, delayMilliseconds));
         }
         else {
             setValue(function (old) { return old + 1; });
