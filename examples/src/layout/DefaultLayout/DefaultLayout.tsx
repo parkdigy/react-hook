@@ -11,18 +11,10 @@ const DefaultLayout = () => {
 
   //--------------------------------------------------------------------------------------------------------------------
 
-  const handleMenuClick = (menuItem: AdminLayout.MenuItem) => {
-    if (menuItem.uri) {
-      navigate(menuItem.uri);
-    }
-  };
-
-  //--------------------------------------------------------------------------------------------------------------------
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AdminLayout.DefaultLayout logo='react-hook' menu={menu} onMenuClick={handleMenuClick}>
+      <AdminLayout.DefaultLayout logo='react-hook' menu={menu}>
         <MainRouter />
       </AdminLayout.DefaultLayout>
     </ThemeProvider>

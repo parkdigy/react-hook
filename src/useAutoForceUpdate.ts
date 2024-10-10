@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export default function useAutoForceUpdate(name: string, interval: number) {
+export function useAutoForceUpdate(name: string, interval: number) {
   const [, setTick] = useState(0);
 
   useEffect(() => {
@@ -16,3 +16,5 @@ export default function useAutoForceUpdate(name: string, interval: number) {
     };
   }, [interval]);
 }
+
+export default useAutoForceUpdate;

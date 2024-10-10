@@ -1,1 +1,2 @@
-export default function usePerformance(name: string): void;
+export declare function usePerformance(name: string): void;
+export default usePerformance;

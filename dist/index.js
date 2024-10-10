@@ -174,9 +174,43 @@ function useAutoUpdateLayoutRefState(state, callback) {
             clearInterval(tm);
         };
     }, [interval]);
-}function useForceUpdate() {
-    var _a = react.useState(0), setValue = _a[1];
-    return react.useCallback(function () {
-        setValue(function (old) { return old + 1; });
+}function clearTimeoutRef(ref) {
+    if (ref.current) {
+        clearTimeout(ref.current);
+        ref.current = undefined;
+    }
+}function useTimeoutRef() {
+    var ref = react.useRef();
+    react.useEffect(function () {
+        return function () {
+            clearTimeoutRef(ref);
+        };
     }, []);
-}exports.useAutoForceUpdate=useAutoForceUpdate;exports.useAutoUpdateLayoutRef=useAutoUpdateLayoutRef;exports.useAutoUpdateLayoutRefState=useAutoUpdateLayoutRefState;exports.useAutoUpdateLayoutState=useAutoUpdateLayoutState;exports.useAutoUpdateRef=useAutoUpdateRef;exports.useAutoUpdateRefState=useAutoUpdateRefState;exports.useAutoUpdateState=useAutoUpdateState;exports.useFirstSkipEffect=useFirstSkipEffect;exports.useFirstSkipLayoutEffect=useFirstSkipLayoutEffect;exports.useForceUpdate=useForceUpdate;exports.useForwardRef=useForwardRef;exports.useLayoutPerformance=useLayoutPerformance;exports.usePerformance=usePerformance;
+    var setTimeoutFunc = react.useCallback(function (callback, ms) {
+        clearTimeoutRef(ref);
+        ref.current = setTimeout(function () {
+            ref.current = undefined;
+            callback();
+        }, ms);
+    }, []);
+    return [ref, setTimeoutFunc];
+}function clearIntervalRef(ref) {
+    if (ref.current) {
+        clearInterval(ref.current);
+        ref.current = undefined;
+    }
+}function useIntervalRef() {
+    var ref = react.useRef();
+    react.useEffect(function () {
+        return function () {
+            clearIntervalRef(ref);
+        };
+    }, []);
+    var setIntervalFunc = react.useCallback(function (callback, ms) {
+        clearIntervalRef(ref);
+        ref.current = setInterval(function () {
+            callback(ref);
+        }, ms);
+    }, []);
+    return [ref, setIntervalFunc];
+}exports.clearIntervalRef=clearIntervalRef;exports.clearTimeoutRef=clearTimeoutRef;exports.useAutoForceUpdate=useAutoForceUpdate;exports.useAutoUpdateLayoutRef=useAutoUpdateLayoutRef;exports.useAutoUpdateLayoutRefState=useAutoUpdateLayoutRefState;exports.useAutoUpdateLayoutState=useAutoUpdateLayoutState;exports.useAutoUpdateRef=useAutoUpdateRef;exports.useAutoUpdateRefState=useAutoUpdateRefState;exports.useAutoUpdateState=useAutoUpdateState;exports.useFirstSkipEffect=useFirstSkipEffect;exports.useFirstSkipLayoutEffect=useFirstSkipLayoutEffect;exports.useForwardRef=useForwardRef;exports.useIntervalRef=useIntervalRef;exports.useLayoutPerformance=useLayoutPerformance;exports.usePerformance=usePerformance;exports.useTimeoutRef=useTimeoutRef;

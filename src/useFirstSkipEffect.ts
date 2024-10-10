@@ -1,6 +1,6 @@
 import { DependencyList, EffectCallback, useEffect, useRef } from 'react';
 
-export default function useFirstSkipEffect(effect: EffectCallback, deps?: DependencyList): void {
+export function useFirstSkipEffect(effect: EffectCallback, deps?: DependencyList): void {
   const firstRef = useRef(true);
   useEffect(() => {
     if (firstRef.current) {
@@ -10,3 +10,5 @@ export default function useFirstSkipEffect(effect: EffectCallback, deps?: Depend
     }
   }, deps);
 }
+
+export default useFirstSkipEffect;

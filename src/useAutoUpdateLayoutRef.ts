@@ -1,7 +1,7 @@
 import { MutableRefObject, useRef } from 'react';
 import useFirstSkipLayoutEffect from './useFirstSkipLayoutEffect';
 
-export default function useAutoUpdateLayoutRef<T>(value: T): MutableRefObject<T> {
+export function useAutoUpdateLayoutRef<T>(value: T): MutableRefObject<T> {
   const valueRef = useRef(value);
 
   useFirstSkipLayoutEffect(() => {
@@ -10,3 +10,5 @@ export default function useAutoUpdateLayoutRef<T>(value: T): MutableRefObject<T>
 
   return valueRef;
 }
+
+export default useAutoUpdateLayoutRef;

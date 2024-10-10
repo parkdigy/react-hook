@@ -1,2 +1,3 @@
 import { MutableRefObject } from 'react';
-export default function useAutoUpdateLayoutRef<T>(value: T): MutableRefObject<T>;
+export declare function useAutoUpdateLayoutRef<T>(value: T): MutableRefObject<T>;
+export default useAutoUpdateLayoutRef;

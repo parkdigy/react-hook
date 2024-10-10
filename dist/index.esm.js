@@ -174,9 +174,43 @@ function useAutoUpdateLayoutRefState(state, callback) {
             clearInterval(tm);
         };
     }, [interval]);
-}function useForceUpdate() {
-    var _a = useState(0), setValue = _a[1];
-    return useCallback(function () {
-        setValue(function (old) { return old + 1; });
+}function clearTimeoutRef(ref) {
+    if (ref.current) {
+        clearTimeout(ref.current);
+        ref.current = undefined;
+    }
+}function useTimeoutRef() {
+    var ref = useRef();
+    useEffect(function () {
+        return function () {
+            clearTimeoutRef(ref);
+        };
     }, []);
-}export{useAutoForceUpdate,useAutoUpdateLayoutRef,useAutoUpdateLayoutRefState,useAutoUpdateLayoutState,useAutoUpdateRef,useAutoUpdateRefState,useAutoUpdateState,useFirstSkipEffect,useFirstSkipLayoutEffect,useForceUpdate,useForwardRef,useLayoutPerformance,usePerformance};
+    var setTimeoutFunc = useCallback(function (callback, ms) {
+        clearTimeoutRef(ref);
+        ref.current = setTimeout(function () {
+            ref.current = undefined;
+            callback();
+        }, ms);
+    }, []);
+    return [ref, setTimeoutFunc];
+}function clearIntervalRef(ref) {
+    if (ref.current) {
+        clearInterval(ref.current);
+        ref.current = undefined;
+    }
+}function useIntervalRef() {
+    var ref = useRef();
+    useEffect(function () {
+        return function () {
+            clearIntervalRef(ref);
+        };
+    }, []);
+    var setIntervalFunc = useCallback(function (callback, ms) {
+        clearIntervalRef(ref);
+        ref.current = setInterval(function () {
+            callback(ref);
+        }, ms);
+    }, []);
+    return [ref, setIntervalFunc];
+}export{clearIntervalRef,clearTimeoutRef,useAutoForceUpdate,useAutoUpdateLayoutRef,useAutoUpdateLayoutRefState,useAutoUpdateLayoutState,useAutoUpdateRef,useAutoUpdateRefState,useAutoUpdateState,useFirstSkipEffect,useFirstSkipLayoutEffect,useForwardRef,useIntervalRef,useLayoutPerformance,usePerformance,useTimeoutRef};

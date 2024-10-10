@@ -1,6 +1,6 @@
 import { ForwardedRef, useLayoutEffect } from 'react';
 
-export default function useForwardRef<T>(ref: ForwardedRef<T>, value: T) {
+export function useForwardRef<T>(ref: ForwardedRef<T>, value: T) {
   useLayoutEffect(() => {
     if (ref) {
       if (typeof ref === 'function') {
@@ -21,3 +21,5 @@ export default function useForwardRef<T>(ref: ForwardedRef<T>, value: T) {
     };
   }, [ref, value]);
 }
+
+export default useForwardRef;
