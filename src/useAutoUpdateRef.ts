@@ -1,5 +1,5 @@
 import { MutableRefObject, useRef } from 'react';
-import { useFirstSkipEffect } from './index';
+import useFirstSkipEffect from './useFirstSkipEffect';
 
 export function useAutoUpdateRef<T>(value: T): MutableRefObject<T> {
   const valueRef = useRef(value);

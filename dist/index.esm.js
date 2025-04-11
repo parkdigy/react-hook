@@ -7,6 +7,7 @@ import {useRef,useEffect,useState,useCallback,useLayoutEffect}from'react';import
         else {
             effect();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, deps);
 }// 구현부
 function useAutoUpdateState(state, callback) {
@@ -39,6 +40,7 @@ function useAutoUpdateState(state, callback) {
         else {
             effect();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, deps);
 }// 구현부
 function useAutoUpdateLayoutState(state, callback) {
@@ -161,12 +163,11 @@ function useAutoUpdateLayoutRefState(state, callback) {
     useLayoutEffect(function () {
         console.log('Layout Performance', '-', name, performance.now() - beginTime);
     });
-}function useAutoForceUpdate(name, interval) {
+}function useAutoForceUpdate(interval) {
     var _a = useState(0), setTick = _a[1];
     useEffect(function () {
         var tm = setInterval(function () {
             setTick(function (old) {
-                console.log('Auto Force Update', '-', name, old + 1);
                 return old + 1;
             });
         }, interval);
@@ -206,7 +207,9 @@ function useAutoUpdateLayoutRefState(state, callback) {
         else {
             setValue(function (old) { return old + 1; });
         }
-    }, []);
+    }, 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [delayMilliseconds]);
 }function clearIntervalRef(ref) {
     if (ref.current) {
         clearInterval(ref.current);

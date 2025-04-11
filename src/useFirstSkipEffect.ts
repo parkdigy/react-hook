@@ -8,6 +8,7 @@ export function useFirstSkipEffect(effect: EffectCallback, deps?: DependencyList
     } else {
       effect();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 }
 

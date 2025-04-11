@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import React from 'react';
 export type UseIntervalReturnValue = [
     React.MutableRefObject<NodeJS.Timeout | undefined>,
