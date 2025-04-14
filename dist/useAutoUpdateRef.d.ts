@@ -1,3 +1,3 @@
-import { MutableRefObject } from 'react';
-export declare function useAutoUpdateRef<T>(value: T): MutableRefObject<T>;
+import { RefObject } from 'react';
+export declare function useAutoUpdateRef<T>(value: T): RefObject<T>;
 export default useAutoUpdateRef;

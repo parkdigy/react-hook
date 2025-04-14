@@ -1,3 +1,3 @@
 import React from 'react';
-export declare function clearIntervalRef(ref: React.MutableRefObject<NodeJS.Timeout | undefined>): void;
+export declare function clearIntervalRef(ref: React.RefObject<NodeJS.Timeout | undefined>): void;
 export default clearIntervalRef;

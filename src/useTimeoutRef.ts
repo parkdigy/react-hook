@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import clearTimeoutRef from './clearTimeoutRef';
 
 export type UseTimeoutReturnValue = [
-  React.MutableRefObject<NodeJS.Timeout | undefined>,
+  React.RefObject<NodeJS.Timeout | undefined>,
   (callback: (args: void) => void, ms?: number) => void,
 ];
 
 export function useTimeoutRef(): UseTimeoutReturnValue {
-  const ref = useRef<NodeJS.Timeout>();
+  const ref = useRef<NodeJS.Timeout>(undefined);
 
   useEffect(() => {
     return () => {

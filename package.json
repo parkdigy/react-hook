@@ -1,7 +1,7 @@
 {
   "name": "@pdg/react-hook",
   "title": "React Hook",
-  "version": "1.0.26",
+  "version": "1.0.27",
   "description": "React Hook",
   "type": "module",
   "types": "dist/index.d.ts",
@@ -59,7 +59,7 @@
     "rollup": "^4.39.0",
     "rollup-plugin-delete": "^2.2.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
-    "rollup-plugin-scss": "^4.0.1",
+    "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-typescript2": "^0.36.0",
     "sass": "^1.86.3",
     "typescript": "^5.8.3"

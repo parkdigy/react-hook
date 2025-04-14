@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import clearIntervalRef from './clearIntervalRef';
 
 export type UseIntervalReturnValue = [
-  React.MutableRefObject<NodeJS.Timeout | undefined>,
-  (callback: (ref: React.MutableRefObject<NodeJS.Timeout | undefined>) => void, ms?: number) => void,
+  React.RefObject<NodeJS.Timeout | undefined>,
+  (callback: (ref: React.RefObject<NodeJS.Timeout | undefined>) => void, ms?: number) => void,
 ];
 
 export function useIntervalRef(): UseIntervalReturnValue {
-  const ref = useRef<NodeJS.Timeout>();
+  const ref = useRef<NodeJS.Timeout>(undefined);
 
   useEffect(() => {
     return () => {
@@ -16,7 +16,7 @@ export function useIntervalRef(): UseIntervalReturnValue {
   }, []);
 
   const setIntervalFunc = useCallback(
-    (callback: (ref: React.MutableRefObject<NodeJS.Timeout | undefined>) => void, ms?: number) => {
+    (callback: (ref: React.RefObject<NodeJS.Timeout | undefined>) => void, ms?: number) => {
       clearIntervalRef(ref);
 
       ref.current = setInterval(() => {

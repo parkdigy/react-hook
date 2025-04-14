@@ -181,7 +181,7 @@ function useAutoUpdateLayoutRefState(state, callback) {
         ref.current = undefined;
     }
 }function useTimeoutRef() {
-    var ref = react.useRef();
+    var ref = react.useRef(undefined);
     react.useEffect(function () {
         return function () {
             clearTimeoutRef(ref);
@@ -216,7 +216,7 @@ function useAutoUpdateLayoutRefState(state, callback) {
         ref.current = undefined;
     }
 }function useIntervalRef() {
-    var ref = react.useRef();
+    var ref = react.useRef(undefined);
     react.useEffect(function () {
         return function () {
             clearIntervalRef(ref);
