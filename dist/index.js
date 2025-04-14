@@ -143,14 +143,18 @@ function useAutoUpdateLayoutRefState(state, callback) {
     }, [ref, value]);
 }function useAutoUpdateRef(value) {
     var valueRef = react.useRef(value);
+    var _a = react.useState(0), setUpdateValue = _a[1];
     useFirstSkipEffect(function () {
         valueRef.current = value;
+        setUpdateValue(function (prev) { return prev + 1; });
     }, [value]);
     return valueRef;
 }function useAutoUpdateLayoutRef(value) {
     var valueRef = react.useRef(value);
+    var _a = react.useState(0), setUpdateValue = _a[1];
     useFirstSkipLayoutEffect(function () {
         valueRef.current = value;
+        setUpdateValue(function (prev) { return prev + 1; });
     }, [value]);
     return valueRef;
 }function usePerformance(name) {
