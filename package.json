@@ -1,7 +1,7 @@
 {
   "name": "@pdg/react-hook",
   "title": "React Hook",
-  "version": "1.0.29",
+  "version": "1.0.30",
   "description": "React Hook",
   "type": "module",
   "types": "dist/index.d.ts",
@@ -39,9 +39,6 @@
   ],
   "peerDependencies": {
     "react": ">=17.0.0"
-  },
-  "dependencies": {
-    "@pdg/util": "^1.0.24"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.3",

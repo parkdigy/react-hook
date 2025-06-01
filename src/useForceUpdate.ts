@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react';
 import useTimeoutRef from './useTimeoutRef';
-import { ifUndefined } from '@pdg/util';
 
 export function useForceUpdate(delayMilliseconds?: number) {
   const [, setDelayTimeout] = useTimeoutRef();
@@ -25,3 +24,10 @@ export function useForceUpdate(delayMilliseconds?: number) {
 }
 
 export default useForceUpdate;
+
+/********************************************************************************************************************
+ * ifUndefined
+ * ******************************************************************************************************************/
+function ifUndefined<TV, TNV>(v: TV | undefined, v2: TNV): TV | TNV {
+  return v === undefined ? v2 : v;
+}

@@ -1,4 +1,4 @@
-import {useRef,useEffect,useState,useCallback,useLayoutEffect}from'react';import {equal,ifUndefined}from'@pdg/util';function useFirstSkipEffect(effect, deps) {
+import {useRef,useEffect,useState,useCallback,useLayoutEffect}from'react';function useFirstSkipEffect(effect, deps) {
     var firstRef = useRef(true);
     useEffect(function () {
         if (firstRef.current) {
@@ -70,7 +70,7 @@ function useAutoUpdateRefState(state, callback) {
     var _a = useState(function () { return (callback ? callback(state) : state); }), _value = _a[0], _setValue = _a[1];
     useFirstSkipEffect(function () {
         var newValue = callback ? callback(state) : state;
-        if (!equal(valueRef.current, newValue)) {
+        if (!equal$1(valueRef.current, newValue)) {
             valueRef.current = newValue;
             _setValue(newValue);
         }
@@ -92,6 +92,23 @@ function useAutoUpdateRefState(state, callback) {
         return finalNewValue;
     }, [callback]);
     return [valueRef, _value, setValue];
+}
+/********************************************************************************************************************
+ * equal
+ * ******************************************************************************************************************/
+function equal$1(v1, v2) {
+    if (v1 === v2)
+        return true;
+    if (typeof v1 !== typeof v2)
+        return false;
+    if (v1 == null || v2 == null)
+        return false;
+    if (typeof v1 === 'object' && typeof v2 === 'object') {
+        return JSON.stringify(v1) === JSON.stringify(v2);
+    }
+    else {
+        return v1 === v2;
+    }
 }// 구현부
 function useAutoUpdateLayoutRefState(state, callback) {
     var valueRef = useRef(callback ? callback(state) : state);
@@ -120,6 +137,23 @@ function useAutoUpdateLayoutRefState(state, callback) {
         return finalNewValue;
     }, [callback]);
     return [valueRef, _value, setValue];
+}
+/********************************************************************************************************************
+ * equal
+ * ******************************************************************************************************************/
+function equal(v1, v2) {
+    if (v1 === v2)
+        return true;
+    if (typeof v1 !== typeof v2)
+        return false;
+    if (v1 == null || v2 == null)
+        return false;
+    if (typeof v1 === 'object' && typeof v2 === 'object') {
+        return JSON.stringify(v1) === JSON.stringify(v2);
+    }
+    else {
+        return v1 === v2;
+    }
 }function useForwardRef(ref, value) {
     useLayoutEffect(function () {
         if (ref) {
@@ -214,6 +248,12 @@ function useAutoUpdateLayoutRefState(state, callback) {
     }, 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [delayMilliseconds]);
+}
+/********************************************************************************************************************
+ * ifUndefined
+ * ******************************************************************************************************************/
+function ifUndefined(v, v2) {
+    return v === undefined ? v2 : v;
 }function clearIntervalRef(ref) {
     if (ref.current) {
         clearInterval(ref.current);

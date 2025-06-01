@@ -1,5 +1,4 @@
 import { RefObject, SetStateAction, useCallback, useRef, useState } from 'react';
-import { equal } from '@pdg/util';
 import useFirstSkipLayoutEffect from './useFirstSkipLayoutEffect';
 
 // state 값만 받는 경우 (state 에 function 지정 불가)
@@ -56,3 +55,17 @@ export function useAutoUpdateLayoutRefState(state: any, callback?: any) {
 }
 
 export default useAutoUpdateLayoutRefState;
+
+/********************************************************************************************************************
+ * equal
+ * ******************************************************************************************************************/
+function equal(v1: any, v2: any): boolean {
+  if (v1 === v2) return true;
+  if (typeof v1 !== typeof v2) return false;
+  if (v1 == null || v2 == null) return false;
+  if (typeof v1 === 'object' && typeof v2 === 'object') {
+    return JSON.stringify(v1) === JSON.stringify(v2);
+  } else {
+    return v1 === v2;
+  }
+}
