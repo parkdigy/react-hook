@@ -12,9 +12,7 @@
     "preserveSymlinks": true,
     "baseUrl": "./",
     "paths": {
-      "#comp": ["src/component"],
-      "#ccomp": ["src/component/Common"],
-      "#dialog": ["src/dialog"],
+      "@comp": ["src/component"],
     }
   },
   "include": ["src/**/*"],

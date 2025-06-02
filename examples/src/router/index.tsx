@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router';
 
-import { Home } from '#comp';
+import { Home } from '@comp';
 
 const routes = () => {
   return (
