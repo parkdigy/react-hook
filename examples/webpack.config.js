@@ -157,7 +157,6 @@ module.exports = {
           new FriendlyErrorsWebpackPlugin({
             clearConsole: true,
           }),
-          new webpack.HotModuleReplacementPlugin(),
           new ReactRefreshWebpackPlugin({ overlay: false }),
         ]),
   ],
