@@ -154,8 +154,9 @@ function equal(v1, v2) {
     else {
         return v1 === v2;
     }
-}function useForwardRef(ref, value) {
+}function useForwardLayoutRef(ref, value, onSet, onUnset) {
     react.useLayoutEffect(function () {
+        onSet === null || onSet === void 0 ? void 0 : onSet(value);
         if (ref) {
             if (typeof ref === 'function') {
                 ref(value);
@@ -165,6 +166,7 @@ function equal(v1, v2) {
             }
         }
         return function () {
+            onUnset === null || onUnset === void 0 ? void 0 : onUnset();
             if (ref) {
                 if (typeof ref === 'function') {
                     ref(null);
@@ -174,7 +176,30 @@ function equal(v1, v2) {
                 }
             }
         };
-    }, [ref, value]);
+    }, [onSet, onUnset, ref, value]);
+}function useForwardRef(ref, value, onSet, onUnset) {
+    react.useEffect(function () {
+        onSet === null || onSet === void 0 ? void 0 : onSet(value);
+        if (ref) {
+            if (typeof ref === 'function') {
+                ref(value);
+            }
+            else {
+                ref.current = value;
+            }
+        }
+        return function () {
+            onUnset === null || onUnset === void 0 ? void 0 : onUnset();
+            if (ref) {
+                if (typeof ref === 'function') {
+                    ref(null);
+                }
+                else {
+                    ref.current = null;
+                }
+            }
+        };
+    }, [onSet, onUnset, ref, value]);
 }function useAutoUpdateRef(value) {
     var valueRef = react.useRef(value);
     var _a = react.useState(0), setUpdateValue = _a[1];
@@ -273,4 +298,4 @@ function ifUndefined(v, v2) {
         }, ms);
     }, []);
     return [ref, setIntervalFunc];
-}exports.clearIntervalRef=clearIntervalRef;exports.clearTimeoutRef=clearTimeoutRef;exports.useAutoForceUpdate=useAutoForceUpdate;exports.useAutoUpdateLayoutRef=useAutoUpdateLayoutRef;exports.useAutoUpdateLayoutRefState=useAutoUpdateLayoutRefState;exports.useAutoUpdateLayoutState=useAutoUpdateLayoutState;exports.useAutoUpdateRef=useAutoUpdateRef;exports.useAutoUpdateRefState=useAutoUpdateRefState;exports.useAutoUpdateState=useAutoUpdateState;exports.useFirstSkipEffect=useFirstSkipEffect;exports.useFirstSkipLayoutEffect=useFirstSkipLayoutEffect;exports.useForceUpdate=useForceUpdate;exports.useForwardRef=useForwardRef;exports.useIntervalRef=useIntervalRef;exports.useLayoutPerformance=useLayoutPerformance;exports.usePerformance=usePerformance;exports.useTimeoutRef=useTimeoutRef;
+}exports.clearIntervalRef=clearIntervalRef;exports.clearTimeoutRef=clearTimeoutRef;exports.useAutoForceUpdate=useAutoForceUpdate;exports.useAutoUpdateLayoutRef=useAutoUpdateLayoutRef;exports.useAutoUpdateLayoutRefState=useAutoUpdateLayoutRefState;exports.useAutoUpdateLayoutState=useAutoUpdateLayoutState;exports.useAutoUpdateRef=useAutoUpdateRef;exports.useAutoUpdateRefState=useAutoUpdateRefState;exports.useAutoUpdateState=useAutoUpdateState;exports.useFirstSkipEffect=useFirstSkipEffect;exports.useFirstSkipLayoutEffect=useFirstSkipLayoutEffect;exports.useForceUpdate=useForceUpdate;exports.useForwardLayoutRef=useForwardLayoutRef;exports.useForwardRef=useForwardRef;exports.useIntervalRef=useIntervalRef;exports.useLayoutPerformance=useLayoutPerformance;exports.usePerformance=usePerformance;exports.useTimeoutRef=useTimeoutRef;

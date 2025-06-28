@@ -4,6 +4,7 @@ export * from './useFirstSkipEffect';
 export * from './useFirstSkipLayoutEffect';
 export * from './useAutoUpdateRefState';
 export * from './useAutoUpdateLayoutRefState';
+export * from './useForwardLayoutRef';
 export * from './useForwardRef';
 export * from './useAutoUpdateRef';
 export * from './useAutoUpdateLayoutRef';

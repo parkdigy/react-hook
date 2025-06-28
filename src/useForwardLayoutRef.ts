@@ -1,12 +1,12 @@
-import { ForwardedRef, useEffect } from 'react';
+import { ForwardedRef, useLayoutEffect } from 'react';
 
-export function useForwardRef<T>(
+export function useForwardLayoutRef<T>(
   ref: ForwardedRef<T>,
   value: T,
   onSet?: (value: T) => void,
   onUnset?: () => void
 ): void {
-  useEffect(() => {
+  useLayoutEffect(() => {
     onSet?.(value);
 
     if (ref) {
@@ -31,4 +31,4 @@ export function useForwardRef<T>(
   }, [onSet, onUnset, ref, value]);
 }
 
-export default useForwardRef;
+export default useForwardLayoutRef;

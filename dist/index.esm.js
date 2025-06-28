@@ -154,8 +154,9 @@ function equal(v1, v2) {
     else {
         return v1 === v2;
     }
-}function useForwardRef(ref, value) {
+}function useForwardLayoutRef(ref, value, onSet, onUnset) {
     useLayoutEffect(function () {
+        onSet === null || onSet === void 0 ? void 0 : onSet(value);
         if (ref) {
             if (typeof ref === 'function') {
                 ref(value);
@@ -165,6 +166,7 @@ function equal(v1, v2) {
             }
         }
         return function () {
+            onUnset === null || onUnset === void 0 ? void 0 : onUnset();
             if (ref) {
                 if (typeof ref === 'function') {
                     ref(null);
@@ -174,7 +176,30 @@ function equal(v1, v2) {
                 }
             }
         };
-    }, [ref, value]);
+    }, [onSet, onUnset, ref, value]);
+}function useForwardRef(ref, value, onSet, onUnset) {
+    useEffect(function () {
+        onSet === null || onSet === void 0 ? void 0 : onSet(value);
+        if (ref) {
+            if (typeof ref === 'function') {
+                ref(value);
+            }
+            else {
+                ref.current = value;
+            }
+        }
+        return function () {
+            onUnset === null || onUnset === void 0 ? void 0 : onUnset();
+            if (ref) {
+                if (typeof ref === 'function') {
+                    ref(null);
+                }
+                else {
+                    ref.current = null;
+                }
+            }
+        };
+    }, [onSet, onUnset, ref, value]);
 }function useAutoUpdateRef(value) {
     var valueRef = useRef(value);
     var _a = useState(0), setUpdateValue = _a[1];
@@ -273,4 +298,4 @@ function ifUndefined(v, v2) {
         }, ms);
     }, []);
     return [ref, setIntervalFunc];
-}export{clearIntervalRef,clearTimeoutRef,useAutoForceUpdate,useAutoUpdateLayoutRef,useAutoUpdateLayoutRefState,useAutoUpdateLayoutState,useAutoUpdateRef,useAutoUpdateRefState,useAutoUpdateState,useFirstSkipEffect,useFirstSkipLayoutEffect,useForceUpdate,useForwardRef,useIntervalRef,useLayoutPerformance,usePerformance,useTimeoutRef};
+}export{clearIntervalRef,clearTimeoutRef,useAutoForceUpdate,useAutoUpdateLayoutRef,useAutoUpdateLayoutRefState,useAutoUpdateLayoutState,useAutoUpdateRef,useAutoUpdateRefState,useAutoUpdateState,useFirstSkipEffect,useFirstSkipLayoutEffect,useForceUpdate,useForwardLayoutRef,useForwardRef,useIntervalRef,useLayoutPerformance,usePerformance,useTimeoutRef};
