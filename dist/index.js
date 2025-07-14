@@ -142,6 +142,7 @@ function ifUndefined(v, v2) {
     if (initialValue === void 0) { initialValue = true; }
     var isMountedRef = react.useRef(initialValue);
     react.useEffect(function () {
+        isMountedRef.current = true;
         return function () {
             isMountedRef.current = false;
         };
