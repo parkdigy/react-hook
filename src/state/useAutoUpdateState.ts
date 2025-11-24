@@ -14,8 +14,9 @@ export function useAutoUpdateState<T extends Func, Callback extends (state: neve
 // state 와 callback 함수를 받는 경우 (T를 지정한경우) (state 에 function 지정 불가)
 export function useAutoUpdateState<
   T,
-  Callback extends (state: T) => T,
-  Result = [T, (value: SetStateAction<T>, skipCallback?: boolean) => T],
+  TState,
+  Callback extends (state: T) => TState,
+  Result = [TState, (value: SetStateAction<TState>, skipCallback?: boolean) => TState],
 >(state: T, callback: Callback): Result;
 // 구현부
 export function useAutoUpdateState(state: any, callback?: any) {
