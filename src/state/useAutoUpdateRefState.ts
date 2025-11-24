@@ -15,9 +15,8 @@ export function useAutoUpdateRefState<T extends Func, Callback extends (state: n
 export function useAutoUpdateRefState<
   T,
   TState,
-  Callback extends (state: T) => TState,
   Result = [RefObject<TState>, TState, (value: SetStateAction<TState>, skipCallback?: boolean) => TState],
->(state: T, callback: Callback): Result;
+>(state: T, callback: (state: T) => TState): Result;
 // 구현부
 export function useAutoUpdateRefState(state: any, callback?: any) {
   const valueRef = useRef(callback ? callback(state) : state);

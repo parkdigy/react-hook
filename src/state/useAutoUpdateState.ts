@@ -15,9 +15,8 @@ export function useAutoUpdateState<T extends Func, Callback extends (state: neve
 export function useAutoUpdateState<
   T,
   TState,
-  Callback extends (state: T) => TState,
   Result = [TState, (value: SetStateAction<TState>, skipCallback?: boolean) => TState],
->(state: T, callback: Callback): Result;
+>(state: T, callback: (state: T) => TState): Result;
 // 구현부
 export function useAutoUpdateState(state: any, callback?: any) {
   const [_value, _setValue] = useState(() => (callback ? callback(state) : state));
