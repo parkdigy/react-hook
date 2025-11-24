@@ -1,6 +1,10 @@
 import { RefObject, SetStateAction, useCallback, useRef, useState } from 'react';
 import { useFirstSkipEffect } from '../effect';
 
+// state에 Array 값만 받는 경우 (state 에 function 지정 불가)
+export function useAutoUpdateRefState<T extends readonly any[] | undefined | null>(
+  state: T
+): [RefObject<T>, T, (value: SetStateAction<T>) => T];
 // state 값만 받는 경우 (state 에 function 지정 불가)
 export function useAutoUpdateRefState<T>(
   state: Exclude<T, (...args: any[]) => any>

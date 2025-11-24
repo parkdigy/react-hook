@@ -1,6 +1,10 @@
 import { SetStateAction, useCallback, useState } from 'react';
 import { useFirstSkipEffect } from '../effect';
 
+// state에 Array 값만 받는 경우 (state 에 function 지정 불가)
+export function useAutoUpdateState<T extends readonly any[] | undefined | null>(
+  state: T
+): [T, (value: SetStateAction<T>) => T];
 // state 값만 받는 경우 (state 에 function 지정 불가)
 export function useAutoUpdateState<T>(state: Exclude<T, (...args: any[]) => any>): [T, (value: SetStateAction<T>) => T];
 // state 와 callback 함수를 받는 경우 (T를 지정한경우) (state 에 function 지정 불가)
