@@ -1,8 +1,4 @@
 import { SetStateAction } from 'react';
-export declare function useAutoUpdateState<T extends readonly any[] | undefined | null>(state: T): [T, (value: SetStateAction<T>) => T];
-export declare function useAutoUpdateState<T>(state: Exclude<T, (...args: any[]) => any>): [T, (value: SetStateAction<T>) => T];
-export declare function useAutoUpdateState<T>(state: Exclude<T, (...args: any[]) => any>, callback: (state: T) => T): [T, (value: SetStateAction<T>, skipCallback?: boolean) => T];
-export declare function useAutoUpdateState<T = never, StateT = never>(state: Exclude<StateT, (...args: any[]) => any>, callback: (state: T | StateT) => T extends never ? StateT : T): [
-    T extends never ? StateT : T,
-    (value: SetStateAction<T | StateT>, skipCallback?: boolean) => T extends never ? StateT : T
-];
+import { Func } from '@pdg/types';
+export declare function useAutoUpdateState<T, V extends T extends Func ? never : T, Result = T extends Func ? never : [V, (value: SetStateAction<V>) => V]>(state: T): Result;
+export declare function useAutoUpdateState<T, V extends T extends Func ? never : T, Callback extends (state: V) => V, Result = T extends Func ? never : [V, (value: SetStateAction<V>, skipCallback?: boolean) => V]>(state: T, callback: Callback): Result;

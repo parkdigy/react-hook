@@ -7,12 +7,12 @@ const Home = () => {
    * ******************************************************************************************************************/
 
   const [value1, setValue1] = useState(0);
-  const [value2] = useAutoUpdateState<number>(
+  const [value2] = useAutoUpdateState(
     useMemo(() => {
       return value1 * 2;
     }, [value1])
   );
-  const [value3Ref, value3] = useAutoUpdateRefState<number>(useMemo(() => value1 * 3, [value1]));
+  const [value3Ref, value3] = useAutoUpdateRefState(value1, (v) => v * 3);
 
   /********************************************************************************************************************
    * Effect

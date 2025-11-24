@@ -1,28 +1,20 @@
 import { RefObject, SetStateAction, useCallback, useRef, useState } from 'react';
 import { useFirstSkipEffect } from '../effect';
+import { Func } from '@pdg/types';
 
-// state에 Array 값만 받는 경우 (state 에 function 지정 불가)
-export function useAutoUpdateRefState<T extends readonly any[] | undefined | null>(
-  state: T
-): [RefObject<T>, T, (value: SetStateAction<T>) => T];
 // state 값만 받는 경우 (state 에 function 지정 불가)
-export function useAutoUpdateRefState<T>(
-  state: Exclude<T, (...args: any[]) => any>
-): [RefObject<T>, T, (value: SetStateAction<T>) => T];
+export function useAutoUpdateRefState<
+  T,
+  V extends T extends Func ? never : T,
+  Result = T extends Func ? never : [RefObject<V>, V, (value: SetStateAction<V>) => V],
+>(state: T): Result;
 // state 와 callback 함수를 받는 경우 (T를 지정한경우) (state 에 function 지정 불가)
-export function useAutoUpdateRefState<T>(
-  state: Exclude<T, (...args: any[]) => any>,
-  callback: (state: T) => T
-): [RefObject<T>, T, (value: SetStateAction<T>, skipCallback?: boolean) => T];
-// state 와 callback 함수를 받는 경우 (state 에 function 지정 불가)
-export function useAutoUpdateRefState<T = never, StateT = never>(
-  state: Exclude<StateT, (...args: any[]) => any>,
-  callback: (state: T | StateT) => T extends never ? StateT : T
-): [
-  RefObject<T extends never ? StateT : T>,
-  T extends never ? StateT : T,
-  (value: SetStateAction<T | StateT>, skipCallback?: boolean) => T extends never ? StateT : T,
-];
+export function useAutoUpdateRefState<
+  T,
+  V extends T extends Func ? never : T,
+  Callback extends (state: V) => V,
+  Result = T extends Func ? never : [RefObject<V>, V, (value: SetStateAction<V>, skipCallback?: boolean) => V],
+>(state: T, callback: Callback): Result;
 // 구현부
 export function useAutoUpdateRefState(state: any, callback?: any) {
   const valueRef = useRef(callback ? callback(state) : state);
