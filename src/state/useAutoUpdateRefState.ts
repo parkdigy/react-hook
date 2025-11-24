@@ -14,9 +14,14 @@ export function useAutoUpdateRefState<T extends Func, Callback extends (state: n
 // state 와 callback 함수를 받는 경우 (T를 지정한경우) (state 에 function 지정 불가)
 export function useAutoUpdateRefState<
   T,
-  TState,
-  Result = [RefObject<TState>, TState, (value: SetStateAction<TState>, skipCallback?: boolean) => TState],
->(state: T, callback: (state: T) => TState): Result;
+  TCallbackValue,
+  TCallbackResult,
+  Result = [
+    RefObject<TCallbackResult>,
+    TCallbackResult,
+    (value: SetStateAction<TCallbackValue>, skipCallback?: boolean) => TCallbackResult,
+  ],
+>(state: T, callback: (state: TCallbackValue) => TCallbackResult): Result;
 // 구현부
 export function useAutoUpdateRefState(state: any, callback?: any) {
   const valueRef = useRef(callback ? callback(state) : state);

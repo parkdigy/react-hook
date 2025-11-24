@@ -1,7 +1,7 @@
 {
   "name": "@pdg/react-hook",
   "title": "React Hook",
-  "version": "1.0.38",
+  "version": "1.0.39",
   "description": "React Hook",
   "type": "module",
   "types": "dist/index.d.ts",
