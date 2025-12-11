@@ -2,7 +2,7 @@
   "name": "@pdg/react-hook",
   "title": "Typescript React Hook Module",
   "description": "Typescript React Hook Module",
-  "version": "1.0.41",
+  "version": "1.0.42",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.esm.js",
@@ -54,9 +54,11 @@
     "react": ">=17.0.0",
     "react-dom": ">=17.0.0"
   },
+  "dependencies": {
+    "@pdg/types": "^1.0.9"
+  },
   "devDependencies": {
     "@eslint/js": "9.39.1",
-    "@pdg/types": "1.0.9",
     "@rollup/plugin-commonjs": "29.0.0",
     "@rollup/plugin-node-resolve": "16.0.3",
     "@types/node": "^22.19.2",
