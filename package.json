@@ -1,8 +1,8 @@
 {
-  "name": "@pdg/npm-react-admin-layout-template",
-  "title": "NPM React Admin Layout Template",
-  "description": "NPM React Admin Layout Template",
-  "version": "1.0.0",
+  "name": "@pdg/react-hook",
+  "title": "Typescript React Hook Module",
+  "description": "Typescript React Hook Module",
+  "version": "1.0.41",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.esm.js",
@@ -16,13 +16,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/parkdigy/npm-react-admin-layout-template.git",
-    "baseUrl": "https://github.com/parkdigy/npm-react-admin-layout-template"
+    "url": "git+https://github.com/parkdigy/react-hook.git",
+    "baseUrl": "https://github.com/parkdigy/react-hook"
   },
   "bugs": {
-    "url": "https://github.com/parkdigy/npm-react-admin-layout-template/issues"
+    "url": "https://github.com/parkdigy/react-hook/issues"
   },
-  "homepage": "https://github.com/parkdigy/npm-react-admin-layout-template#readme",
+  "homepage": "https://github.com/parkdigy/react-hook#readme",
   "files": [
     "dist",
     "README.md"
@@ -55,6 +55,7 @@
   },
   "devDependencies": {
     "@eslint/js": "9.39.1",
+    "@pdg/types": "1.0.9",
     "@rollup/plugin-commonjs": "29.0.0",
     "@rollup/plugin-node-resolve": "16.0.3",
     "@types/node": "^22.19.2",
