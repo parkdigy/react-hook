@@ -93,7 +93,15 @@ function _unsupportedIterableToArray(r, a) {
   }
   React.useLayoutEffect(t0, t1);
   return valueRef;
-}// 구현부
+}// state 값을 Function 으로 지정한 경우 (사용 불가)
+
+// state 값만 받는 경우 (state 에 function 지정 불가)
+
+// state 값을 Function 으로 지정한 경우 (사용 불가)
+
+// state 와 callback 함수를 받는 경우 (T를 지정한경우) (state 에 function 지정 불가)
+
+// 구현부
 function useAutoUpdateRefState(state, callback) {
   var $ = compilerRuntime.c(16);
   var t0;
@@ -174,7 +182,15 @@ function useAutoUpdateRefState(state, callback) {
     t3 = $[15];
   }
   return t3;
-}// 구현부
+}// state 값을 Function 으로 지정한 경우 (사용 불가)
+
+// state 값만 받는 경우 (state 에 function 지정 불가)
+
+// state 값을 Function 으로 지정한 경우 (사용 불가)
+
+// state 와 callback 함수를 받는 경우 (T를 지정한경우) (state 에 function 지정 불가)
+
+// 구현부
 function useAutoUpdateState(state, callback) {
   var $ = compilerRuntime.c(15);
   var t0;
