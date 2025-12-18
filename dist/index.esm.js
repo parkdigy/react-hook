@@ -1,4 +1,4 @@
-import React,{useRef,useEffect,useLayoutEffect,useState}from'react';import {c}from'react/compiler-runtime';function _arrayLikeToArray(r, a) {
+import React,{useRef,useEffect,useLayoutEffect,useState,useImperativeHandle}from'react';import {c}from'react/compiler-runtime';function _arrayLikeToArray(r, a) {
   (null == a || a > r.length) && (a = r.length);
   for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
   return n;
@@ -438,4 +438,46 @@ function useAutoUpdateState(state, callback) {
     t0 = $[1];
   }
   return t0;
-}export{clearIntervalRef,clearTimeoutRef,useAutoUpdateRef,useAutoUpdateRefState,useAutoUpdateState,useChange,useIntervalRef,useMountedRef,useRefState,useSafeState,useSafeUpdate,useTimeoutRef};
+}function useForwardRef(ref, value, onSet, onUnset) {
+  var $ = c(8);
+  var onSetRef = useAutoUpdateRef(onSet);
+  var onUnsetRef = useAutoUpdateRef(onUnset);
+  var t0;
+  var t1;
+  if ($[0] !== value) {
+    t0 = function t0() {
+      return value;
+    };
+    t1 = [value];
+    $[0] = value;
+    $[1] = t0;
+    $[2] = t1;
+  } else {
+    t0 = $[1];
+    t1 = $[2];
+  }
+  useImperativeHandle(ref, t0, t1);
+  var t2;
+  var t3;
+  if ($[3] !== onSetRef || $[4] !== onUnsetRef || $[5] !== value) {
+    t2 = function t2() {
+      var _onSetRef$current;
+      (_onSetRef$current = onSetRef.current) === null || _onSetRef$current === void 0 || _onSetRef$current.call(onSetRef, value);
+      return function () {
+        var _onUnsetRef$current;
+        (_onUnsetRef$current = onUnsetRef.current) === null || _onUnsetRef$current === void 0 || _onUnsetRef$current.call(onUnsetRef);
+        onUnsetRef.current = undefined;
+      };
+    };
+    t3 = [onSetRef, onUnsetRef, value];
+    $[3] = onSetRef;
+    $[4] = onUnsetRef;
+    $[5] = value;
+    $[6] = t2;
+    $[7] = t3;
+  } else {
+    t2 = $[6];
+    t3 = $[7];
+  }
+  useEffect(t2, t3);
+}export{clearIntervalRef,clearTimeoutRef,useAutoUpdateRef,useAutoUpdateRefState,useAutoUpdateState,useChange,useForwardRef,useIntervalRef,useMountedRef,useRefState,useSafeState,useSafeUpdate,useTimeoutRef};
