@@ -1,8 +1,8 @@
-import { ForwardedRef, useImperativeHandle, useEffect } from 'react';
+import React, { useImperativeHandle, useEffect } from 'react';
 import { useAutoUpdateRef } from '../ref';
 
 export function useForwardRef<T>(
-  ref: ForwardedRef<T>,
+  ref: React.Ref<T> | undefined,
   value: T,
   onSet?: (value: T) => void,
   onUnset?: () => void
