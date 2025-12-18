@@ -1,13 +1,10 @@
-import { RefObject, useRef, useState } from 'react';
-import { useFirstSkipEffect } from '../effect';
+import { RefObject, useLayoutEffect, useRef } from 'react';
 
 export function useAutoUpdateRef<T>(value: T): RefObject<T> {
   const valueRef = useRef(value);
-  const [, setUpdateValue] = useState(0);
 
-  useFirstSkipEffect(() => {
+  useLayoutEffect(() => {
     valueRef.current = value;
-    setUpdateValue((prev) => prev + 1);
   }, [value]);
 
   return valueRef;

@@ -1,6 +1,6 @@
-import { SetStateAction, useCallback, useState } from 'react';
-import { useFirstSkipEffect } from '../effect';
+import { SetStateAction, useState } from 'react';
 import { Func } from '@pdg/types';
+import { useAutoUpdateRef } from '../ref';
 
 // state 값을 Function 으로 지정한 경우 (사용 불가)
 export function useAutoUpdateState<T extends Func, Result = never>(state: T): Result;
@@ -20,29 +20,30 @@ export function useAutoUpdateState<
 >(state: T, callback: (state: TCallbackValue) => TCallbackResult): Result;
 // 구현부
 export function useAutoUpdateState(state: any, callback?: any) {
+  const [prevProps, setPrevProps] = useState({ state, callback });
   const [_value, _setValue] = useState(() => (callback ? callback(state) : state));
 
-  useFirstSkipEffect(() => {
-    _setValue(callback ? callback(state) : state);
-  }, [state]);
+  let finalValue = _value;
+  if (state !== prevProps.state || callback !== prevProps.callback) {
+    finalValue = callback ? callback(state) : state;
+    setPrevProps({ state, callback });
+    _setValue(finalValue);
+  }
 
-  const setValue = useCallback(
-    (newValue: any, skipCallback?: boolean) => {
-      let finalNewValue = newValue;
-      if (typeof finalNewValue === 'function') {
-        _setValue((prev: any) => {
-          finalNewValue = finalNewValue(prev);
-          finalNewValue = !skipCallback && callback ? callback(finalNewValue) : finalNewValue;
-          return finalNewValue;
-        });
-      } else {
-        finalNewValue = !skipCallback && callback ? callback(finalNewValue) : finalNewValue;
-        _setValue(finalNewValue);
-      }
-      return finalNewValue;
-    },
-    [callback]
-  );
+  // setValue 함수 재생성을 막기 위해 finalValueRef, callbackRef 사용
+  const finalValueRef = useAutoUpdateRef(finalValue);
+  const callbackRef = useAutoUpdateRef(callback);
 
-  return [_value, setValue];
+  const setValue = (newValue: any, skipCallback?: boolean) => {
+    const resolvedValue = typeof newValue === 'function' ? newValue(finalValueRef.current) : newValue;
+    const nextValue = !skipCallback && callbackRef.current ? callbackRef.current(resolvedValue) : resolvedValue;
+
+    // setValue 연속 호출 시 최신 값을 참조할 수 있도록 처리
+    finalValueRef.current = nextValue;
+
+    _setValue(nextValue);
+    return nextValue;
+  };
+
+  return [finalValue, setValue] as const;
 }

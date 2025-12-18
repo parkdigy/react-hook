@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { clearIntervalRef } from './clearIntervalRef';
 
 export type UseIntervalReturnValue = [
@@ -15,16 +15,13 @@ export function useIntervalRef(): UseIntervalReturnValue {
     };
   }, []);
 
-  const setIntervalFunc = useCallback(
-    (callback: (ref: React.RefObject<NodeJS.Timeout | undefined>) => void, ms?: number) => {
-      clearIntervalRef(ref);
+  const setIntervalFunc = (callback: (ref: React.RefObject<NodeJS.Timeout | undefined>) => void, ms?: number) => {
+    clearIntervalRef(ref);
 
-      ref.current = setInterval(() => {
-        callback(ref);
-      }, ms);
-    },
-    []
-  );
+    ref.current = setInterval(() => {
+      callback(ref);
+    }, ms);
+  };
 
   return [ref, setIntervalFunc];
 }

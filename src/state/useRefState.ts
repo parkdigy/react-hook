@@ -1,4 +1,4 @@
-import { Dispatch, RefObject, SetStateAction, useCallback, useRef, useState } from 'react';
+import { Dispatch, RefObject, SetStateAction, useRef, useState } from 'react';
 
 export function useRefState<S>(initialState: S | (() => S)): [RefObject<S>, S, Dispatch<SetStateAction<S>>];
 export function useRefState<S = undefined>(): [
@@ -12,18 +12,13 @@ export function useRefState<S>(
   const [_value, _setValue] = useState(initialState);
   const valueRef = useRef(_value);
 
-  const setValue = useCallback((value: any) => {
-    if (typeof value === 'function') {
-      _setValue((prev) => {
-        const finalValue = value(prev);
-        valueRef.current = finalValue;
-        return finalValue;
-      });
-    } else {
-      valueRef.current = value;
-      _setValue(value);
-    }
-  }, []);
+  const setValue = (value: any) => {
+    _setValue((prev) => {
+      const nextValue = typeof value === 'function' ? value(prev) : value;
+      valueRef.current = nextValue;
+      return nextValue;
+    });
+  };
 
-  return [valueRef, _value, setValue];
+  return [valueRef, _value, setValue] as const;
 }

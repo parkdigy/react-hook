@@ -1,13 +1,18 @@
-import { useCallback } from 'react';
-import { useMountedRef } from '../mount';
+import { useCallback, useEffect, useRef } from 'react';
 
 export function useSafeUpdate() {
-  const mountedRef = useMountedRef();
+  const mountedRef = useRef(false);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
 
   return useCallback((callback: () => void) => {
     if (mountedRef.current) {
       callback();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 }

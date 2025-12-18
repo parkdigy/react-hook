@@ -1,6 +1,6 @@
-import { RefObject, SetStateAction, useCallback, useRef, useState } from 'react';
-import { useFirstSkipEffect } from '../effect';
+import { RefObject, SetStateAction, useState } from 'react';
 import { Func } from '@pdg/types';
+import { useAutoUpdateRef } from '../ref';
 
 // state 값을 Function 으로 지정한 경우 (사용 불가)
 export function useAutoUpdateRefState<T extends Func, Result = never>(state: T): Result;
@@ -24,49 +24,30 @@ export function useAutoUpdateRefState<
 >(state: T, callback: (state: TCallbackValue) => TCallbackResult): Result;
 // 구현부
 export function useAutoUpdateRefState(state: any, callback?: any) {
-  const valueRef = useRef(callback ? callback(state) : state);
+  const [prevProps, setPrevProps] = useState({ state, callback });
   const [_value, _setValue] = useState(() => (callback ? callback(state) : state));
 
-  useFirstSkipEffect(() => {
-    const newValue = callback ? callback(state) : state;
-    if (!equal(valueRef.current, newValue)) {
-      valueRef.current = newValue;
-      _setValue(newValue);
-    }
-  }, [state]);
-
-  const setValue = useCallback(
-    (newValue: any, skipCallback?: boolean) => {
-      let finalNewValue = newValue;
-      if (typeof finalNewValue === 'function') {
-        _setValue((prev: any) => {
-          finalNewValue = finalNewValue(prev);
-          finalNewValue = !skipCallback && callback ? callback(finalNewValue) : finalNewValue;
-          return finalNewValue;
-        });
-      } else {
-        finalNewValue = !skipCallback && callback ? callback(finalNewValue) : finalNewValue;
-        _setValue(finalNewValue);
-      }
-      valueRef.current = finalNewValue;
-      return finalNewValue;
-    },
-    [callback]
-  );
-
-  return [valueRef, _value, setValue];
-}
-
-/********************************************************************************************************************
- * equal
- * ******************************************************************************************************************/
-function equal(v1: any, v2: any): boolean {
-  if (v1 === v2) return true;
-  if (typeof v1 !== typeof v2) return false;
-  if (v1 == null || v2 == null) return false;
-  if (typeof v1 === 'object' && typeof v2 === 'object') {
-    return JSON.stringify(v1) === JSON.stringify(v2);
-  } else {
-    return v1 === v2;
+  let finalValue = _value;
+  if (state !== prevProps.state || callback !== prevProps.callback) {
+    finalValue = callback ? callback(state) : state;
+    setPrevProps({ state, callback });
+    _setValue(finalValue);
   }
+
+  // setValue 함수 재생성을 막기 위해 finalValueRef, callbackRef 사용
+  const finalValueRef = useAutoUpdateRef(finalValue);
+  const callbackRef = useAutoUpdateRef(callback);
+
+  const setValue = (newValue: any, skipCallback?: boolean) => {
+    const resolvedValue = typeof newValue === 'function' ? newValue(finalValueRef.current) : newValue;
+    const nextValue = !skipCallback && callbackRef.current ? callbackRef.current(resolvedValue) : resolvedValue;
+
+    // setValue 연속 호출 시 최신 값을 참조할 수 있도록 처리
+    finalValueRef.current = nextValue;
+
+    _setValue(nextValue);
+    return nextValue;
+  };
+
+  return [finalValueRef, _value, setValue];
 }
