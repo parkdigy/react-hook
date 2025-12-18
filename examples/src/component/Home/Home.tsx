@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useAutoUpdateState, useIntervalRef } from '../../../../src';
+import { useIntervalRef } from '../../../../src';
 
 const Home = () => {
   /********************************************************************************************************************
@@ -13,7 +13,6 @@ const Home = () => {
    * ******************************************************************************************************************/
 
   const [value1, setValue1] = useState(0);
-  const [value2] = useAutoUpdateState(value1 * 2);
 
   /********************************************************************************************************************
    * Effect
@@ -32,7 +31,6 @@ const Home = () => {
   return (
     <div>
       <div>value1 : {value1}</div>
-      <div>value2 : {value2}</div>
     </div>
   );
 };
