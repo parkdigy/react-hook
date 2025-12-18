@@ -1,18 +1,11 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useMountedRef } from '../mount';
 
 export function useSafeUpdate() {
-  const mountedRef = useRef(false);
+  const mountedRef = useMountedRef();
 
-  useEffect(() => {
-    mountedRef.current = true;
-    return () => {
-      mountedRef.current = false;
-    };
-  }, []);
-
-  return useCallback((callback: () => void) => {
+  return (callback: () => void) => {
     if (mountedRef.current) {
       callback();
     }
-  }, []);
+  };
 }

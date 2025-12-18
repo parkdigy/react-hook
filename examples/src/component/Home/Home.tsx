@@ -1,32 +1,38 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useAutoUpdateRefState, useAutoUpdateState } from '../../../../src';
+import React, { useEffect, useState } from 'react';
+import { useAutoUpdateState, useChange, useIntervalRef } from '../../../../src';
 
 const Home = () => {
+  /********************************************************************************************************************
+   * Use
+   * ******************************************************************************************************************/
+
+  const [, setUpdateInterval] = useIntervalRef();
+
   /********************************************************************************************************************
    * State
    * ******************************************************************************************************************/
 
   const [value1, setValue1] = useState(0);
-  const [value2] = useAutoUpdateState(
-    useMemo(() => {
-      return value1 * 2;
-    }, [value1])
-  );
-  const [value3Ref, value3] = useAutoUpdateRefState(value1, (v: number) => v * 3);
+  const [value2] = useAutoUpdateState(value1 * 2);
+  const [value3, setValue3] = useState(value1 * 3);
 
   /********************************************************************************************************************
    * Effect
    * ******************************************************************************************************************/
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setValue1((oldValue) => oldValue + 1);
-    }, 1000);
+  useChange(
+    value1,
+    () => {
+      setValue3(value1 * 3);
+    },
+    true
+  );
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+  useEffect(() => {
+    setUpdateInterval(() => {
+      setValue1((prev) => prev + 1);
+    }, 1000);
+  }, [setUpdateInterval]);
 
   /********************************************************************************************************************
    * Render
@@ -36,9 +42,7 @@ const Home = () => {
     <div>
       <div>value1 : {value1}</div>
       <div>value2 : {value2}</div>
-      <div>
-        value3 : {value3Ref.current} {value3}
-      </div>
+      <div>value2 : {value3}</div>
     </div>
   );
 };

@@ -1,278 +1,425 @@
-'use strict';var react=require('react');function useFirstSkipEffect(effect, deps) {
-    const firstRef = react.useRef(true);
-    react.useEffect(() => {
-        if (firstRef.current) {
-            firstRef.current = false;
-        }
-        else {
-            effect();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, deps);
-}function useFirstSkipLayoutEffect(effect, deps) {
-    const firstRef = react.useRef(true);
-    react.useLayoutEffect(() => {
-        if (firstRef.current) {
-            firstRef.current = false;
-        }
-        else {
-            effect();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, deps);
-}function useAutoForceUpdate(interval) {
-    const [, setTick] = react.useState(0);
-    react.useEffect(() => {
-        const tm = setInterval(() => {
-            setTick((old) => {
-                return old + 1;
-            });
-        }, interval);
-        return () => {
-            clearInterval(tm);
-        };
-    }, [interval]);
-}function clearIntervalRef(ref) {
-    if (ref.current) {
-        clearInterval(ref.current);
-        ref.current = undefined;
-    }
-}function clearTimeoutRef(ref) {
-    if (ref.current) {
-        clearTimeout(ref.current);
-        ref.current = undefined;
-    }
-}function useIntervalRef() {
-    const ref = react.useRef(undefined);
-    react.useEffect(() => {
-        return () => {
-            clearIntervalRef(ref);
-        };
-    }, []);
-    const setIntervalFunc = react.useCallback((callback, ms) => {
-        clearIntervalRef(ref);
-        ref.current = setInterval(() => {
-            callback(ref);
-        }, ms);
-    }, []);
-    return [ref, setIntervalFunc];
-}function useTimeoutRef() {
-    const ref = react.useRef(undefined);
-    react.useEffect(() => {
-        return () => {
-            clearTimeoutRef(ref);
-        };
-    }, []);
-    const setTimeoutFunc = react.useCallback((callback, ms) => {
-        clearTimeoutRef(ref);
-        ref.current = setTimeout(() => {
-            ref.current = undefined;
-            callback();
-        }, ms);
-    }, []);
-    return [ref, setTimeoutFunc];
-}function useForceUpdate(delayMilliseconds) {
-    const [, setDelayTimeout] = useTimeoutRef();
-    const [, setValue] = react.useState(0);
-    return react.useCallback((delay) => {
-        if (ifUndefined(delay, delayMilliseconds) !== undefined) {
-            setDelayTimeout(() => {
-                setValue((old) => old + 1);
-            }, ifUndefined(delay, delayMilliseconds));
-        }
-        else {
-            setValue((old) => old + 1);
-        }
-    }, 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [delayMilliseconds]);
+'use strict';var React=require('react'),compilerRuntime=require('react/compiler-runtime');function _arrayLikeToArray(r, a) {
+  (null == a || a > r.length) && (a = r.length);
+  for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
+  return n;
 }
-/********************************************************************************************************************
- * ifUndefined
- * ******************************************************************************************************************/
-function ifUndefined(v, v2) {
-    return v === undefined ? v2 : v;
-}function useForwardLayoutRef(ref, value, onSet, onUnset) {
-    react.useLayoutEffect(() => {
-        onSet === null || onSet === void 0 ? void 0 : onSet(value);
-        if (ref) {
-            if (typeof ref === 'function') {
-                ref(value);
-            }
-            else {
-                ref.current = value;
-            }
-        }
-        return () => {
-            onUnset === null || onUnset === void 0 ? void 0 : onUnset();
-            if (ref) {
-                if (typeof ref === 'function') {
-                    ref(null);
-                }
-                else {
-                    ref.current = null;
-                }
-            }
-        };
-    }, [onSet, onUnset, ref, value]);
-}function useForwardRef(ref, value, onSet, onUnset) {
-    react.useEffect(() => {
-        onSet === null || onSet === void 0 ? void 0 : onSet(value);
-        if (ref) {
-            if (typeof ref === 'function') {
-                ref(value);
-            }
-            else {
-                ref.current = value;
-            }
-        }
-        return () => {
-            onUnset === null || onUnset === void 0 ? void 0 : onUnset();
-            if (ref) {
-                if (typeof ref === 'function') {
-                    ref(null);
-                }
-                else {
-                    ref.current = null;
-                }
-            }
-        };
-    }, [onSet, onUnset, ref, value]);
-}function useMountedRef(initialValue = true) {
-    const isMountedRef = react.useRef(initialValue);
-    react.useEffect(() => {
-        isMountedRef.current = true;
-        return () => {
-            isMountedRef.current = false;
-        };
-    }, []);
-    return isMountedRef;
-}function useLayoutPerformance(name) {
-    const beginTime = performance.now();
-    react.useLayoutEffect(() => {
-        console.log('Layout Performance', '-', name, performance.now() - beginTime);
-    });
-}function usePerformance(name) {
-    const beginTime = performance.now();
-    react.useEffect(() => {
-        console.log('Performance', '-', name, performance.now() - beginTime);
-    });
-}function useAutoUpdateLayoutRef(value) {
-    const valueRef = react.useRef(value);
-    const [, setUpdateValue] = react.useState(0);
-    useFirstSkipLayoutEffect(() => {
-        valueRef.current = value;
-        setUpdateValue((prev) => prev + 1);
-    }, [value]);
-    return valueRef;
+function _arrayWithHoles(r) {
+  if (Array.isArray(r)) return r;
+}
+function _iterableToArrayLimit(r, l) {
+  var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
+  if (null != t) {
+    var e,
+      n,
+      i,
+      u,
+      a = [],
+      f = true,
+      o = false;
+    try {
+      if (i = (t = t.call(r)).next, 0 === l) ; else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0);
+    } catch (r) {
+      o = true, n = r;
+    } finally {
+      try {
+        if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return;
+      } finally {
+        if (o) throw n;
+      }
+    }
+    return a;
+  }
+}
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _slicedToArray(r, e) {
+  return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest();
+}
+function _unsupportedIterableToArray(r, a) {
+  if (r) {
+    if ("string" == typeof r) return _arrayLikeToArray(r, a);
+    var t = {}.toString.call(r).slice(8, -1);
+    return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0;
+  }
+}function useChange(value, callback, t0) {
+  var skipFirst = t0 === undefined ? false : t0;
+  var _React$useState = React.useState(skipFirst ? false : "|||||skip|||||first|||||"),
+    _React$useState2 = _slicedToArray(_React$useState, 2),
+    _value = _React$useState2[0],
+    _setValue = _React$useState2[1];
+  if (value !== _value) {
+    _setValue(value);
+    callback();
+  }
+}function useMountedRef(t0) {
+  var $ = compilerRuntime.c(2);
+  var initialValue = t0 === undefined ? true : t0;
+  var isMountedRef = React.useRef(initialValue);
+  var t1;
+  var t2;
+  if ($[0] === Symbol["for"]("react.memo_cache_sentinel")) {
+    t1 = function t1() {
+      isMountedRef.current = true;
+      return function () {
+        isMountedRef.current = false;
+      };
+    };
+    t2 = [];
+    $[0] = t1;
+    $[1] = t2;
+  } else {
+    t1 = $[0];
+    t2 = $[1];
+  }
+  React.useEffect(t1, t2);
+  return isMountedRef;
 }function useAutoUpdateRef(value) {
-    const valueRef = react.useRef(value);
-    const [, setUpdateValue] = react.useState(0);
-    useFirstSkipEffect(() => {
-        valueRef.current = value;
-        setUpdateValue((prev) => prev + 1);
-    }, [value]);
-    return valueRef;
+  var $ = compilerRuntime.c(3);
+  var valueRef = React.useRef(value);
+  var t0;
+  var t1;
+  if ($[0] !== value) {
+    t0 = function t0() {
+      valueRef.current = value;
+    };
+    t1 = [value];
+    $[0] = value;
+    $[1] = t0;
+    $[2] = t1;
+  } else {
+    t0 = $[1];
+    t1 = $[2];
+  }
+  React.useLayoutEffect(t0, t1);
+  return valueRef;
 }// 구현부
 function useAutoUpdateRefState(state, callback) {
-    const valueRef = react.useRef(callback ? callback(state) : state);
-    const [_value, _setValue] = react.useState(() => (callback ? callback(state) : state));
-    useFirstSkipEffect(() => {
-        const newValue = callback ? callback(state) : state;
-        if (!equal(valueRef.current, newValue)) {
-            valueRef.current = newValue;
-            _setValue(newValue);
-        }
-    }, [state]);
-    const setValue = react.useCallback((newValue, skipCallback) => {
-        let finalNewValue = newValue;
-        if (typeof finalNewValue === 'function') {
-            _setValue((prev) => {
-                finalNewValue = finalNewValue(prev);
-                finalNewValue = !skipCallback && callback ? callback(finalNewValue) : finalNewValue;
-                return finalNewValue;
-            });
-        }
-        else {
-            finalNewValue = !skipCallback && callback ? callback(finalNewValue) : finalNewValue;
-            _setValue(finalNewValue);
-        }
-        valueRef.current = finalNewValue;
-        return finalNewValue;
-    }, [callback]);
-    return [valueRef, _value, setValue];
-}
-/********************************************************************************************************************
- * equal
- * ******************************************************************************************************************/
-function equal(v1, v2) {
-    if (v1 === v2)
-        return true;
-    if (typeof v1 !== typeof v2)
-        return false;
-    if (v1 == null || v2 == null)
-        return false;
-    if (typeof v1 === 'object' && typeof v2 === 'object') {
-        return JSON.stringify(v1) === JSON.stringify(v2);
+  var $ = compilerRuntime.c(16);
+  var t0;
+  if ($[0] !== callback || $[1] !== state) {
+    t0 = {
+      state: state,
+      callback: callback
+    };
+    $[0] = callback;
+    $[1] = state;
+    $[2] = t0;
+  } else {
+    t0 = $[2];
+  }
+  var _useState = React.useState(t0),
+    _useState2 = _slicedToArray(_useState, 2),
+    prevProps = _useState2[0],
+    setPrevProps = _useState2[1];
+  var t1;
+  if ($[3] !== callback || $[4] !== state) {
+    t1 = function t1() {
+      return callback ? callback(state) : state;
+    };
+    $[3] = callback;
+    $[4] = state;
+    $[5] = t1;
+  } else {
+    t1 = $[5];
+  }
+  var _useState3 = React.useState(t1),
+    _useState4 = _slicedToArray(_useState3, 2),
+    _value = _useState4[0],
+    _setValue = _useState4[1];
+  var finalValue = _value;
+  if (state !== prevProps.state || callback !== prevProps.callback) {
+    var _t;
+    if ($[6] !== callback || $[7] !== state) {
+      _t = callback ? callback(state) : state;
+      $[6] = callback;
+      $[7] = state;
+      $[8] = _t;
+    } else {
+      _t = $[8];
     }
-    else {
-        return v1 === v2;
-    }
+    finalValue = _t;
+    setPrevProps({
+      state: state,
+      callback: callback
+    });
+    _setValue(finalValue);
+  }
+  var finalValueRef = useAutoUpdateRef(finalValue);
+  var callbackRef = useAutoUpdateRef(callback);
+  var t2;
+  if ($[9] !== callbackRef || $[10] !== finalValueRef) {
+    t2 = function t2(newValue, skipCallback) {
+      var resolvedValue = typeof newValue === "function" ? newValue(finalValueRef.current) : newValue;
+      var nextValue = !skipCallback && callbackRef.current ? callbackRef.current(resolvedValue) : resolvedValue;
+      finalValueRef.current = nextValue;
+      _setValue(nextValue);
+      return nextValue;
+    };
+    $[9] = callbackRef;
+    $[10] = finalValueRef;
+    $[11] = t2;
+  } else {
+    t2 = $[11];
+  }
+  var setValue = t2;
+  var t3;
+  if ($[12] !== _value || $[13] !== finalValueRef || $[14] !== setValue) {
+    t3 = [finalValueRef, _value, setValue];
+    $[12] = _value;
+    $[13] = finalValueRef;
+    $[14] = setValue;
+    $[15] = t3;
+  } else {
+    t3 = $[15];
+  }
+  return t3;
 }// 구현부
 function useAutoUpdateState(state, callback) {
-    const [_value, _setValue] = react.useState(() => (callback ? callback(state) : state));
-    useFirstSkipEffect(() => {
-        _setValue(callback ? callback(state) : state);
-    }, [state]);
-    const setValue = react.useCallback((newValue, skipCallback) => {
-        let finalNewValue = newValue;
-        if (typeof finalNewValue === 'function') {
-            _setValue((prev) => {
-                finalNewValue = finalNewValue(prev);
-                finalNewValue = !skipCallback && callback ? callback(finalNewValue) : finalNewValue;
-                return finalNewValue;
-            });
-        }
-        else {
-            finalNewValue = !skipCallback && callback ? callback(finalNewValue) : finalNewValue;
-            _setValue(finalNewValue);
-        }
-        return finalNewValue;
-    }, [callback]);
-    return [_value, setValue];
+  var $ = compilerRuntime.c(15);
+  var t0;
+  if ($[0] !== callback || $[1] !== state) {
+    t0 = {
+      state: state,
+      callback: callback
+    };
+    $[0] = callback;
+    $[1] = state;
+    $[2] = t0;
+  } else {
+    t0 = $[2];
+  }
+  var _useState = React.useState(t0),
+    _useState2 = _slicedToArray(_useState, 2),
+    prevProps = _useState2[0],
+    setPrevProps = _useState2[1];
+  var t1;
+  if ($[3] !== callback || $[4] !== state) {
+    t1 = function t1() {
+      return callback ? callback(state) : state;
+    };
+    $[3] = callback;
+    $[4] = state;
+    $[5] = t1;
+  } else {
+    t1 = $[5];
+  }
+  var _useState3 = React.useState(t1),
+    _useState4 = _slicedToArray(_useState3, 2),
+    _value = _useState4[0],
+    _setValue = _useState4[1];
+  var finalValue = _value;
+  if (state !== prevProps.state || callback !== prevProps.callback) {
+    var _t;
+    if ($[6] !== callback || $[7] !== state) {
+      _t = callback ? callback(state) : state;
+      $[6] = callback;
+      $[7] = state;
+      $[8] = _t;
+    } else {
+      _t = $[8];
+    }
+    finalValue = _t;
+    setPrevProps({
+      state: state,
+      callback: callback
+    });
+    _setValue(finalValue);
+  }
+  var finalValueRef = useAutoUpdateRef(finalValue);
+  var callbackRef = useAutoUpdateRef(callback);
+  var t2;
+  if ($[9] !== callbackRef || $[10] !== finalValueRef) {
+    t2 = function t2(newValue, skipCallback) {
+      var resolvedValue = typeof newValue === "function" ? newValue(finalValueRef.current) : newValue;
+      var nextValue = !skipCallback && callbackRef.current ? callbackRef.current(resolvedValue) : resolvedValue;
+      finalValueRef.current = nextValue;
+      _setValue(nextValue);
+      return nextValue;
+    };
+    $[9] = callbackRef;
+    $[10] = finalValueRef;
+    $[11] = t2;
+  } else {
+    t2 = $[11];
+  }
+  var setValue = t2;
+  var t3;
+  if ($[12] !== finalValue || $[13] !== setValue) {
+    t3 = [finalValue, setValue];
+    $[12] = finalValue;
+    $[13] = setValue;
+    $[14] = t3;
+  } else {
+    t3 = $[14];
+  }
+  return t3;
 }function useRefState(initialState) {
-    const [_value, _setValue] = react.useState(initialState);
-    const valueRef = react.useRef(_value);
-    const setValue = react.useCallback((value) => {
-        if (typeof value === 'function') {
-            _setValue((prev) => {
-                const finalValue = value(prev);
-                valueRef.current = finalValue;
-                return finalValue;
-            });
-        }
-        else {
-            valueRef.current = value;
-            _setValue(value);
-        }
-    }, []);
-    return [valueRef, _value, setValue];
+  var $ = compilerRuntime.c(3);
+  var _useState = React.useState(initialState),
+    _useState2 = _slicedToArray(_useState, 2),
+    _value = _useState2[0],
+    _setValue = _useState2[1];
+  var valueRef = React.useRef(_value);
+  var t0;
+  if ($[0] === Symbol["for"]("react.memo_cache_sentinel")) {
+    t0 = function t0(value) {
+      _setValue(function (prev) {
+        var nextValue = typeof value === "function" ? value(prev) : value;
+        valueRef.current = nextValue;
+        return nextValue;
+      });
+    };
+    $[0] = t0;
+  } else {
+    t0 = $[0];
+  }
+  var setValue = t0;
+  var t1;
+  if ($[1] !== _value) {
+    t1 = [valueRef, _value, setValue];
+    $[1] = _value;
+    $[2] = t1;
+  } else {
+    t1 = $[2];
+  }
+  return t1;
 }function useSafeState(initialState) {
-    const mountedRef = useMountedRef();
-    const [value, setValue] = react.useState(initialState);
-    const safeSetValue = react.useCallback((newValue) => {
-        if (mountedRef.current) {
-            setValue(newValue);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-    return [value, safeSetValue];
+  var $ = compilerRuntime.c(5);
+  var mountedRef = React.useRef(false);
+  var _useState = React.useState(initialState),
+    _useState2 = _slicedToArray(_useState, 2),
+    value = _useState2[0],
+    setValue = _useState2[1];
+  var t0;
+  var t1;
+  if ($[0] === Symbol["for"]("react.memo_cache_sentinel")) {
+    t0 = function t0() {
+      mountedRef.current = true;
+      return function () {
+        mountedRef.current = false;
+      };
+    };
+    t1 = [];
+    $[0] = t0;
+    $[1] = t1;
+  } else {
+    t0 = $[0];
+    t1 = $[1];
+  }
+  React.useEffect(t0, t1);
+  var t2;
+  if ($[2] === Symbol["for"]("react.memo_cache_sentinel")) {
+    t2 = function t2(newValue) {
+      if (mountedRef.current) {
+        setValue(newValue);
+      }
+    };
+    $[2] = t2;
+  } else {
+    t2 = $[2];
+  }
+  var safeSetValue = t2;
+  var t3;
+  if ($[3] !== value) {
+    t3 = [value, safeSetValue];
+    $[3] = value;
+    $[4] = t3;
+  } else {
+    t3 = $[4];
+  }
+  return t3;
+}function clearIntervalRef(ref) {
+  if (ref.current) {
+    clearInterval(ref.current);
+    ref.current = undefined;
+  }
+}function clearTimeoutRef(ref) {
+  if (ref.current) {
+    clearTimeout(ref.current);
+    ref.current = undefined;
+  }
+}function useIntervalRef() {
+  var $ = compilerRuntime.c(3);
+  var ref = React.useRef(undefined);
+  var t0;
+  var t1;
+  if ($[0] === Symbol["for"]("react.memo_cache_sentinel")) {
+    t0 = function t0() {
+      return function () {
+        clearIntervalRef(ref);
+      };
+    };
+    t1 = [];
+    $[0] = t0;
+    $[1] = t1;
+  } else {
+    t0 = $[0];
+    t1 = $[1];
+  }
+  React.useEffect(t0, t1);
+  var t2;
+  if ($[2] === Symbol["for"]("react.memo_cache_sentinel")) {
+    var setIntervalFunc = function setIntervalFunc(callback, ms) {
+      clearIntervalRef(ref);
+      ref.current = setInterval(function () {
+        callback(ref);
+      }, ms);
+    };
+    t2 = [ref, setIntervalFunc];
+    $[2] = t2;
+  } else {
+    t2 = $[2];
+  }
+  return t2;
+}function useTimeoutRef() {
+  var $ = compilerRuntime.c(3);
+  var ref = React.useRef(undefined);
+  var t0;
+  var t1;
+  if ($[0] === Symbol["for"]("react.memo_cache_sentinel")) {
+    t0 = function t0() {
+      return function () {
+        clearTimeoutRef(ref);
+      };
+    };
+    t1 = [];
+    $[0] = t0;
+    $[1] = t1;
+  } else {
+    t0 = $[0];
+    t1 = $[1];
+  }
+  React.useEffect(t0, t1);
+  var t2;
+  if ($[2] === Symbol["for"]("react.memo_cache_sentinel")) {
+    var setTimeoutFunc = function setTimeoutFunc(callback, ms) {
+      clearTimeoutRef(ref);
+      ref.current = setTimeout(function () {
+        ref.current = undefined;
+        callback();
+      }, ms);
+    };
+    t2 = [ref, setTimeoutFunc];
+    $[2] = t2;
+  } else {
+    t2 = $[2];
+  }
+  return t2;
 }function useSafeUpdate() {
-    const mountedRef = useMountedRef();
-    return react.useCallback((callback) => {
-        if (mountedRef.current) {
-            callback();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-}exports.clearIntervalRef=clearIntervalRef;exports.clearTimeoutRef=clearTimeoutRef;exports.useAutoForceUpdate=useAutoForceUpdate;exports.useAutoUpdateLayoutRef=useAutoUpdateLayoutRef;exports.useAutoUpdateRef=useAutoUpdateRef;exports.useAutoUpdateRefState=useAutoUpdateRefState;exports.useAutoUpdateState=useAutoUpdateState;exports.useFirstSkipEffect=useFirstSkipEffect;exports.useFirstSkipLayoutEffect=useFirstSkipLayoutEffect;exports.useForceUpdate=useForceUpdate;exports.useForwardLayoutRef=useForwardLayoutRef;exports.useForwardRef=useForwardRef;exports.useIntervalRef=useIntervalRef;exports.useLayoutPerformance=useLayoutPerformance;exports.useMountedRef=useMountedRef;exports.usePerformance=usePerformance;exports.useRefState=useRefState;exports.useSafeState=useSafeState;exports.useSafeUpdate=useSafeUpdate;exports.useTimeoutRef=useTimeoutRef;
+  var $ = compilerRuntime.c(2);
+  var mountedRef = useMountedRef();
+  var t0;
+  if ($[0] !== mountedRef) {
+    t0 = function t0(callback) {
+      if (mountedRef.current) {
+        callback();
+      }
+    };
+    $[0] = mountedRef;
+    $[1] = t0;
+  } else {
+    t0 = $[1];
+  }
+  return t0;
+}exports.clearIntervalRef=clearIntervalRef;exports.clearTimeoutRef=clearTimeoutRef;exports.useAutoUpdateRef=useAutoUpdateRef;exports.useAutoUpdateRefState=useAutoUpdateRefState;exports.useAutoUpdateState=useAutoUpdateState;exports.useChange=useChange;exports.useIntervalRef=useIntervalRef;exports.useMountedRef=useMountedRef;exports.useRefState=useRefState;exports.useSafeState=useSafeState;exports.useSafeUpdate=useSafeUpdate;exports.useTimeoutRef=useTimeoutRef;
