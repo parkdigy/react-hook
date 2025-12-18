@@ -1,4 +1,45 @@
-'use strict';var React=require('react'),compilerRuntime=require('react/compiler-runtime');function _arrayLikeToArray(r, a) {
+'use strict';var compilerRuntime=require('react/compiler-runtime'),react=require('react');function useMountedRef(t0) {
+  var $ = compilerRuntime.c(2);
+  var initialValue = t0 === undefined ? true : t0;
+  var isMountedRef = react.useRef(initialValue);
+  var t1;
+  var t2;
+  if ($[0] === Symbol["for"]("react.memo_cache_sentinel")) {
+    t1 = function t1() {
+      isMountedRef.current = true;
+      return function () {
+        isMountedRef.current = false;
+      };
+    };
+    t2 = [];
+    $[0] = t1;
+    $[1] = t2;
+  } else {
+    t1 = $[0];
+    t2 = $[1];
+  }
+  react.useEffect(t1, t2);
+  return isMountedRef;
+}function useAutoUpdateRef(value) {
+  var $ = compilerRuntime.c(3);
+  var valueRef = react.useRef(value);
+  var t0;
+  var t1;
+  if ($[0] !== value) {
+    t0 = function t0() {
+      valueRef.current = value;
+    };
+    t1 = [value];
+    $[0] = value;
+    $[1] = t0;
+    $[2] = t1;
+  } else {
+    t0 = $[1];
+    t1 = $[2];
+  }
+  react.useLayoutEffect(t0, t1);
+  return valueRef;
+}function _arrayLikeToArray(r, a) {
   (null == a || a > r.length) && (a = r.length);
   for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
   return n;
@@ -42,65 +83,6 @@ function _unsupportedIterableToArray(r, a) {
     var t = {}.toString.call(r).slice(8, -1);
     return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0;
   }
-}function useChange(value, callback) {
-  var _React$useState = React.useState(value === undefined ? null : undefined),
-    _React$useState2 = _slicedToArray(_React$useState, 2),
-    _value = _React$useState2[0],
-    _setValue = _React$useState2[1];
-  if (value !== _value) {
-    _setValue(value);
-    callback(value);
-  }
-}function useFirstSkipChange(value, callback) {
-  var _React$useState = React.useState(value),
-    _React$useState2 = _slicedToArray(_React$useState, 2),
-    _value = _React$useState2[0],
-    _setValue = _React$useState2[1];
-  if (value !== _value) {
-    _setValue(value);
-    callback(value);
-  }
-}function useMountedRef(t0) {
-  var $ = compilerRuntime.c(2);
-  var initialValue = t0 === undefined ? true : t0;
-  var isMountedRef = React.useRef(initialValue);
-  var t1;
-  var t2;
-  if ($[0] === Symbol["for"]("react.memo_cache_sentinel")) {
-    t1 = function t1() {
-      isMountedRef.current = true;
-      return function () {
-        isMountedRef.current = false;
-      };
-    };
-    t2 = [];
-    $[0] = t1;
-    $[1] = t2;
-  } else {
-    t1 = $[0];
-    t2 = $[1];
-  }
-  React.useEffect(t1, t2);
-  return isMountedRef;
-}function useAutoUpdateRef(value) {
-  var $ = compilerRuntime.c(3);
-  var valueRef = React.useRef(value);
-  var t0;
-  var t1;
-  if ($[0] !== value) {
-    t0 = function t0() {
-      valueRef.current = value;
-    };
-    t1 = [value];
-    $[0] = value;
-    $[1] = t0;
-    $[2] = t1;
-  } else {
-    t0 = $[1];
-    t1 = $[2];
-  }
-  React.useLayoutEffect(t0, t1);
-  return valueRef;
 }// state 값을 Function 으로 지정한 경우 (사용 불가)
 
 // state 값만 받는 경우 (state 에 function 지정 불가)
@@ -124,7 +106,7 @@ function useAutoUpdateRefState(state, callback) {
   } else {
     t0 = $[2];
   }
-  var _useState = React.useState(t0),
+  var _useState = react.useState(t0),
     _useState2 = _slicedToArray(_useState, 2),
     prevProps = _useState2[0],
     setPrevProps = _useState2[1];
@@ -139,7 +121,7 @@ function useAutoUpdateRefState(state, callback) {
   } else {
     t1 = $[5];
   }
-  var _useState3 = React.useState(t1),
+  var _useState3 = react.useState(t1),
     _useState4 = _slicedToArray(_useState3, 2),
     _value = _useState4[0],
     _setValue = _useState4[1];
@@ -213,7 +195,7 @@ function useAutoUpdateState(state, callback) {
   } else {
     t0 = $[2];
   }
-  var _useState = React.useState(t0),
+  var _useState = react.useState(t0),
     _useState2 = _slicedToArray(_useState, 2),
     prevProps = _useState2[0],
     setPrevProps = _useState2[1];
@@ -228,7 +210,7 @@ function useAutoUpdateState(state, callback) {
   } else {
     t1 = $[5];
   }
-  var _useState3 = React.useState(t1),
+  var _useState3 = react.useState(t1),
     _useState4 = _slicedToArray(_useState3, 2),
     _value = _useState4[0],
     _setValue = _useState4[1];
@@ -280,11 +262,11 @@ function useAutoUpdateState(state, callback) {
   return t3;
 }function useRefState(initialState) {
   var $ = compilerRuntime.c(3);
-  var _useState = React.useState(initialState),
+  var _useState = react.useState(initialState),
     _useState2 = _slicedToArray(_useState, 2),
     _value = _useState2[0],
     _setValue = _useState2[1];
-  var valueRef = React.useRef(_value);
+  var valueRef = react.useRef(_value);
   var t0;
   if ($[0] === Symbol["for"]("react.memo_cache_sentinel")) {
     t0 = function t0(value) {
@@ -310,8 +292,8 @@ function useAutoUpdateState(state, callback) {
   return t1;
 }function useSafeState(initialState) {
   var $ = compilerRuntime.c(5);
-  var mountedRef = React.useRef(false);
-  var _useState = React.useState(initialState),
+  var mountedRef = react.useRef(false);
+  var _useState = react.useState(initialState),
     _useState2 = _slicedToArray(_useState, 2),
     value = _useState2[0],
     setValue = _useState2[1];
@@ -331,7 +313,7 @@ function useAutoUpdateState(state, callback) {
     t0 = $[0];
     t1 = $[1];
   }
-  React.useEffect(t0, t1);
+  react.useEffect(t0, t1);
   var t2;
   if ($[2] === Symbol["for"]("react.memo_cache_sentinel")) {
     t2 = function t2(newValue) {
@@ -365,7 +347,7 @@ function useAutoUpdateState(state, callback) {
   }
 }function useIntervalRef() {
   var $ = compilerRuntime.c(3);
-  var ref = React.useRef(undefined);
+  var ref = react.useRef(undefined);
   var t0;
   var t1;
   if ($[0] === Symbol["for"]("react.memo_cache_sentinel")) {
@@ -381,7 +363,7 @@ function useAutoUpdateState(state, callback) {
     t0 = $[0];
     t1 = $[1];
   }
-  React.useEffect(t0, t1);
+  react.useEffect(t0, t1);
   var t2;
   if ($[2] === Symbol["for"]("react.memo_cache_sentinel")) {
     var setIntervalFunc = function setIntervalFunc(callback, ms) {
@@ -398,7 +380,7 @@ function useAutoUpdateState(state, callback) {
   return t2;
 }function useTimeoutRef() {
   var $ = compilerRuntime.c(3);
-  var ref = React.useRef(undefined);
+  var ref = react.useRef(undefined);
   var t0;
   var t1;
   if ($[0] === Symbol["for"]("react.memo_cache_sentinel")) {
@@ -414,7 +396,7 @@ function useAutoUpdateState(state, callback) {
     t0 = $[0];
     t1 = $[1];
   }
-  React.useEffect(t0, t1);
+  react.useEffect(t0, t1);
   var t2;
   if ($[2] === Symbol["for"]("react.memo_cache_sentinel")) {
     var setTimeoutFunc = function setTimeoutFunc(callback, ms) {
@@ -464,7 +446,7 @@ function useAutoUpdateState(state, callback) {
     t0 = $[1];
     t1 = $[2];
   }
-  React.useImperativeHandle(ref, t0, t1);
+  react.useImperativeHandle(ref, t0, t1);
   var t2;
   var t3;
   if ($[3] !== onSetRef || $[4] !== onUnsetRef || $[5] !== value) {
@@ -487,5 +469,5 @@ function useAutoUpdateState(state, callback) {
     t2 = $[6];
     t3 = $[7];
   }
-  React.useEffect(t2, t3);
-}exports.clearIntervalRef=clearIntervalRef;exports.clearTimeoutRef=clearTimeoutRef;exports.useAutoUpdateRef=useAutoUpdateRef;exports.useAutoUpdateRefState=useAutoUpdateRefState;exports.useAutoUpdateState=useAutoUpdateState;exports.useChange=useChange;exports.useFirstSkipChange=useFirstSkipChange;exports.useForwardRef=useForwardRef;exports.useIntervalRef=useIntervalRef;exports.useMountedRef=useMountedRef;exports.useRefState=useRefState;exports.useSafeState=useSafeState;exports.useSafeUpdate=useSafeUpdate;exports.useTimeoutRef=useTimeoutRef;
+  react.useEffect(t2, t3);
+}exports.clearIntervalRef=clearIntervalRef;exports.clearTimeoutRef=clearTimeoutRef;exports.useAutoUpdateRef=useAutoUpdateRef;exports.useAutoUpdateRefState=useAutoUpdateRefState;exports.useAutoUpdateState=useAutoUpdateState;exports.useForwardRef=useForwardRef;exports.useIntervalRef=useIntervalRef;exports.useMountedRef=useMountedRef;exports.useRefState=useRefState;exports.useSafeState=useSafeState;exports.useSafeUpdate=useSafeUpdate;exports.useTimeoutRef=useTimeoutRef;
