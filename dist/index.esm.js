@@ -42,15 +42,23 @@ function _unsupportedIterableToArray(r, a) {
     var t = {}.toString.call(r).slice(8, -1);
     return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0;
   }
-}function useChange(value, callback, t0) {
-  var skipFirst = t0 === undefined ? false : t0;
-  var _React$useState = React.useState(skipFirst ? false : "|||||skip|||||first|||||"),
+}function useChange(value, callback) {
+  var _React$useState = React.useState(value === undefined ? null : undefined),
     _React$useState2 = _slicedToArray(_React$useState, 2),
     _value = _React$useState2[0],
     _setValue = _React$useState2[1];
   if (value !== _value) {
     _setValue(value);
-    callback();
+    callback(value);
+  }
+}function useFirstSkipChange(value, callback) {
+  var _React$useState = React.useState(value),
+    _React$useState2 = _slicedToArray(_React$useState, 2),
+    _value = _React$useState2[0],
+    _setValue = _React$useState2[1];
+  if (value !== _value) {
+    _setValue(value);
+    callback(value);
   }
 }function useMountedRef(t0) {
   var $ = c(2);
@@ -480,4 +488,4 @@ function useAutoUpdateState(state, callback) {
     t3 = $[7];
   }
   useEffect(t2, t3);
-}export{clearIntervalRef,clearTimeoutRef,useAutoUpdateRef,useAutoUpdateRefState,useAutoUpdateState,useChange,useForwardRef,useIntervalRef,useMountedRef,useRefState,useSafeState,useSafeUpdate,useTimeoutRef};
+}export{clearIntervalRef,clearTimeoutRef,useAutoUpdateRef,useAutoUpdateRefState,useAutoUpdateState,useChange,useFirstSkipChange,useForwardRef,useIntervalRef,useMountedRef,useRefState,useSafeState,useSafeUpdate,useTimeoutRef};
