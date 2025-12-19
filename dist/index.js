@@ -1,4 +1,60 @@
-'use strict';var compilerRuntime=require('react/compiler-runtime'),react=require('react');function useMountedRef(t0) {
+'use strict';var react=require('react'),compilerRuntime=require('react/compiler-runtime');function _arrayLikeToArray(r, a) {
+  (null == a || a > r.length) && (a = r.length);
+  for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
+  return n;
+}
+function _arrayWithHoles(r) {
+  if (Array.isArray(r)) return r;
+}
+function _iterableToArrayLimit(r, l) {
+  var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
+  if (null != t) {
+    var e,
+      n,
+      i,
+      u,
+      a = [],
+      f = true,
+      o = false;
+    try {
+      if (i = (t = t.call(r)).next, 0 === l) ; else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0);
+    } catch (r) {
+      o = true, n = r;
+    } finally {
+      try {
+        if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return;
+      } finally {
+        if (o) throw n;
+      }
+    }
+    return a;
+  }
+}
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _slicedToArray(r, e) {
+  return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest();
+}
+function _unsupportedIterableToArray(r, a) {
+  if (r) {
+    if ("string" == typeof r) return _arrayLikeToArray(r, a);
+    var t = {}.toString.call(r).slice(8, -1);
+    return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0;
+  }
+}var useChanged = function useChanged(value, t0) {
+  var initial = t0 === undefined ? false : t0;
+  var _useState = react.useState(initial ? value === undefined ? null : undefined : value),
+    _useState2 = _slicedToArray(_useState, 2),
+    prevValue = _useState2[0],
+    setPrevValue = _useState2[1];
+  var changed = false;
+  if (value !== prevValue) {
+    setPrevValue(value);
+    changed = true;
+  }
+  return changed;
+};function useMountedRef(t0) {
   var $ = compilerRuntime.c(2);
   var initialValue = t0 === undefined ? true : t0;
   var isMountedRef = react.useRef(initialValue);
@@ -158,4 +214,4 @@
     t3 = $[7];
   }
   react.useEffect(t2, t3);
-}exports.clearIntervalRef=clearIntervalRef;exports.clearTimeoutRef=clearTimeoutRef;exports.useAutoUpdateRef=useAutoUpdateRef;exports.useForwardRef=useForwardRef;exports.useIntervalRef=useIntervalRef;exports.useMountedRef=useMountedRef;exports.useTimeoutRef=useTimeoutRef;
+}exports.clearIntervalRef=clearIntervalRef;exports.clearTimeoutRef=clearTimeoutRef;exports.useAutoUpdateRef=useAutoUpdateRef;exports.useChanged=useChanged;exports.useForwardRef=useForwardRef;exports.useIntervalRef=useIntervalRef;exports.useMountedRef=useMountedRef;exports.useTimeoutRef=useTimeoutRef;
