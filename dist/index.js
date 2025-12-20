@@ -1,4 +1,4 @@
-'use strict';var react=require('react'),compilerRuntime=require('react/compiler-runtime');function _arrayLikeToArray(r, a) {
+'use strict';var compilerRuntime=require('react/compiler-runtime'),react=require('react');function _arrayLikeToArray(r, a) {
   (null == a || a > r.length) && (a = r.length);
   for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
   return n;
@@ -43,14 +43,28 @@ function _unsupportedIterableToArray(r, a) {
     return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0;
   }
 }var useChanged = function useChanged(value, t0) {
+  var $ = compilerRuntime.c(3);
   var initial = t0 === undefined ? false : t0;
-  var _useState = react.useState(initial ? value === undefined ? null : undefined : value),
+  var t1;
+  if ($[0] !== initial || $[1] !== value) {
+    t1 = initial ? value === undefined ? null : undefined : typeof value === "function" ? function () {
+      return value;
+    } : value;
+    $[0] = initial;
+    $[1] = value;
+    $[2] = t1;
+  } else {
+    t1 = $[2];
+  }
+  var _useState = react.useState(t1),
     _useState2 = _slicedToArray(_useState, 2),
     prevValue = _useState2[0],
     setPrevValue = _useState2[1];
   var changed = false;
   if (value !== prevValue) {
-    setPrevValue(value);
+    setPrevValue(typeof value === "function" ? function () {
+      return value;
+    } : value);
     changed = true;
   }
   return changed;
