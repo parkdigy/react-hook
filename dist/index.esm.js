@@ -43,23 +43,32 @@ function _unsupportedIterableToArray(r, a) {
     return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0;
   }
 }var useChanged = function useChanged(value, t0) {
-  var $ = c(3);
+  var $ = c(2);
   var initial = t0 === undefined ? false : t0;
   var t1;
-  if ($[0] !== initial || $[1] !== value) {
-    t1 = initial ? value === undefined ? null : undefined : typeof value === "function" ? function () {
+  if ($[0] !== value) {
+    t1 = typeof value === "function" ? function () {
       return value;
     } : value;
-    $[0] = initial;
-    $[1] = value;
-    $[2] = t1;
+    $[0] = value;
+    $[1] = t1;
   } else {
-    t1 = $[2];
+    t1 = $[1];
   }
   var _useState = useState(t1),
     _useState2 = _slicedToArray(_useState, 2),
     prevValue = _useState2[0],
     setPrevValue = _useState2[1];
+  var _useState3 = useState(true),
+    _useState4 = _slicedToArray(_useState3, 2),
+    isFirst = _useState4[0],
+    setIsFirst = _useState4[1];
+  if (initial) {
+    if (isFirst) {
+      setIsFirst(false);
+      return true;
+    }
+  }
   var changed = false;
   if (value !== prevValue) {
     setPrevValue(typeof value === "function" ? function () {
