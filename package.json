@@ -2,7 +2,7 @@
   "name": "@pdg/react-hook",
   "title": "Typescript React Hook Module",
   "description": "Typescript React Hook Module",
-  "version": "2.0.9",
+  "version": "2.0.10",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.esm.js",
@@ -56,7 +56,7 @@
     "react-dom": ">=19.0.0"
   },
   "dependencies": {
-    "@pdg/types": "^1.0.9"
+    "@pdg/types": "^1.0.10"
   },
   "devDependencies": {
     "@babel/core": "^7.28.5",
