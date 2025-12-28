@@ -4,11 +4,21 @@ import tseslint from 'typescript-eslint';
 import typescriptEslintParser from '@typescript-eslint/parser';
 import pluginReact from 'eslint-plugin-react';
 import pluginReactHooks from 'eslint-plugin-react-hooks';
+import pluginPdgReactHooks from '../dist/eslint-plugin.js';
 
 export default defineConfig([
   ...tseslint.config(eslint.configs.recommended, tseslint.configs.recommended),
   pluginReact.configs.flat.recommended,
   pluginReactHooks.configs.flat.recommended,
+  {
+    plugins: {
+      '@pdg/react-hooks': pluginPdgReactHooks,
+    },
+    rules: {
+      '@pdg/react-hooks/rules-of-hooks': 'error',
+      '@pdg/react-hooks/exhaustive-deps': 'error',
+    },
+  },
   {
     ignores: ['node_modules/', 'dist/'],
     files: ['**/*.{js,jsx,ts,tsx}'],

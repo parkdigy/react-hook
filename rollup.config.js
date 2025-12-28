@@ -104,8 +104,7 @@ const eslintPluginConfig = {
   input: 'src/eslint-plugin.ts',
   output: {
     file: 'dist/eslint-plugin.js',
-    format: 'cjs',
-    exports: 'named',
+    format: 'esm',
     sourcemap: false,
   },
   external: ['eslint-plugin-react-hooks', 'fs', 'path'],
