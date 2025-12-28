@@ -12,12 +12,13 @@ const pluginRules = {
           CallExpression(node: any) {
             const callbackName = node.callee.name;
 
+            /** useChanged */
             if (callbackName === 'useChanged') {
               const depsNode = node.arguments[0];
 
               if (!depsNode || depsNode.type !== 'ArrayExpression') {
                 context.report({
-                  node: node.callee, // useChanged 함수 이름 위치에 표시
+                  node: node.callee,
                   message: 'useChanged 훅의 첫 번째 인자는 반드시 배열 리터럴(예: [a, b]) 형태여야 합니다.',
                 });
                 return;
@@ -47,6 +48,22 @@ const pluginRules = {
 
               return originalRule.CallExpression(fakeNode);
             }
+
+            /** useFirstSkipEffect */
+            if (callbackName === 'useFirstSkipEffect') {
+              const deps = node.arguments[1];
+
+              if (!deps || deps.type !== 'ArrayExpression') {
+                context.report({
+                  node: node.callee,
+                  message: 'useFirstSkipEffect 훅의 두 번째 인자는 반드시 배열 리터럴(예: [a, b]) 형태여야 합니다.',
+                });
+                return;
+              }
+
+              return originalRule.CallExpression(node);
+            }
+
             return originalRule.CallExpression(node);
           },
         };
