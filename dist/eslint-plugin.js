@@ -1,6 +1,6 @@
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 
-const plugin = {
+const pluginRules = {
     rules: {
         'exhaustive-deps': Object.assign(Object.assign({}, reactHooksPlugin.rules['exhaustive-deps']), { create(context) {
                 const originalRule = reactHooksPlugin.rules['exhaustive-deps'].create(context);
@@ -39,7 +39,7 @@ const plugin = {
         'rules-of-hooks': reactHooksPlugin.rules['rules-of-hooks'],
     },
 };
-plugin.config = {
+const plugConfig = {
     recommended: {
         plugins: ['@pdg/react-hooks'],
         rules: {
@@ -50,7 +50,7 @@ plugin.config = {
     flat: {
         recommended: {
             plugins: {
-                '@pdg/react-hooks': plugin,
+                '@pdg/react-hooks': pluginRules,
             },
             rules: {
                 '@pdg/react-hooks/rules-of-hooks': 'error',
@@ -58,6 +58,10 @@ plugin.config = {
             },
         },
     },
+};
+const plugin = {
+    rules: pluginRules.rules,
+    configs: plugConfig,
 };
 
 export { plugin as default };
