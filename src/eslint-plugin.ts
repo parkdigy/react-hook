@@ -56,10 +56,10 @@ const plugin = {
   },
   configs: {
     recommended: {
-      plugins: ['@pdg/react-hooks'],
+      plugins: ['@pdg/react-hooks' as const],
       rules: {
-        '@pdg/react-hooks/rules-of-hooks': 'error',
-        '@pdg/react-hooks/exhaustive-deps': 'error',
+        '@pdg/react-hooks/rules-of-hooks': 'error' as const,
+        '@pdg/react-hooks/exhaustive-deps': 'error' as const,
       },
     },
   },

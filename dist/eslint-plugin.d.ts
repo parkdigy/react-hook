@@ -68,10 +68,10 @@ declare const plugin: {
     };
     configs: {
         recommended: {
-            plugins: string[];
+            plugins: "@pdg/react-hooks"[];
             rules: {
-                '@pdg/react-hooks/rules-of-hooks': string;
-                '@pdg/react-hooks/exhaustive-deps': string;
+                '@pdg/react-hooks/rules-of-hooks': "error";
+                '@pdg/react-hooks/exhaustive-deps': "error";
             };
         };
     };
