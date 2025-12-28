@@ -15,7 +15,7 @@ const Home = () => {
   const [value1, setValue1] = useState(0);
   const [value2, setValue2] = useState(0);
 
-  if (useChanged(value1)) {
+  if (useChanged([value1])) {
     setValue2(value1 * 2);
   }
 

@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { DependencyList, useState } from 'react';
 
-export const useChanged = (value: unknown, initial = false) => {
-  const [prevValue, setPrevValue] = useState(typeof value === 'function' ? () => value : value);
+export const useChanged = (deps: DependencyList, initial = false) => {
+  const [prevValues, setPrevValues] = useState(deps);
   const [isFirst, setIsFirst] = useState(true);
 
   if (initial) {
@@ -12,9 +12,12 @@ export const useChanged = (value: unknown, initial = false) => {
   }
 
   let changed = false;
-  if (value !== prevValue) {
-    setPrevValue(typeof value === 'function' ? () => value : value);
-    changed = true;
+  if (deps !== prevValues) {
+    if (deps.length !== prevValues.length || deps.some((v, i) => v !== prevValues[i])) {
+      changed = true;
+    }
+    setPrevValues(deps);
   }
+
   return changed;
 };

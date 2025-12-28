@@ -100,4 +100,28 @@ const getConfig = () => ({
   ],
 });
 
-export default [getConfig()];
+const eslintPluginConfig = {
+  input: 'src/eslint-plugin.ts',
+  output: {
+    file: 'dist/eslint-plugin.js',
+    format: 'cjs',
+    exports: 'named',
+    sourcemap: false,
+  },
+  external: ['eslint-plugin-react-hooks', 'fs', 'path'],
+  plugins: [
+    peerDepsExternal(),
+    resolve({ extensions: ['.ts', '.js'] }),
+    commonjs(),
+    typescript({
+      tsconfigOverride: {
+        compilerOptions: {
+          declaration: false,
+          emitDeclarationOnly: false,
+        },
+      },
+    }),
+  ],
+};
+
+export default [getConfig(), eslintPluginConfig];
