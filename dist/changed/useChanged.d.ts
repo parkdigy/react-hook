@@ -1,2 +1,2 @@
 import { DependencyList } from 'react';
-export declare const useChanged: (deps: DependencyList, initial?: boolean) => boolean;
+export declare const useChanged: (callback: () => void, deps: DependencyList) => void;

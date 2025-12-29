@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useChanged, useEventEffect, useIntervalRef } from '../../../../src';
+import { useFirstSkipChanged } from '../../../../src/changed/useFirstSkipChanged';
 
 const Home = () => {
   /********************************************************************************************************************
@@ -14,14 +15,23 @@ const Home = () => {
 
   const [value1, setValue1] = useState(0);
   const [value2, setValue2] = useState(0);
+  const [value3, setValue3] = useState(0);
 
-  if (useChanged([value1])) {
+  /********************************************************************************************************************
+   * Changed
+   * ******************************************************************************************************************/
+
+  useFirstSkipChanged(() => {
     setValue2(value1 * 2);
-  }
+  }, [value1]);
+
+  useChanged(() => {
+    setValue3(value2 * 2);
+  }, [value2]);
 
   useEventEffect(() => {
-    ll(value1);
-  }, [value1]);
+    ll({ value1, value2, value3 });
+  }, [value1, value2, value3]);
 
   /********************************************************************************************************************
    * Effect
@@ -41,6 +51,7 @@ const Home = () => {
     <div>
       <div>value1 : {value1}</div>
       <div>value2 : {value2}</div>
+      <div>value3 : {value3}</div>
     </div>
   );
 };

@@ -101,7 +101,8 @@ const options = {
     maxAssetSize: 512000,
   },
   optimization: {
-    minimize: isProduction,
+    // minimize: isProduction,
+    minimize: false,
     runtimeChunk: true,
     removeAvailableModules: isProduction,
     removeEmptyChunks: isProduction,

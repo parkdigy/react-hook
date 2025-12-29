@@ -6,40 +6,54 @@ const pluginRules = {
                 const originalRule = reactHooksPlugin.rules['exhaustive-deps'].create(context);
                 return Object.assign(Object.assign({}, originalRule), { CallExpression(node) {
                         const callbackName = node.callee.name;
-                        /** useChanged */
-                        if (callbackName === 'useChanged') {
-                            const depsNode = node.arguments[0];
-                            if (!depsNode || depsNode.type !== 'ArrayExpression') {
+                        /** useChanged, useFirstSkipChanged */
+                        if (['useChanged', 'useFirstSkipChanged'].includes(callbackName)) {
+                            const callback = node.arguments[0];
+                            const deps = node.arguments[1];
+                            if (!deps || deps.type !== 'ArrayExpression') {
                                 context.report({
-                                    node: node.callee,
-                                    message: `${callbackName} 훅의 첫 번째 인자는 반드시 배열 리터럴(예: [a, b]) 형태여야 합니다.`,
+                                    node: deps || node,
+                                    message: `${callbackName} 훅의 두 번째 인자는 반드시 배열 리터럴(예: [a, b]) 형태여야 합니다.`,
                                 });
                                 return;
                             }
-                            const elements = depsNode.elements.filter((e) => e && e.type === 'Identifier');
-                            const fakeCallback = {
-                                type: 'ArrowFunctionExpression',
-                                expression: false,
-                                generator: false,
-                                async: false,
-                                params: [],
-                                body: {
-                                    type: 'BlockStatement',
-                                    body: elements.map((el) => ({
-                                        type: 'ExpressionStatement',
-                                        expression: el,
-                                    })),
-                                },
-                            };
-                            const fakeNode = Object.assign(Object.assign({}, node), { arguments: [fakeCallback, depsNode] });
-                            return originalRule.CallExpression(fakeNode);
+                            if (callback && (callback.type === 'ArrowFunctionExpression' || callback.type === 'FunctionExpression')) {
+                                const visited = new Set();
+                                const checkRefAccess = (targetNode) => {
+                                    if (!targetNode || typeof targetNode !== 'object' || visited.has(targetNode))
+                                        return;
+                                    visited.add(targetNode);
+                                    if (targetNode.type === 'MemberExpression' &&
+                                        targetNode.property &&
+                                        (targetNode.property.name === 'current' ||
+                                            (targetNode.property.type === 'Literal' && targetNode.property.value === 'current'))) {
+                                        context.report({
+                                            node: targetNode,
+                                            message: `${callbackName} 훅의 콜백에서는 ref를 참조할 수 없습니다. (Cannot access refs during render.)`,
+                                        });
+                                    }
+                                    for (const key in targetNode) {
+                                        if (key === 'parent')
+                                            continue;
+                                        const child = targetNode[key];
+                                        if (Array.isArray(child)) {
+                                            child.forEach((c) => checkRefAccess(c));
+                                        }
+                                        else if (child && typeof child === 'object') {
+                                            checkRefAccess(child);
+                                        }
+                                    }
+                                };
+                                checkRefAccess(callback.body);
+                            }
+                            return originalRule.CallExpression(node);
                         }
                         /** useEventEffect, useEventLayoutEffect */
                         if (['useEventEffect', 'useEventLayoutEffect'].includes(callbackName)) {
                             const deps = node.arguments[1];
                             if (deps && deps.type !== 'ArrayExpression') {
                                 context.report({
-                                    node: node.callee,
+                                    node: deps || node,
                                     message: `${callbackName} 훅의 두 번째 인자는 반드시 배열 리터럴(예: [a, b]) 형태여야 합니다.`,
                                 });
                                 return;
@@ -51,7 +65,7 @@ const pluginRules = {
                             const deps = node.arguments[1];
                             if (!deps || deps.type !== 'ArrayExpression') {
                                 context.report({
-                                    node: node.callee,
+                                    node: deps || node,
                                     message: `${callbackName} 훅의 두 번째 인자는 반드시 배열 리터럴(예: [a, b]) 형태여야 합니다.`,
                                 });
                                 return;

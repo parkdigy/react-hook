@@ -42,32 +42,28 @@ function _unsupportedIterableToArray(r, a) {
     var t = {}.toString.call(r).slice(8, -1);
     return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0;
   }
-}var useChanged = function useChanged(deps, t0) {
-  var initial = t0 === undefined ? false : t0;
-  var _useState = react.useState(deps),
+}var useChanged = function useChanged(callback, deps) {
+  var _useState = react.useState(),
     _useState2 = _slicedToArray(_useState, 2),
     prevValues = _useState2[0],
     setPrevValues = _useState2[1];
-  var _useState3 = react.useState(true),
-    _useState4 = _slicedToArray(_useState3, 2),
-    isFirst = _useState4[0],
-    setIsFirst = _useState4[1];
-  if (initial) {
-    if (isFirst) {
-      setIsFirst(false);
-      return true;
-    }
-  }
   var changed = false;
-  if (deps !== prevValues) {
-    if (deps.length !== prevValues.length || deps.some(function (v, i) {
-      return v !== prevValues[i];
-    })) {
-      changed = true;
-    }
+  if (prevValues === undefined) {
+    changed = true;
     setPrevValues(deps);
+  } else {
+    if (deps !== prevValues) {
+      if (deps.length !== prevValues.length || deps.some(function (v, i) {
+        return v !== prevValues[i];
+      })) {
+        changed = true;
+      }
+      setPrevValues(deps);
+    }
   }
-  return changed;
+  if (changed) {
+    callback();
+  }
 };var useEventEffect = function useEventEffect(effectEventCallback, deps) {
   var $ = compilerRuntime.c(2);
   var effectEvent = react.useEffectEvent(effectEventCallback);
