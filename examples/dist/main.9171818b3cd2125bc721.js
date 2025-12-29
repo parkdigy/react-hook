@@ -3368,7 +3368,28 @@ const useChanged = (callback, deps) => {
     callback();
   }
 };
+;// ../src/changed/useFirstSkipChanged.ts
+
+const useFirstSkipChanged = (callback, deps) => {
+  const [prevDeps, setPrevDeps] = (0,react.useState)(deps);
+  const [isFirst, setIsFirst] = (0,react.useState)(true);
+  if (isFirst) {
+    setIsFirst(false);
+    return true;
+  }
+  let changed = false;
+  if (deps !== prevDeps) {
+    if (deps.length !== prevDeps.length || deps.some((v, i) => v !== prevDeps[i])) {
+      changed = true;
+    }
+    setPrevDeps(deps);
+  }
+  if (changed) {
+    callback();
+  }
+};
 ;// ../src/changed/index.ts
+
 
 ;// ../src/effect/useEventEffect.ts
 
@@ -3643,28 +3664,7 @@ function useForwardRef(ref, value, onSet, onUnset) {
 
 
 
-;// ../src/changed/useFirstSkipChanged.ts
-
-const useFirstSkipChanged = (callback, deps) => {
-  const [prevDeps, setPrevDeps] = (0,react.useState)(deps);
-  const [isFirst, setIsFirst] = (0,react.useState)(true);
-  if (isFirst) {
-    setIsFirst(false);
-    return true;
-  }
-  let changed = false;
-  if (deps !== prevDeps) {
-    if (deps.length !== prevDeps.length || deps.some((v, i) => v !== prevDeps[i])) {
-      changed = true;
-    }
-    setPrevDeps(deps);
-  }
-  if (changed) {
-    callback();
-  }
-};
 ;// ./src/component/Home/Home.tsx
-
 
 
 

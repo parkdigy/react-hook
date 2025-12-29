@@ -64,6 +64,31 @@ function _unsupportedIterableToArray(r, a) {
   if (changed) {
     callback();
   }
+};var useFirstSkipChanged = function useFirstSkipChanged(callback, deps) {
+  var _useState = useState(deps),
+    _useState2 = _slicedToArray(_useState, 2),
+    prevDeps = _useState2[0],
+    setPrevDeps = _useState2[1];
+  var _useState3 = useState(true),
+    _useState4 = _slicedToArray(_useState3, 2),
+    isFirst = _useState4[0],
+    setIsFirst = _useState4[1];
+  if (isFirst) {
+    setIsFirst(false);
+    return true;
+  }
+  var changed = false;
+  if (deps !== prevDeps) {
+    if (deps.length !== prevDeps.length || deps.some(function (v, i) {
+      return v !== prevDeps[i];
+    })) {
+      changed = true;
+    }
+    setPrevDeps(deps);
+  }
+  if (changed) {
+    callback();
+  }
 };var useEventEffect = function useEventEffect(effectEventCallback, deps) {
   var $ = c(2);
   var effectEvent = useEffectEvent(effectEventCallback);
@@ -290,4 +315,4 @@ function _unsupportedIterableToArray(r, a) {
     t3 = $[7];
   }
   useEffect(t2, t3);
-}export{clearIntervalRef,clearTimeoutRef,useAutoUpdateRef,useChanged,useEventEffect,useEventLayoutEffect,useFirstSkipEffect,useFirstSkipLayoutEffect,useForwardRef,useIntervalRef,useMountedRef,useTimeoutRef};
+}export{clearIntervalRef,clearTimeoutRef,useAutoUpdateRef,useChanged,useEventEffect,useEventLayoutEffect,useFirstSkipChanged,useFirstSkipEffect,useFirstSkipLayoutEffect,useForwardRef,useIntervalRef,useMountedRef,useTimeoutRef};

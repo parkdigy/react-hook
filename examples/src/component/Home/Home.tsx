@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useChanged, useEventEffect, useIntervalRef } from '../../../../src';
-import { useFirstSkipChanged } from '../../../../src/changed/useFirstSkipChanged';
+import { useChanged, useFirstSkipChanged, useEventEffect, useIntervalRef } from '../../../../src';
 
 const Home = () => {
   /********************************************************************************************************************
