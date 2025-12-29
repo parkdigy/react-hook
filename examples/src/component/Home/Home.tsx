@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useChanged, useIntervalRef } from '../../../../src';
+import { useChanged, useEventEffect, useIntervalRef } from '../../../../src';
 
 const Home = () => {
   /********************************************************************************************************************
@@ -18,6 +18,10 @@ const Home = () => {
   if (useChanged([value1])) {
     setValue2(value1 * 2);
   }
+
+  useEventEffect(() => {
+    ll(value1);
+  }, [value1]);
 
   /********************************************************************************************************************
    * Effect

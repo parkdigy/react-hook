@@ -64,6 +64,21 @@ const pluginRules = {
               return originalRule.CallExpression(node);
             }
 
+            /** useEventEffect */
+            if (callbackName === 'useEventEffect') {
+              const deps = node.arguments[1];
+
+              if (deps && deps.type !== 'ArrayExpression') {
+                context.report({
+                  node: node.callee,
+                  message: 'useEventEffect 훅의 두 번째 인자는 반드시 배열 리터럴(예: [a, b]) 형태여야 합니다.',
+                });
+                return;
+              }
+
+              return originalRule.CallExpression(node);
+            }
+
             return originalRule.CallExpression(node);
           },
         };

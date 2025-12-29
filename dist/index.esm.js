@@ -1,4 +1,4 @@
-import {useState,useEffectEvent,useRef,useEffect,useLayoutEffect,useImperativeHandle}from'react';import {c}from'react/compiler-runtime';function _arrayLikeToArray(r, a) {
+import {useState,useEffectEvent,useEffect,useRef,useLayoutEffect,useImperativeHandle}from'react';import {c}from'react/compiler-runtime';function _arrayLikeToArray(r, a) {
   (null == a || a > r.length) && (a = r.length);
   for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
   return n;
@@ -68,6 +68,20 @@ function _unsupportedIterableToArray(r, a) {
     setPrevValues(deps);
   }
   return changed;
+};var useEventEffect = function useEventEffect(effectEventCallback, deps) {
+  var $ = c(2);
+  var effectEvent = useEffectEvent(effectEventCallback);
+  var t0;
+  if ($[0] !== effectEvent) {
+    t0 = function t0() {
+      return effectEvent();
+    };
+    $[0] = effectEvent;
+    $[1] = t0;
+  } else {
+    t0 = $[1];
+  }
+  useEffect(t0, deps);
 };var useFirstSkipEffect = function useFirstSkipEffect(effectEventCallback, deps) {
   var $ = c(2);
   var effectEvent = useEffectEvent(effectEventCallback);
@@ -247,4 +261,4 @@ function _unsupportedIterableToArray(r, a) {
     t3 = $[7];
   }
   useEffect(t2, t3);
-}export{clearIntervalRef,clearTimeoutRef,useAutoUpdateRef,useChanged,useFirstSkipEffect,useForwardRef,useIntervalRef,useMountedRef,useTimeoutRef};
+}export{clearIntervalRef,clearTimeoutRef,useAutoUpdateRef,useChanged,useEventEffect,useFirstSkipEffect,useForwardRef,useIntervalRef,useMountedRef,useTimeoutRef};
