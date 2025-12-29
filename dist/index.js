@@ -82,6 +82,20 @@ function _unsupportedIterableToArray(r, a) {
     t0 = $[1];
   }
   react.useEffect(t0, deps);
+};var useEventLayoutEffect = function useEventLayoutEffect(effectEventCallback, deps) {
+  var $ = compilerRuntime.c(2);
+  var effectEvent = react.useEffectEvent(effectEventCallback);
+  var t0;
+  if ($[0] !== effectEvent) {
+    t0 = function t0() {
+      return effectEvent();
+    };
+    $[0] = effectEvent;
+    $[1] = t0;
+  } else {
+    t0 = $[1];
+  }
+  react.useLayoutEffect(t0, deps);
 };var useFirstSkipEffect = function useFirstSkipEffect(effectEventCallback, deps) {
   var $ = compilerRuntime.c(2);
   var effectEvent = react.useEffectEvent(effectEventCallback);
@@ -101,6 +115,25 @@ function _unsupportedIterableToArray(r, a) {
     t0 = $[1];
   }
   react.useEffect(t0, deps);
+};var useFirstSkipLayoutEffect = function useFirstSkipLayoutEffect(effectEventCallback, deps) {
+  var $ = compilerRuntime.c(2);
+  var effectEvent = react.useEffectEvent(effectEventCallback);
+  var firstSkipRef = react.useRef(true);
+  var t0;
+  if ($[0] !== effectEvent) {
+    t0 = function t0() {
+      if (firstSkipRef.current) {
+        firstSkipRef.current = false;
+      } else {
+        return effectEvent();
+      }
+    };
+    $[0] = effectEvent;
+    $[1] = t0;
+  } else {
+    t0 = $[1];
+  }
+  react.useLayoutEffect(t0, deps);
 };function useMountedRef(t0) {
   var $ = compilerRuntime.c(2);
   var initialValue = t0 === undefined ? true : t0;
@@ -261,4 +294,4 @@ function _unsupportedIterableToArray(r, a) {
     t3 = $[7];
   }
   react.useEffect(t2, t3);
-}exports.clearIntervalRef=clearIntervalRef;exports.clearTimeoutRef=clearTimeoutRef;exports.useAutoUpdateRef=useAutoUpdateRef;exports.useChanged=useChanged;exports.useEventEffect=useEventEffect;exports.useFirstSkipEffect=useFirstSkipEffect;exports.useForwardRef=useForwardRef;exports.useIntervalRef=useIntervalRef;exports.useMountedRef=useMountedRef;exports.useTimeoutRef=useTimeoutRef;
+}exports.clearIntervalRef=clearIntervalRef;exports.clearTimeoutRef=clearTimeoutRef;exports.useAutoUpdateRef=useAutoUpdateRef;exports.useChanged=useChanged;exports.useEventEffect=useEventEffect;exports.useEventLayoutEffect=useEventLayoutEffect;exports.useFirstSkipEffect=useFirstSkipEffect;exports.useFirstSkipLayoutEffect=useFirstSkipLayoutEffect;exports.useForwardRef=useForwardRef;exports.useIntervalRef=useIntervalRef;exports.useMountedRef=useMountedRef;exports.useTimeoutRef=useTimeoutRef;

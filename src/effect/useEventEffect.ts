@@ -7,7 +7,7 @@ export const useEventEffect = (effectEventCallback: EffectCallback, deps?: Depen
       () => effectEvent(),
       /* eslint-disable */
       deps
+      /* eslint-enable */
     );
-    /* eslint-enable */
   }
 };

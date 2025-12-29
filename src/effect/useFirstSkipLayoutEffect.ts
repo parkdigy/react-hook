@@ -1,10 +1,10 @@
-import { DependencyList, EffectCallback, useEffect, useEffectEvent, useRef } from 'react';
+import { DependencyList, EffectCallback, useEffectEvent, useLayoutEffect, useRef } from 'react';
 
-export const useFirstSkipEffect = (effectEventCallback: EffectCallback, deps: DependencyList) => {
+export const useFirstSkipLayoutEffect = (effectEventCallback: EffectCallback, deps: DependencyList) => {
   {
     const effectEvent = useEffectEvent(effectEventCallback);
     const firstSkipRef = useRef(true);
-    useEffect(
+    useLayoutEffect(
       () => {
         if (firstSkipRef.current) firstSkipRef.current = false;
         else return effectEvent();
