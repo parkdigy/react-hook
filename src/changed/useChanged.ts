@@ -1,4 +1,4 @@
-import { DependencyList, useState } from 'react';
+import { type DependencyList, useState } from 'react';
 
 export const useChanged = (callback: () => void, deps: DependencyList) => {
   const [prevValues, setPrevValues] = useState<DependencyList>();

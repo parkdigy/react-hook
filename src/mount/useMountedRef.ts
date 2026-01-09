@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef } from 'react';
+import { type RefObject, useEffect, useRef } from 'react';
 
 export function useMountedRef(initialValue = true): RefObject<boolean> {
   const isMountedRef = useRef(initialValue);

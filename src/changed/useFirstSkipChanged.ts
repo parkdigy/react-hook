@@ -1,4 +1,4 @@
-import { DependencyList, useState } from 'react';
+import { type DependencyList, useState } from 'react';
 
 export const useFirstSkipChanged = (callback: () => void, deps: DependencyList) => {
   const [prevDeps, setPrevDeps] = useState(deps);

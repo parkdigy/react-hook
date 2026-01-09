@@ -1,4 +1,4 @@
-import { RefObject, useLayoutEffect, useRef } from 'react';
+import { type RefObject, useLayoutEffect, useRef } from 'react';
 
 export function useAutoUpdateRef<T>(value: T): RefObject<T> {
   const valueRef = useRef(value);

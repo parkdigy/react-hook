@@ -1,2 +1,2 @@
-import { DependencyList, EffectCallback } from 'react';
+import { type DependencyList, type EffectCallback } from 'react';
 export declare const useFirstSkipLayoutEffect: (effectEventCallback: EffectCallback, deps: DependencyList) => void;

@@ -1,4 +1,4 @@
-import { DependencyList, EffectCallback, useEffect, useEffectEvent, useRef } from 'react';
+import { type DependencyList, type EffectCallback, useEffect, useEffectEvent, useRef } from 'react';
 
 export const useFirstSkipEffect = (effectEventCallback: EffectCallback, deps: DependencyList) => {
   {

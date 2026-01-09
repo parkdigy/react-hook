@@ -1,4 +1,4 @@
-import { DependencyList, EffectCallback, useEffect, useEffectEvent } from 'react';
+import { type DependencyList, type EffectCallback, useEffect, useEffectEvent } from 'react';
 
 export const useEventEffect = (effectEventCallback: EffectCallback, deps?: DependencyList) => {
   {
