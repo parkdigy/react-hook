@@ -1,7 +1,7 @@
 "use strict";
 (globalThis["webpackChunkexamples"] = globalThis["webpackChunkexamples"] || []).push([[606],{
 
-/***/ 4198
+/***/ 8318
 (__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 var react__WEBPACK_IMPORTED_MODULE_0___namespace_cache;
@@ -14,10 +14,10 @@ var react__WEBPACK_IMPORTED_MODULE_0___namespace_cache;
 /* harmony export */   qh: () => (/* binding */ Route),
 /* harmony export */   zy: () => (/* binding */ useLocation)
 /* harmony export */ });
-/* unused harmony exports Action, createBrowserHistory, invariant, createPath, parsePath, createContext, RouterContextProvider, convertRoutesToDataRoutes, matchRoutes, generatePath, matchPath, stripBasename, resolvePath, data, redirect, redirectDocument, replace, ErrorResponseImpl, isRouteErrorResponse, instrumentHandler, IDLE_NAVIGATION, IDLE_FETCHER, IDLE_BLOCKER, createRouter, createStaticHandler, getStaticContextFromError, isDataWithResponseInit, isResponse, isRedirectStatusCode, isRedirectResponse, isMutationMethod, DataRouterContext, DataRouterStateContext, RSCRouterContext, ViewTransitionContext, FetchersContext, AwaitContextProvider, NavigationContext, LocationContext, RouteContext, ENABLE_DEV_WARNINGS, decodeRedirectErrorDigest, decodeRouteErrorResponseDigest, useHref, useInRouterContext, useNavigationType, useMatch, useOutletContext, useOutlet, useParams, useResolvedPath, useRoutes, useNavigation, useRevalidator, useMatches, useLoaderData, useRouteLoaderData, useActionData, useRouteError, useAsyncValue, useAsyncError, useBlocker, useRoute, warnOnce, mapRouteProperties, hydrationRouteProperties, createMemoryRouter, RouterProvider, MemoryRouter, Outlet, Router, Await, createRoutesFromChildren, createRoutesFromElements, renderMatches, WithComponentProps, withComponentProps, WithHydrateFallbackProps, withHydrateFallbackProps, WithErrorBoundaryProps, withErrorBoundaryProps, createSearchParams, escapeHtml, encode, createRequestInit, SingleFetchRedirectSymbol, SINGLE_FETCH_REDIRECT_STATUS, NO_BODY_STATUS_CODES, StreamTransfer, getTurboStreamSingleFetchDataStrategy, getSingleFetchDataStrategyImpl, stripIndexParam, singleFetchUrl, decodeViaTurboStream, RemixErrorBoundary, createServerRoutes, createClientRoutesWithHMRRevalidationOptOut, noActionDefinedError, createClientRoutes, shouldHydrateRouteLoader, getPatchRoutesOnNavigationFunction, useFogOFWarDiscovery, getManifestPath, FrameworkContext, CRITICAL_CSS_DATA_ATTRIBUTE, Links, PrefetchPageLinks, Meta, setIsHydrated, Scripts, createBrowserRouter, createHashRouter, HashRouter, HistoryRouter, NavLink, Form, ScrollRestoration, useLinkClickHandler, useSearchParams, useSubmit, useFormAction, useFetcher, useFetchers, useScrollRestoration, useBeforeUnload, usePrompt, useViewTransitionState, StaticRouter, StaticRouterProvider, createStaticHandler2, createStaticRouter */
+/* unused harmony exports Action, createMemoryHistory, createBrowserHistory, createHashHistory, invariant, createPath, parsePath, createContext, RouterContextProvider, convertRoutesToDataRoutes, matchRoutes, generatePath, matchPath, stripBasename, resolvePath, data, redirect, redirectDocument, replace, ErrorResponseImpl, isRouteErrorResponse, instrumentHandler, IDLE_NAVIGATION, IDLE_FETCHER, IDLE_BLOCKER, createRouter, createStaticHandler, getStaticContextFromError, isDataWithResponseInit, isResponse, isRedirectStatusCode, isRedirectResponse, isMutationMethod, DataRouterContext, DataRouterStateContext, RSCRouterContext, ViewTransitionContext, FetchersContext, AwaitContextProvider, NavigationContext, LocationContext, RouteContext, ENABLE_DEV_WARNINGS, decodeRedirectErrorDigest, decodeRouteErrorResponseDigest, useHref, useInRouterContext, useNavigationType, useMatch, useOutletContext, useOutlet, useParams, useResolvedPath, useRoutes, useNavigation, useRevalidator, useMatches, useLoaderData, useRouteLoaderData, useActionData, useRouteError, useAsyncValue, useAsyncError, useBlocker, useRoute, warnOnce, mapRouteProperties, hydrationRouteProperties, createMemoryRouter, RouterProvider, MemoryRouter, Outlet, Router, Await, createRoutesFromChildren, createRoutesFromElements, renderMatches, WithComponentProps, withComponentProps, WithHydrateFallbackProps, withHydrateFallbackProps, WithErrorBoundaryProps, withErrorBoundaryProps, createSearchParams, escapeHtml, encode, createRequestInit, SingleFetchRedirectSymbol, SINGLE_FETCH_REDIRECT_STATUS, NO_BODY_STATUS_CODES, StreamTransfer, getTurboStreamSingleFetchDataStrategy, getSingleFetchDataStrategyImpl, stripIndexParam, singleFetchUrl, decodeViaTurboStream, RemixErrorBoundary, createServerRoutes, createClientRoutesWithHMRRevalidationOptOut, noActionDefinedError, createClientRoutes, shouldHydrateRouteLoader, getPatchRoutesOnNavigationFunction, useFogOFWarDiscovery, getManifestPath, FrameworkContext, CRITICAL_CSS_DATA_ATTRIBUTE, Links, PrefetchPageLinks, Meta, setIsHydrated, Scripts, createBrowserRouter, createHashRouter, HashRouter, HistoryRouter, NavLink, Form, ScrollRestoration, useLinkClickHandler, useSearchParams, useSubmit, useFormAction, useFetcher, useFetchers, useScrollRestoration, useBeforeUnload, usePrompt, useViewTransitionState, StaticRouter, StaticRouterProvider, createStaticHandler2, createStaticRouter */
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7810);
 /**
- * react-router v7.11.0
+ * react-router v7.13.0
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -727,12 +727,12 @@ function generatePath(originalPath, params = {}) {
       const star = "*";
       return stringify2(params[star]);
     }
-    const keyMatch = segment.match(/^:([\w-]+)(\??)$/);
+    const keyMatch = segment.match(/^:([\w-]+)(\??)(.*)/);
     if (keyMatch) {
-      const [, key, optional] = keyMatch;
+      const [, key, optional, suffix] = keyMatch;
       let param = params[key];
       invariant(optional === "?" || param != null, `Missing ":${key}" param`);
-      return encodeURIComponent(stringify2(param));
+      return encodeURIComponent(stringify2(param)) + suffix;
     }
     return segment.replace(/\?$/g, "");
   }).filter((segment) => !!segment);
@@ -839,22 +839,11 @@ function resolvePath(to, fromPathname = "/") {
   } = typeof to === "string" ? parsePath(to) : to;
   let pathname;
   if (toPathname) {
-    if (isAbsoluteUrl(toPathname)) {
-      pathname = toPathname;
+    toPathname = toPathname.replace(/\/\/+/g, "/");
+    if (toPathname.startsWith("/")) {
+      pathname = resolvePathname(toPathname.substring(1), "/");
     } else {
-      if (toPathname.includes("//")) {
-        let oldPathname = toPathname;
-        toPathname = toPathname.replace(/\/\/+/g, "/");
-        warning(
-          false,
-          `Pathnames cannot have embedded double slashes - normalizing ${oldPathname} -> ${toPathname}`
-        );
-      }
-      if (toPathname.startsWith("/")) {
-        pathname = resolvePathname(toPathname.substring(1), "/");
-      } else {
-        pathname = resolvePathname(toPathname, fromPathname);
-      }
+      pathname = resolvePathname(toPathname, fromPathname);
     }
   } else {
     pathname = fromPathname;
@@ -1089,6 +1078,9 @@ function getRouteInstrumentationUpdates(fns, route) {
         (...args) => getHandlerInfo(args[0])
       );
       if (instrumented) {
+        if (key === "loader" && original.hydrate === true) {
+          instrumented.hydrate = true;
+        }
         instrumented[UninstrumentedSymbol] = original;
         updates[key] = instrumented;
       }
@@ -2032,7 +2024,8 @@ function createRouter(init) {
         let location2 = normalizeRedirectLocation(
           result.response.headers.get("Location"),
           new URL(request.url),
-          basename
+          basename,
+          init.history
         );
         replace2 = location2 === state.location.pathname + state.location.search;
       }
@@ -2666,7 +2659,8 @@ function createRouter(init) {
     location = normalizeRedirectLocation(
       location,
       new URL(request.url),
-      basename
+      basename,
+      init.history
     );
     let redirectLocation = createLocation(state.location, location, {
       _isRedirect: true
@@ -4925,14 +4919,37 @@ function normalizeRelativeRoutingRedirectResponse(response, request, routeId, ma
   }
   return response;
 }
-function normalizeRedirectLocation(location, currentUrl, basename) {
+function normalizeRedirectLocation(location, currentUrl, basename, historyInstance) {
+  let invalidProtocols = [
+    "about:",
+    "blob:",
+    "chrome:",
+    "chrome-untrusted:",
+    "content:",
+    "data:",
+    "devtools:",
+    "file:",
+    "filesystem:",
+    // eslint-disable-next-line no-script-url
+    "javascript:"
+  ];
   if (isAbsoluteUrl(location)) {
     let normalizedLocation = location;
     let url = normalizedLocation.startsWith("//") ? new URL(currentUrl.protocol + normalizedLocation) : new URL(normalizedLocation);
+    if (invalidProtocols.includes(url.protocol)) {
+      throw new Error("Invalid redirect location");
+    }
     let isSameBasename = stripBasename(url.pathname, basename) != null;
     if (url.origin === currentUrl.origin && isSameBasename) {
       return url.pathname + url.search + url.hash;
     }
+  }
+  try {
+    let url = historyInstance.createURL(location);
+    if (invalidProtocols.includes(url.protocol)) {
+      throw new Error("Invalid redirect location");
+    }
+  } catch (e) {
   }
   return location;
 }
@@ -7779,7 +7796,7 @@ function StreamTransfer({
     )));
   }
 }
-function getTurboStreamSingleFetchDataStrategy(getRouter, manifest, routeModules, ssr, basename) {
+function getTurboStreamSingleFetchDataStrategy(getRouter, manifest, routeModules, ssr, basename, trailingSlashAware) {
   let dataStrategy = getSingleFetchDataStrategyImpl(
     getRouter,
     (match) => {
@@ -7794,26 +7811,43 @@ function getTurboStreamSingleFetchDataStrategy(getRouter, manifest, routeModules
     },
     fetchAndDecodeViaTurboStream,
     ssr,
-    basename
+    basename,
+    trailingSlashAware
   );
   return async (args) => args.runClientMiddleware(dataStrategy);
 }
-function getSingleFetchDataStrategyImpl(getRouter, getRouteInfo, fetchAndDecode, ssr, basename, shouldAllowOptOut = () => true) {
+function getSingleFetchDataStrategyImpl(getRouter, getRouteInfo, fetchAndDecode, ssr, basename, trailingSlashAware, shouldAllowOptOut = () => true) {
   return async (args) => {
     let { request, matches, fetcherKey } = args;
     let router = getRouter();
     if (request.method !== "GET") {
-      return singleFetchActionStrategy(args, fetchAndDecode, basename);
+      return singleFetchActionStrategy(
+        args,
+        fetchAndDecode,
+        basename,
+        trailingSlashAware
+      );
     }
     let foundRevalidatingServerLoader = matches.some((m) => {
       let { hasLoader, hasClientLoader } = getRouteInfo(m);
       return m.shouldCallHandler() && hasLoader && !hasClientLoader;
     });
     if (!ssr && !foundRevalidatingServerLoader) {
-      return nonSsrStrategy(args, getRouteInfo, fetchAndDecode, basename);
+      return nonSsrStrategy(
+        args,
+        getRouteInfo,
+        fetchAndDecode,
+        basename,
+        trailingSlashAware
+      );
     }
     if (fetcherKey) {
-      return singleFetchLoaderFetcherStrategy(args, fetchAndDecode, basename);
+      return singleFetchLoaderFetcherStrategy(
+        args,
+        fetchAndDecode,
+        basename,
+        trailingSlashAware
+      );
     }
     return singleFetchLoaderNavigationStrategy(
       args,
@@ -7822,19 +7856,23 @@ function getSingleFetchDataStrategyImpl(getRouter, getRouteInfo, fetchAndDecode,
       fetchAndDecode,
       ssr,
       basename,
+      trailingSlashAware,
       shouldAllowOptOut
     );
   };
 }
-async function singleFetchActionStrategy(args, fetchAndDecode, basename) {
+async function singleFetchActionStrategy(args, fetchAndDecode, basename, trailingSlashAware) {
   let actionMatch = args.matches.find((m) => m.shouldCallHandler());
   invariant2(actionMatch, "No action match found");
   let actionStatus = void 0;
   let result = await actionMatch.resolve(async (handler) => {
     let result2 = await handler(async () => {
-      let { data: data2, status } = await fetchAndDecode(args, basename, [
-        actionMatch.route.id
-      ]);
+      let { data: data2, status } = await fetchAndDecode(
+        args,
+        basename,
+        trailingSlashAware,
+        [actionMatch.route.id]
+      );
       actionStatus = status;
       return unwrapSingleFetchResult(data2, actionMatch.route.id);
     });
@@ -7850,7 +7888,7 @@ async function singleFetchActionStrategy(args, fetchAndDecode, basename) {
     }
   };
 }
-async function nonSsrStrategy(args, getRouteInfo, fetchAndDecode, basename) {
+async function nonSsrStrategy(args, getRouteInfo, fetchAndDecode, basename, trailingSlashAware) {
   let matchesToLoad = args.matches.filter((m) => m.shouldCallHandler());
   let results = {};
   await Promise.all(
@@ -7860,7 +7898,12 @@ async function nonSsrStrategy(args, getRouteInfo, fetchAndDecode, basename) {
           let { hasClientLoader } = getRouteInfo(m);
           let routeId = m.route.id;
           let result = hasClientLoader ? await handler(async () => {
-            let { data: data2 } = await fetchAndDecode(args, basename, [routeId]);
+            let { data: data2 } = await fetchAndDecode(
+              args,
+              basename,
+              trailingSlashAware,
+              [routeId]
+            );
             return unwrapSingleFetchResult(data2, routeId);
           }) : await handler();
           results[m.route.id] = { type: "data", result };
@@ -7872,7 +7915,7 @@ async function nonSsrStrategy(args, getRouteInfo, fetchAndDecode, basename) {
   );
   return results;
 }
-async function singleFetchLoaderNavigationStrategy(args, router, getRouteInfo, fetchAndDecode, ssr, basename, shouldAllowOptOut = () => true) {
+async function singleFetchLoaderNavigationStrategy(args, router, getRouteInfo, fetchAndDecode, ssr, basename, trailingSlashAware, shouldAllowOptOut = () => true) {
   let routesParams = /* @__PURE__ */ new Set();
   let foundOptOutRoute = false;
   let routeDfds = args.matches.map(() => createDeferred2());
@@ -7898,7 +7941,12 @@ async function singleFetchLoaderNavigationStrategy(args, router, getRouteInfo, f
           }
           try {
             let result = await handler(async () => {
-              let { data: data2 } = await fetchAndDecode(args, basename, [routeId]);
+              let { data: data2 } = await fetchAndDecode(
+                args,
+                basename,
+                trailingSlashAware,
+                [routeId]
+              );
               return unwrapSingleFetchResult(data2, routeId);
             });
             results[routeId] = { type: "data", result };
@@ -7929,7 +7977,12 @@ async function singleFetchLoaderNavigationStrategy(args, router, getRouteInfo, f
   } else {
     let targetRoutes = ssr && foundOptOutRoute && routesParams.size > 0 ? [...routesParams.keys()] : void 0;
     try {
-      let data2 = await fetchAndDecode(args, basename, targetRoutes);
+      let data2 = await fetchAndDecode(
+        args,
+        basename,
+        trailingSlashAware,
+        targetRoutes
+      );
       singleFetchDfd.resolve(data2.data);
     } catch (e) {
       singleFetchDfd.reject(e);
@@ -7975,13 +8028,15 @@ async function bubbleMiddlewareErrors(singleFetchPromise, matches, routesParams,
   } catch (e) {
   }
 }
-async function singleFetchLoaderFetcherStrategy(args, fetchAndDecode, basename) {
+async function singleFetchLoaderFetcherStrategy(args, fetchAndDecode, basename, trailingSlashAware) {
   let fetcherMatch = args.matches.find((m) => m.shouldCallHandler());
   invariant2(fetcherMatch, "No fetcher match found");
   let routeId = fetcherMatch.route.id;
   let result = await fetcherMatch.resolve(
     async (handler) => handler(async () => {
-      let { data: data2 } = await fetchAndDecode(args, basename, [routeId]);
+      let { data: data2 } = await fetchAndDecode(args, basename, trailingSlashAware, [
+        routeId
+      ]);
       return unwrapSingleFetchResult(data2, routeId);
     })
   );
@@ -8001,25 +8056,33 @@ function stripIndexParam(url) {
   }
   return url;
 }
-function singleFetchUrl(reqUrl, basename, extension) {
+function singleFetchUrl(reqUrl, basename, trailingSlashAware, extension) {
   let url = typeof reqUrl === "string" ? new URL(
     reqUrl,
     // This can be called during the SSR flow via PrefetchPageLinksImpl so
     // don't assume window is available
     typeof window === "undefined" ? "server://singlefetch/" : window.location.origin
   ) : reqUrl;
-  if (url.pathname === "/") {
-    url.pathname = `_root.${extension}`;
-  } else if (basename && stripBasename(url.pathname, basename) === "/") {
-    url.pathname = `${basename.replace(/\/$/, "")}/_root.${extension}`;
+  if (trailingSlashAware) {
+    if (url.pathname.endsWith("/")) {
+      url.pathname = `${url.pathname}_.${extension}`;
+    } else {
+      url.pathname = `${url.pathname}.${extension}`;
+    }
   } else {
-    url.pathname = `${url.pathname.replace(/\/$/, "")}.${extension}`;
+    if (url.pathname === "/") {
+      url.pathname = `_root.${extension}`;
+    } else if (basename && stripBasename(url.pathname, basename) === "/") {
+      url.pathname = `${basename.replace(/\/$/, "")}/_root.${extension}`;
+    } else {
+      url.pathname = `${url.pathname.replace(/\/$/, "")}.${extension}`;
+    }
   }
   return url;
 }
-async function fetchAndDecodeViaTurboStream(args, basename, targetRoutes) {
+async function fetchAndDecodeViaTurboStream(args, basename, trailingSlashAware, targetRoutes) {
   let { request } = args;
-  let url = singleFetchUrl(request.url, basename, "data");
+  let url = singleFetchUrl(request.url, basename, trailingSlashAware, "data");
   if (request.method === "GET") {
     url = stripIndexParam(url);
     if (targetRoutes) {
@@ -9148,7 +9211,7 @@ function getActiveMatches(matches, errors, isSpaMode) {
   return matches;
 }
 var CRITICAL_CSS_DATA_ATTRIBUTE = "data-react-router-critical-css";
-function Links({ nonce }) {
+function Links({ nonce, crossOrigin }) {
   let { isSpaMode, manifest, routeModules, criticalCss } = useFrameworkContext();
   let { errors, matches: routerMatches } = useDataRouterStateContext();
   let matches = getActiveMatches(routerMatches, errors, isSpaMode);
@@ -9160,6 +9223,7 @@ function Links({ nonce }) {
     "style",
     {
       ...{ [CRITICAL_CSS_DATA_ATTRIBUTE]: "" },
+      nonce,
       dangerouslySetInnerHTML: { __html: criticalCss }
     }
   ) : null, typeof criticalCss === "object" ? /* @__PURE__ */ React8.createElement(
@@ -9168,10 +9232,27 @@ function Links({ nonce }) {
       ...{ [CRITICAL_CSS_DATA_ATTRIBUTE]: "" },
       rel: "stylesheet",
       href: criticalCss.href,
-      nonce
+      nonce,
+      crossOrigin
     }
   ) : null, keyedLinks.map(
-    ({ key, link }) => isPageLinkDescriptor(link) ? /* @__PURE__ */ React8.createElement(PrefetchPageLinks, { key, nonce, ...link }) : /* @__PURE__ */ React8.createElement("link", { key, nonce, ...link })
+    ({ key, link }) => isPageLinkDescriptor(link) ? /* @__PURE__ */ React8.createElement(
+      PrefetchPageLinks,
+      {
+        key,
+        nonce,
+        ...link,
+        crossOrigin: link.crossOrigin ?? crossOrigin
+      }
+    ) : /* @__PURE__ */ React8.createElement(
+      "link",
+      {
+        key,
+        nonce,
+        ...link,
+        crossOrigin: link.crossOrigin ?? crossOrigin
+      }
+    )
   ));
 }
 function PrefetchPageLinks({ page, ...linkProps }) {
@@ -9209,7 +9290,7 @@ function PrefetchPageLinksImpl({
   ...linkProps
 }) {
   let location = useLocation();
-  let { manifest, routeModules } = useFrameworkContext();
+  let { future, manifest, routeModules } = useFrameworkContext();
   let { basename } = useDataRouterContext2();
   let { loaderData, matches } = useDataRouterStateContext();
   let newMatchesForData = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(
@@ -9256,7 +9337,12 @@ function PrefetchPageLinksImpl({
     if (routesParams.size === 0) {
       return [];
     }
-    let url = singleFetchUrl(page, basename, "data");
+    let url = singleFetchUrl(
+      page,
+      basename,
+      future.unstable_trailingSlashAwareDataRequests,
+      "data"
+    );
     if (foundOptOutRoute && routesParams.size > 0) {
       url.searchParams.set(
         "_routes",
@@ -9266,6 +9352,7 @@ function PrefetchPageLinksImpl({
     return [url.pathname + url.search];
   }, [
     basename,
+    future.unstable_trailingSlashAwareDataRequests,
     loaderData,
     location,
     manifest,
@@ -9282,7 +9369,15 @@ function PrefetchPageLinksImpl({
   return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, dataHrefs.map((href) => /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("link", { key: href, rel: "prefetch", as: "fetch", href, ...linkProps })), moduleHrefs.map((href) => /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("link", { key: href, rel: "modulepreload", href, ...linkProps })), keyedPrefetchLinks.map(({ key, link }) => (
     // these don't spread `linkProps` because they are full link descriptors
     // already with their own props
-    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("link", { key, nonce: linkProps.nonce, ...link })
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+      "link",
+      {
+        key,
+        nonce: linkProps.nonce,
+        ...link,
+        crossOrigin: link.crossOrigin ?? linkProps.crossOrigin
+      }
+    )
   )));
 }
 function Meta() {
@@ -9509,6 +9604,7 @@ import(${JSON.stringify(manifest.entry.module)});`;
   return isHydrated || isRSCRouterContext ? null : /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, typeof manifest.sri === "object" ? /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
     "script",
     {
+      ...scriptProps,
       "rr-importmap": "",
       type: "importmap",
       suppressHydrationWarning: true,
@@ -9666,7 +9762,7 @@ var isBrowser2 = typeof window !== "undefined" && typeof window.document !== "un
 try {
   if (isBrowser2) {
     window.__reactRouterVersion = // @ts-expect-error
-    "7.11.0";
+    "7.13.0";
   }
 } catch (e) {
 }
@@ -10094,9 +10190,9 @@ function ScrollRestoration({
       ...props,
       suppressHydrationWarning: true,
       dangerouslySetInnerHTML: {
-        __html: `(${restoreScroll})(${JSON.stringify(
-          storageKey || SCROLL_RESTORATION_STORAGE_KEY
-        )}, ${JSON.stringify(ssrKey)})`
+        __html: `(${restoreScroll})(${escapeHtml(
+          JSON.stringify(storageKey || SCROLL_RESTORATION_STORAGE_KEY)
+        )}, ${escapeHtml(JSON.stringify(ssrKey))})`
       }
     }
   );
@@ -10574,7 +10670,7 @@ function StaticRouterProvider({
       actionData: context.actionData,
       errors: serializeErrors(context.errors)
     };
-    let json = htmlEscape(JSON.stringify(JSON.stringify(data2)));
+    let json = escapeHtml(JSON.stringify(JSON.stringify(data2)));
     hydrateScript = `window.__staticRouterHydrationData = JSON.parse(${json});`;
   }
   let { state } = dataRouterContext.router;
@@ -10785,17 +10881,6 @@ function encodeLocation(to) {
   };
 }
 var ABSOLUTE_URL_REGEX3 = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
-var ESCAPE_LOOKUP2 = {
-  "&": "\\u0026",
-  ">": "\\u003e",
-  "<": "\\u003c",
-  "\u2028": "\\u2028",
-  "\u2029": "\\u2029"
-};
-var ESCAPE_REGEX2 = /[&><\u2028\u2029]/g;
-function htmlEscape(str) {
-  return str.replace(ESCAPE_REGEX2, (match) => ESCAPE_LOOKUP2[match]);
-}
 
 
 

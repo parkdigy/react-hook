@@ -155,7 +155,28 @@ function _unsupportedIterableToArray(r, a) {
     t0 = $[1];
   }
   useLayoutEffect(t0, deps);
-};function useMountedRef(t0) {
+};function useMounted(t0) {
+  var $ = c(1);
+  var initialValue = t0 === undefined ? true : t0;
+  var _useState = useState(initialValue),
+    _useState2 = _slicedToArray(_useState, 2),
+    isMounted = _useState2[0],
+    setIsMounted = _useState2[1];
+  var t1;
+  if ($[0] === Symbol["for"]("react.memo_cache_sentinel")) {
+    t1 = function t1() {
+      setIsMounted(true);
+      return function () {
+        setIsMounted(false);
+      };
+    };
+    $[0] = t1;
+  } else {
+    t1 = $[0];
+  }
+  useEventEffect(t1);
+  return isMounted;
+}function useMountedRef(t0) {
   var $ = c(2);
   var initialValue = t0 === undefined ? true : t0;
   var isMountedRef = useRef(initialValue);
@@ -315,4 +336,4 @@ function _unsupportedIterableToArray(r, a) {
     t3 = $[7];
   }
   useEffect(t2, t3);
-}export{clearIntervalRef,clearTimeoutRef,useAutoUpdateRef,useChanged,useEventEffect,useEventLayoutEffect,useFirstSkipChanged,useFirstSkipEffect,useFirstSkipLayoutEffect,useForwardRef,useIntervalRef,useMountedRef,useTimeoutRef};
+}export{clearIntervalRef,clearTimeoutRef,useAutoUpdateRef,useChanged,useEventEffect,useEventLayoutEffect,useFirstSkipChanged,useFirstSkipEffect,useFirstSkipLayoutEffect,useForwardRef,useIntervalRef,useMounted,useMountedRef,useTimeoutRef};

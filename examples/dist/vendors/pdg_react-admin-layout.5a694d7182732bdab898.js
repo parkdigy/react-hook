@@ -26,7 +26,7 @@
 /* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(9552);
 /* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(5755);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(7810);
-/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(4198);
+/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(8318);
 /* harmony import */ var _mui_icons_material__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(2297);
 /* harmony import */ var _mui_icons_material__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(9499);
 /* harmony import */ var simplebar_react__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(2913);

@@ -438,7 +438,7 @@ function resolveBreakpointValues({
 /* harmony import */ var _emotion_styled__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4578);
 /* harmony import */ var _emotion_serialize__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(938);
 /**
- * @mui/styled-engine v7.3.6
+ * @mui/styled-engine v7.3.7
  *
  * @license MIT
  * This source code is licensed under the MIT license found in the
@@ -3431,12 +3431,12 @@ function FocusTrap(props) {
       return;
     }
     const doc = ownerDocument(rootRef.current);
-    const activeElement = getActiveElement(doc);
     const loopFocus = nativeEvent => {
       lastKeydown.current = nativeEvent;
       if (disableEnforceFocus || !isEnabled() || nativeEvent.key !== 'Tab') {
         return;
       }
+      const activeElement = getActiveElement(doc);
 
       // Make sure the next tab starts from the right place.
       // activeElement refers to the origin.
@@ -3929,7 +3929,6 @@ const Backdrop = /*#__PURE__*/react.forwardRef(function Backdrop(inProps, ref) {
     children: /*#__PURE__*/(0,jsx_runtime.jsx)(RootSlot, {
       "aria-hidden": true,
       ...rootProps,
-      classes: classes,
       ref: ref,
       children: children
     })
@@ -3993,7 +3992,7 @@ function ariaHidden(element, hide) {
   }
 }
 function getPaddingRight(element) {
-  return parseInt(ownerWindow(element).getComputedStyle(element).paddingRight, 10) || 0;
+  return parseFloat(ownerWindow(element).getComputedStyle(element).paddingRight) || 0;
 }
 function isAriaHiddenForbiddenOnElement(element) {
   // The forbidden HTML tags are the ones from ARIA specification that
@@ -12556,7 +12555,8 @@ const AppBarRoot = (0,styled/* default */.Ay)(Paper/* default */.A, {
       color: 'inherit'
     },
     style: {
-      '--AppBar-color': 'inherit'
+      '--AppBar-color': 'inherit',
+      color: 'var(--AppBar-color)'
     }
   }, {
     props: {

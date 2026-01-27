@@ -155,7 +155,28 @@ function _unsupportedIterableToArray(r, a) {
     t0 = $[1];
   }
   react.useLayoutEffect(t0, deps);
-};function useMountedRef(t0) {
+};function useMounted(t0) {
+  var $ = compilerRuntime.c(1);
+  var initialValue = t0 === undefined ? true : t0;
+  var _useState = react.useState(initialValue),
+    _useState2 = _slicedToArray(_useState, 2),
+    isMounted = _useState2[0],
+    setIsMounted = _useState2[1];
+  var t1;
+  if ($[0] === Symbol["for"]("react.memo_cache_sentinel")) {
+    t1 = function t1() {
+      setIsMounted(true);
+      return function () {
+        setIsMounted(false);
+      };
+    };
+    $[0] = t1;
+  } else {
+    t1 = $[0];
+  }
+  useEventEffect(t1);
+  return isMounted;
+}function useMountedRef(t0) {
   var $ = compilerRuntime.c(2);
   var initialValue = t0 === undefined ? true : t0;
   var isMountedRef = react.useRef(initialValue);
@@ -315,4 +336,4 @@ function _unsupportedIterableToArray(r, a) {
     t3 = $[7];
   }
   react.useEffect(t2, t3);
-}exports.clearIntervalRef=clearIntervalRef;exports.clearTimeoutRef=clearTimeoutRef;exports.useAutoUpdateRef=useAutoUpdateRef;exports.useChanged=useChanged;exports.useEventEffect=useEventEffect;exports.useEventLayoutEffect=useEventLayoutEffect;exports.useFirstSkipChanged=useFirstSkipChanged;exports.useFirstSkipEffect=useFirstSkipEffect;exports.useFirstSkipLayoutEffect=useFirstSkipLayoutEffect;exports.useForwardRef=useForwardRef;exports.useIntervalRef=useIntervalRef;exports.useMountedRef=useMountedRef;exports.useTimeoutRef=useTimeoutRef;
+}exports.clearIntervalRef=clearIntervalRef;exports.clearTimeoutRef=clearTimeoutRef;exports.useAutoUpdateRef=useAutoUpdateRef;exports.useChanged=useChanged;exports.useEventEffect=useEventEffect;exports.useEventLayoutEffect=useEventLayoutEffect;exports.useFirstSkipChanged=useFirstSkipChanged;exports.useFirstSkipEffect=useFirstSkipEffect;exports.useFirstSkipLayoutEffect=useFirstSkipLayoutEffect;exports.useForwardRef=useForwardRef;exports.useIntervalRef=useIntervalRef;exports.useMounted=useMounted;exports.useMountedRef=useMountedRef;exports.useTimeoutRef=useTimeoutRef;
