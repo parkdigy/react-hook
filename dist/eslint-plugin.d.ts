@@ -70,14 +70,14 @@ declare const plugin: {
         recommended: {
             plugins: string[];
             rules: {
-                '@pdg/react-hooks/rules-of-hooks': string;
-                '@pdg/react-hooks/exhaustive-deps': string;
+                '@pdg/react-hook/rules-of-hooks': string;
+                '@pdg/react-hook/exhaustive-deps': string;
             };
         };
         flat: {
             recommended: {
                 plugins: {
-                    '@pdg/react-hooks': {
+                    '@pdg/react-hook': {
                         rules: {
                             'exhaustive-deps': {
                                 create(context: any): {
@@ -148,8 +148,8 @@ declare const plugin: {
                     };
                 };
                 rules: {
-                    '@pdg/react-hooks/rules-of-hooks': string;
-                    '@pdg/react-hooks/exhaustive-deps': string;
+                    '@pdg/react-hook/rules-of-hooks': string;
+                    '@pdg/react-hook/exhaustive-deps': string;
                 };
             };
         };

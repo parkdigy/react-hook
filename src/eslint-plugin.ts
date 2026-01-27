@@ -104,20 +104,20 @@ const pluginRules = {
 
 const plugConfig = {
   recommended: {
-    plugins: ['@pdg/react-hooks'],
+    plugins: ['@pdg/react-hook'],
     rules: {
-      '@pdg/react-hooks/rules-of-hooks': 'error',
-      '@pdg/react-hooks/exhaustive-deps': 'error',
+      '@pdg/react-hook/rules-of-hooks': 'error',
+      '@pdg/react-hook/exhaustive-deps': 'error',
     },
   },
   flat: {
     recommended: {
       plugins: {
-        '@pdg/react-hooks': pluginRules,
+        '@pdg/react-hook': pluginRules,
       },
       rules: {
-        '@pdg/react-hooks/rules-of-hooks': 'error',
-        '@pdg/react-hooks/exhaustive-deps': 'error',
+        '@pdg/react-hook/rules-of-hooks': 'error',
+        '@pdg/react-hook/exhaustive-deps': 'error',
       },
     },
   },

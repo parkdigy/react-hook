@@ -12,11 +12,11 @@ export default defineConfig([
   pluginReactHooks.configs.flat.recommended,
   {
     plugins: {
-      '@pdg/react-hooks': pluginPdgReactHooks,
+      '@pdg/react-hook': pluginPdgReactHooks,
     },
     rules: {
-      '@pdg/react-hooks/rules-of-hooks': 'error',
-      '@pdg/react-hooks/exhaustive-deps': 'error',
+      '@pdg/react-hook/rules-of-hooks': 'error',
+      '@pdg/react-hook/exhaustive-deps': 'error',
     },
   },
   {
