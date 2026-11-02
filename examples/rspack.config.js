@@ -178,6 +178,10 @@ const options = {
         type: 'asset/source',
       },
       {
+        test: /\.css$/,
+        type: 'css/auto',
+      },
+      {
         test: /\.(sa|sc)ss$/,
         exclude: /node_modules/,
         type: 'css/auto',
