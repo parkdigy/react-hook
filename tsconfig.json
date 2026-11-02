@@ -16,6 +16,7 @@
     "experimentalDecorators": true,
     "preserveSymlinks": true,
     "skipLibCheck": true,
+    "types": ["node"],
     "sourceMap": true,
     "strict": true,
     "outDir": "dist"
